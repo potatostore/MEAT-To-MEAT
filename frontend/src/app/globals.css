@@ -1,0 +1,187 @@
+@import "tailwindcss";
+
+:root{
+  --paper:#F1E9D8;
+  --paper-2:#E9DEC6;
+  --ink:#2A241C;
+  --charcoal:#1B1712;
+  --meat:#A5301E;
+  --meat-dark:#7C2216;
+  --herb:#5C6B3F;
+  --brass:#C79A3E;
+  --line: rgba(42,36,28,0.18);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{background:var(--paper); color:var(--ink); font-family:-apple-system,'Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',sans-serif;}
+body{
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(42,36,28,0.06) 1px, transparent 0);
+  background-size: 3px 3px;
+}
+.display{font-family:-apple-system,'Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',sans-serif; font-weight:900; letter-spacing:-0.01em;}
+
+/* ===== NAV ===== */
+nav{
+  display:flex; align-items:center; justify-content:space-between;
+  padding: 22px 48px;
+  border-bottom: 1px solid var(--line);
+}
+.nav-mark{
+  font-family:-apple-system,'Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',sans-serif; font-weight:900;
+  font-size: 22px;
+  color: var(--ink);
+}
+.nav-mark span{color:var(--meat);}
+.nav-links{ display:flex; gap:32px; list-style:none; font-size:14px; font-weight:500; color:var(--ink); }
+.nav-links a{ color:inherit; text-decoration:none; opacity:0.75; }
+.nav-links a:hover{opacity:1;}
+.nav-cta{
+  font-size:13px; font-weight:700; background:var(--ink); color:var(--paper);
+  padding:10px 18px; border-radius:2px; letter-spacing:0.02em;
+}
+
+/* ===== HERO ===== */
+.hero{
+  position:relative;
+  padding: 90px 48px 70px;
+  display:grid; grid-template-columns: 1.15fr 0.85fr; gap:40px; align-items:center;
+  max-width:1280px; margin:0 auto;
+}
+.hero-eyebrow{
+  font-size:14px; font-weight:700; color:var(--meat-dark);
+  display:flex; align-items:center; gap:10px; margin-bottom:22px;
+}
+.hero-eyebrow::before{content:''; width:26px; height:2px; background:var(--meat); display:inline-block;}
+.hero h1{
+  font-size: 76px;
+  line-height: 0.98;
+  color: var(--ink);
+}
+.hero h1 .stamp{
+  display:inline-block;
+  background:var(--meat);
+  color:var(--paper);
+  padding: 2px 18px 8px;
+  transform: rotate(-2deg);
+  box-shadow: 6px 6px 0 var(--meat-dark);
+}
+.hero p.lede{
+  margin-top:26px; max-width:460px; font-size:17px; line-height:1.7; color:var(--ink); opacity:0.82;
+}
+.hero-actions{ margin-top:36px; display:flex; gap:14px; align-items:center; }
+.btn-primary{
+  background:var(--ink); color:var(--paper); font-weight:700; font-size:15px;
+  padding:15px 28px; border-radius:2px; text-decoration:none;
+}
+.btn-ghost{
+  color:var(--ink); font-weight:600; font-size:15px; text-decoration:none;
+  border-bottom:2px solid var(--ink); padding-bottom:3px;
+}
+
+/* seal graphic */
+.seal-wrap{ position:relative; display:flex; justify-content:center; align-items:center; }
+.seal{
+  width: 300px; height:300px; border-radius:50%;
+  border: 3px solid var(--ink);
+  display:flex; align-items:center; justify-content:center;
+  position:relative;
+  transform: rotate(-6deg);
+}
+.seal::before{
+  content:''; position:absolute; inset:14px; border:1.5px dashed var(--ink); border-radius:50%; opacity:0.55;
+}
+.seal-text{
+  text-align:center;
+}
+.seal-text .big{ font-family:-apple-system,'Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',sans-serif; font-weight:900; font-size:40px; line-height:1.05; color:var(--meat-dark); }
+.seal-text .small{ font-size:12px; letter-spacing:0.15em; margin-top:8px; color:var(--ink); opacity:0.7; }
+.seal-badge{
+  position:absolute; bottom:-6px; right:6px;
+  background:var(--brass); color:var(--charcoal); font-weight:700; font-size:12px;
+  padding:8px 14px; border-radius:20px; transform: rotate(4deg);
+  box-shadow: 3px 3px 0 rgba(0,0,0,0.15);
+}
+
+/* ===== TICKER ===== */
+.ticker{
+  background:var(--ink); color:var(--paper);
+  padding: 12px 0; overflow:hidden; white-space:nowrap;
+  font-size:13px; font-weight:600; letter-spacing:0.04em;
+}
+.ticker-track{ display:inline-block; }
+.ticker span{ margin: 0 28px; opacity:0.85; }
+.ticker span::after{ content:'•'; margin-left:28px; color:var(--brass); }
+
+/* ===== CATEGORY TAGS (price tags) ===== */
+.section{ max-width:1280px; margin:0 auto; padding: 90px 48px; }
+.section-head{ display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:44px; gap:20px; flex-wrap:wrap; }
+.section-head h2{ font-size:34px; font-family:-apple-system,'Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',sans-serif; font-weight:900; }
+.section-head p{ font-size:15px; max-width:340px; opacity:0.7; line-height:1.6; }
+
+.tags{ display:grid; grid-template-columns: repeat(4, 1fr); gap:26px; }
+.tag{
+  position:relative;
+  background:var(--paper-2);
+  border:1px solid var(--line);
+  border-radius:4px;
+  padding: 30px 22px 24px;
+  transition: transform 0.15s ease;
+}
+.tag:hover{ transform: translateY(-4px); }
+.tag::before{
+  content:''; position:absolute; top:-9px; left:50%; transform:translateX(-50%);
+  width:16px; height:16px; border-radius:50%; background:var(--paper);
+  border:2px solid var(--ink);
+}
+.tag .kind{ font-size:12px; font-weight:700; color:var(--meat-dark); letter-spacing:0.05em; }
+.tag h3{ font-family:-apple-system,'Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',sans-serif; font-weight:900; font-size:26px; margin-top:10px; }
+.tag .desc{ font-size:13px; opacity:0.65; margin-top:8px; line-height:1.6; }
+.tag .price{ margin-top:20px; font-size:19px; font-weight:900; color:var(--ink); }
+.tag .price small{ font-size:12px; font-weight:500; opacity:0.6; }
+
+/* ===== STORY / SPLIT ===== */
+.split{
+  display:grid; grid-template-columns: 0.9fr 1.1fr; gap:60px; align-items:center;
+}
+.cutline{
+  border-top:1px solid var(--ink); padding-top:18px; margin-top:18px;
+  display:flex; justify-content:space-between; font-size:13px; opacity:0.7;
+}
+.split h2{ font-size:38px; font-family:-apple-system,'Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',sans-serif; font-weight:900; line-height:1.2; }
+.split p{ margin-top:20px; font-size:16px; line-height:1.85; opacity:0.82; max-width:480px; }
+.stat-row{ display:flex; gap:40px; margin-top:36px; }
+.stat b{ font-family:-apple-system,'Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',sans-serif; font-weight:900; font-size:30px; color:var(--meat-dark); display:block; }
+.stat span{ font-size:13px; opacity:0.65; }
+
+.butcher-grid{
+  display:grid; grid-template-columns: repeat(3,1fr); grid-template-rows: repeat(3,1fr);
+  gap:2px; background:var(--ink); border-radius:4px; overflow:hidden; aspect-ratio: 1/1;
+}
+.butcher-grid div{ background:var(--paper-2); }
+.butcher-grid div:nth-child(1){ background:var(--meat); grid-column: span 2; }
+.butcher-grid div:nth-child(4){ background:var(--herb); }
+.butcher-grid div:nth-child(6){ background:var(--brass); grid-row: span 2; }
+.butcher-grid div:nth-child(8){ background:var(--ink); }
+
+/* ===== FOOTER ===== */
+footer{ background:var(--charcoal); color:var(--paper); padding: 70px 48px 34px; }
+.footer-inner{ max-width:1280px; margin:0 auto; }
+.footer-top{ display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:30px; padding-bottom:50px; border-bottom:1px solid rgba(241,233,216,0.15); }
+.footer-mark{ font-family:-apple-system,'Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',sans-serif; font-weight:900; font-size:32px; }
+.footer-mark span{ color: #D9714F; }
+.footer-links{ display:flex; gap:60px; flex-wrap:wrap; }
+.footer-col h4{ font-size:13px; opacity:0.55; margin-bottom:14px; letter-spacing:0.05em; }
+.footer-col a{ display:block; color:var(--paper); text-decoration:none; font-size:14px; opacity:0.85; margin-bottom:10px; }
+.footer-bottom{ display:flex; justify-content:space-between; padding-top:24px; font-size:12px; opacity:0.5; flex-wrap:wrap; gap:10px;}
+
+@media (max-width: 860px){
+  nav{padding:18px 20px;}
+  .nav-links{display:none;}
+  .hero{grid-template-columns:1fr; padding:50px 20px 40px;}
+  .hero h1{font-size:48px;}
+  .seal{width:220px;height:220px;}
+  .section{padding:60px 20px;}
+  .tags{grid-template-columns: repeat(2,1fr);}
+  .split{grid-template-columns:1fr; gap:34px;}
+  .footer-links{gap:30px;}
+}
