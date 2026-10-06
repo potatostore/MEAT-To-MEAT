@@ -1,4 +1,4 @@
-package com.gogiseogogi.spb;
+package com.gogiseogogi.spb.entity.order;
 
 public enum OrderStatus {
     ORDER_RECEIVED,

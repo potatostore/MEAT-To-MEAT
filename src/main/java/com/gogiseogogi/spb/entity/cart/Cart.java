@@ -1,5 +1,8 @@
-package com.gogiseogogi.spb;
+package com.gogiseogogi.spb.entity.cart;
 
+import com.gogiseogogi.spb.entity.product.Product;
+import com.gogiseogogi.spb.entity.user.User;
+import com.gogiseogogi.spb.global.config.UrlNames;
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 import lombok.Getter;
@@ -7,10 +10,9 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@Table(name = "carts")
+@Table(name = UrlNames.cartTableName)
 @NoArgsConstructor
-
-public class Cart {
+public class Cart extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,7 +24,7 @@ public class Cart {
     private User user;
 
 
-    /*
+
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
@@ -32,11 +34,8 @@ public class Cart {
 
     @ManyToMany
     @JoinColumn(name = "cart_item_id")
-    private Product product;
-    */
+    private CartItem cartItem;
 
 
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
 
 }

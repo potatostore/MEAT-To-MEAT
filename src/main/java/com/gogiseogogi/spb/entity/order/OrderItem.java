@@ -1,11 +1,11 @@
-package com.gogiseogogi.spb;
+package com.gogiseogogi.spb.entity.order;
 
 
+import com.gogiseogogi.spb.entity.product.Product;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 @Entity
 @Getter

@@ -1,7 +1,7 @@
-package com.gogiseogogi.spb;
+package com.gogiseogogi.spb.entity.order;
 
+import com.gogiseogogi.spb.entity.user.User;
 import jakarta.persistence.*;
-import static jakarta.persistence.EnumType.STRING;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;

@@ -1,9 +1,12 @@
-package com.gogiseogogi.spb;
+package com.gogiseogogi.spb.entity.product;
 
 import jakarta.persistence.*;
 import jakarta.persistence.Column;
 import java.util.ArrayList;
 import java.util.List;
+
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
@@ -30,12 +33,15 @@ public class Product{
     private List<String> productCategory = new ArrayList<>();
 
     @Column(nullable = false)
+    @NotBlank
     private String description;
 
     @Column(unique = true,  nullable = false)
+    @NotBlank
     private String productName;
 
     @Column(nullable = false)
+    @Min(value = 1)
     private Long productPrice;
 
     @Column(nullable = false)
