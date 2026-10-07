@@ -1,16 +1,17 @@
 package meat_to_meat.demo.entity.cart;
 
-import com.meat_to_meat.spb.entity.product.Product;
-import com.meat_to_meat.spb.entity.user.User;
-import com.meat_to_meat.spb.global.config.UrlNames;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import meat_to_meat.demo.entity.BaseEntity;
+import meat_to_meat.demo.entity.user.User;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
-@Table(name = UrlNames.cartTableName)
+@Table(name = "carts")
 @NoArgsConstructor
 public class Cart extends BaseEntity {
 
@@ -24,18 +25,8 @@ public class Cart extends BaseEntity {
     private User user;
 
 
-
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
-
-    @Column(columnDefinition = "integer check (quantity >= 1)")
-    private Long productQuantity;
-
-    @ManyToMany
-    @JoinColumn(name = "cart_item_id")
-    private CartItem cartItem;
-
-
+    // 상품/수량은 CartItem이 들고 있음 (cart 1 : N cart_items)
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CartItem> cartItems = new ArrayList<>();
 
 }

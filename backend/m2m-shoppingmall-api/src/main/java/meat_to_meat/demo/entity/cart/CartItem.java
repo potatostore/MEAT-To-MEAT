@@ -1,10 +1,10 @@
 package meat_to_meat.demo.entity.cart;
 
-import com.meat_to_meat.spb.entity.BaseEntity;
-import com.meat_to_meat.spb.entity.product.Product;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import meat_to_meat.demo.entity.BaseEntity;
+import meat_to_meat.demo.entity.product.Product;
 
 @Entity
 @Getter
@@ -15,16 +15,14 @@ public class CartItem extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long cartItemId;
 
-    @ManyToOne
-    @JoinColumn(name = "cart_id")
-    @Column(nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cart_id", nullable = false)
     private Cart cart;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    @Column(nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
-    @Column(columnDefinition = "integer check (quantity >= 1)", nullable = false)
+    @Column(columnDefinition = "bigint check (quantity >= 1)", nullable = false)
     private Long quantity;
 }
