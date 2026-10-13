@@ -2,8 +2,11 @@ package meat_to_meat.demo.entity.user;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import meat_to_meat.demo.dto.user.UserCreateDTO;
 
 import java.time.LocalDate;
 
@@ -11,6 +14,8 @@ import java.time.LocalDate;
 @Getter
 @Table(name = "users")
 @NoArgsConstructor
+@Builder
+@AllArgsConstructor
 public class User {
 
     @Id
@@ -44,6 +49,10 @@ public class User {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Sex sex;
+
+    public User(UserCreateDTO userCreateDTO) {
+        this.name = userCreateDTO.getUser();
+    }
 
 }
 

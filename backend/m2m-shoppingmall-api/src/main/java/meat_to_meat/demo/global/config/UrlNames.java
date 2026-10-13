@@ -7,6 +7,40 @@ package meat_to_meat.demo.global.config;
  * 3. 끝으로 TableNames랑 URLNames를 분류하여 상수화 했으면 함.
  */
 public class UrlNames {
+
+
+    //--Product URLs---
+    public static final String PRODUCT_BASE = "/products";
+    public static final String PRODUCT_CREATE = "/create";
+    public static final String PRODUCT_DETAIL = "{product_id}";
+    public static final String PRODUCT_CATEGORY = "/category";
+
+
+    //--Order URLs---
+    public static final String ORDER_BASE = "/orders";
+    public static final String ORDER_CREATE = "/create/{user_id}";
+    public static final String ORDER_DETAIL = "/order/{order_id}";
+
+
+    //--Cart URLs
+    public static final String CART_BASE = "/carts";
+    public static final String CART_ITEM_BASE = "/cart/items";
+    public static final String CART_ITEM_DETAIL = "/cart/items/{id}";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public static final String cartTableName = "/carts";
     public static final String cartItemTableName = "/cart_items";
 

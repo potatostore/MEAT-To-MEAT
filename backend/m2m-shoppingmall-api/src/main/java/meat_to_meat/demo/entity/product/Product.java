@@ -8,6 +8,7 @@ import java.util.List;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
@@ -51,6 +52,31 @@ public class Product{
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    @Builder
+    public Product(String productName, Long productPrice, Long productQuantity, String description, List<String> productCategory) {
+        this.productName = productName;
+        this.productPrice = productPrice;
+        this.productQuantity = productQuantity;
+        this.description = description;
+        this.productCategory = productCategory;
+        this.createdAt = LocalDateTime.now(); // (참고: BaseEntity를 상속받으셨다면 이 부분은 빼셔도 됩니다)
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    public void updateProductInfo(String productName, Long productPrice, Long productQuantity, String description, List<String> productCategory) {
+        this.productName = productName;
+        this.productPrice = productPrice;
+        this.productQuantity = productQuantity;
+        this.description = description;
+        this.productCategory = productCategory;
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    public void removeStock(int quantity){
+        long restStock = this.productQuantity - quantity;
+        this.productQuantity = restStock;
+    }
 
 
 }

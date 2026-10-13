@@ -1,4 +1,8 @@
 package meat_to_meat.demo.repository;
 
-public interface UserRepository {
+import meat_to_meat.demo.entity.user.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface UserRepository extends JpaRepository<User, Long> {
+
 }
