@@ -68,6 +68,7 @@ docker compose down -v               # 중지 + DB 데이터 삭제 (db/init 스
 | `frontend/Dockerfile` | `npm ci` → `next build` → `next start` |
 | `db/init/01_nl2sql_reader.sql` | NL2SQL용 읽기 전용 계정 (DB 최초 생성 시 1회 실행) |
 | `db/ddl/schema.sql` | 보고서 물리 모델 DDL (자동 실행 안 함, 아래 참고) |
+| `.github/workflows/docker-smoke.yml` | push할 때마다 GitHub에서 MySQL·프론트·백엔드 컨테이너를 실제로 띄워 보는 테스트 |
 
 ## DDL과 JPA
 
