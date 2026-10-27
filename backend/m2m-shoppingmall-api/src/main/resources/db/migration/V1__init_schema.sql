@@ -3,18 +3,18 @@
 -- 보고서 5장 물리적 데이터 모델링(테이블 스키마)을 그대로 옮긴 것
 -- 모든 테이블은 Base_Entity의 create_at, update_at 컬럼을 공통으로 가진다
 -- =====================================================================
-CREATE DATABASE IF NOT EXISTS meat_to_meat
-  DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE meat_to_meat;
+-- CREATE DATABASE IF NOT EXISTS meat_to_meat
+--   DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+-- -USE meat_to_meat;
 
-SET FOREIGN_KEY_CHECKS = 0;
-DROP TABLE IF EXISTS order_item;
-DROP TABLE IF EXISTS orders;
-DROP TABLE IF EXISTS cart_item;
-DROP TABLE IF EXISTS cart;
-DROP TABLE IF EXISTS product;
-DROP TABLE IF EXISTS users;
-SET FOREIGN_KEY_CHECKS = 1;
+-- SET FOREIGN_KEY_CHECKS = 0;
+-- DROP TABLE IF EXISTS order_item;
+-- DROP TABLE IF EXISTS orders;
+-- DROP TABLE IF EXISTS cart_item;
+-- DROP TABLE IF EXISTS cart;
+-- DROP TABLE IF EXISTS product;
+-- DROP TABLE IF EXISTS users;
+-- SET FOREIGN_KEY_CHECKS = 1;
 
 -- (1) 회원 ---------------------------------------------------------------
 CREATE TABLE users (

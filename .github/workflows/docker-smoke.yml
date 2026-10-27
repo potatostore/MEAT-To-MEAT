@@ -37,9 +37,9 @@ jobs:
             echo "읽기 전용 계정이 INSERT에 성공함 (실패해야 정상)"; exit 1
           fi
           echo "INSERT 거부 확인"
-      - name: 보고서 DDL(db/ddl/schema.sql) 적용 테스트
+      - name: 보고서 DDL(V1__init_schema.sql) 적용 테스트
         run: |
-          docker exec -i m2m-mysql mysql -uroot -proot_pw_change_me < db/ddl/schema.sql
+          docker exec -i m2m-mysql mysql -uroot -proot_pw_change_me meat_to_meat < backend/m2m-shoppingmall-api/src/main/resources/db/migration/V1__init_schema.sql
           docker exec m2m-mysql mysql -uroot -proot_pw_change_me -N meat_to_meat -e "SHOW TABLES"
           docker exec m2m-mysql mysql -uroot -proot_pw_change_me meat_to_meat \
             -e "INSERT INTO users(login_id,user_pw,name,email,phone_number,sex,birthday) VALUES ('u1','h','홍길동','a@a.com','010-1','M','2000-01-01');
