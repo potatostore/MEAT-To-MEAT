@@ -1,0 +1,103 @@
+name: Docker smoke test
+
+on:
+  push:
+    branches: [main, docker-setup]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  mysql:
+    name: MySQL 컨테이너
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: cp .env.example .env
+      - name: MySQL 기동
+        run: docker compose up -d mysql
+      - name: healthy 대기
+        run: |
+          for i in $(seq 1 60); do
+            s=$(docker inspect -f '{{.State.Health.Status}}' m2m-mysql)
+            echo "status=$s"; [ "$s" = healthy ] && exit 0; sleep 3
+          done
+          docker compose logs mysql; exit 1
+      - name: 앱 계정 접속 / 테이블 생성
+        run: |
+          docker exec m2m-mysql mysql -umeat_app -papp_pw_change_me meat_to_meat \
+            -e "CREATE TABLE smoke(id INT PRIMARY KEY, name VARCHAR(20)); INSERT INTO smoke VALUES (1,'고기'); SELECT * FROM smoke;"
+      - name: utf8mb4 확인
+        run: |
+          docker exec m2m-mysql mysql -umeat_app -papp_pw_change_me -N meat_to_meat \
+            -e "SELECT @@character_set_database, @@collation_database, @@time_zone"
+      - name: NL2SQL 읽기 전용 계정 (SELECT 가능, INSERT 거부)
+        run: |
+          docker exec m2m-mysql mysql -unl2sql_reader -preader_pw_change_me meat_to_meat -e "SELECT COUNT(*) FROM smoke"
+          if docker exec m2m-mysql mysql -unl2sql_reader -preader_pw_change_me meat_to_meat -e "INSERT INTO smoke VALUES (2,'x')"; then
+            echo "읽기 전용 계정이 INSERT에 성공함 (실패해야 정상)"; exit 1
+          fi
+          echo "INSERT 거부 확인"
+      - name: 보고서 DDL(db/ddl/schema.sql) 적용 테스트
+        run: |
+          docker exec -i m2m-mysql mysql -uroot -proot_pw_change_me < db/ddl/schema.sql
+          docker exec m2m-mysql mysql -uroot -proot_pw_change_me -N meat_to_meat -e "SHOW TABLES"
+          docker exec m2m-mysql mysql -uroot -proot_pw_change_me meat_to_meat \
+            -e "INSERT INTO users(login_id,user_pw,name,email,phone_number,sex,birthday) VALUES ('u1','h','홍길동','a@a.com','010-1','M','2000-01-01');
+                INSERT INTO cart(user_id) VALUES (1);
+                INSERT INTO product(product_name,product_price,product_category,stock_quantity,description) VALUES ('삼겹살',14500,'PORK',10,'500g');"
+          if docker exec m2m-mysql mysql -uroot -proot_pw_change_me meat_to_meat -e "INSERT INTO cart_item(cart_id,product_id,quantity) VALUES (1,1,0)"; then
+            echo "CHECK(quantity >= 1) 미동작"; exit 1
+          fi
+          echo "CHECK 제약조건 동작 확인"
+
+  frontend:
+    name: 프론트엔드 이미지
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 이미지 빌드 (mock 모드)
+        run: docker build --build-arg NEXT_PUBLIC_API_MOCK=true -t m2m-frontend ./frontend
+      - name: 실행 후 페이지 응답 확인
+        run: |
+          docker run -d --name fe -p 3000:3000 m2m-frontend
+          for i in $(seq 1 30); do curl -sf -o /dev/null http://localhost:3000/ && break; sleep 2; done
+          for p in / /products /cart /login /about; do
+            code=$(curl -s -o /dev/null -w '%{http_code}' http://localhost:3000$p)
+            echo "$p -> $code"; [ "$code" = 200 ] || { docker logs fe; exit 1; }
+          done
+
+  backend:
+    name: 백엔드 이미지 + 전체 스택
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: cp .env.example .env
+      - name: 백엔드 이미지 빌드
+        run: |
+          set -o pipefail
+          if ! docker compose --profile full build --progress=plain backend 2>&1 | tee build.log; then
+            # 컴파일 오류를 Actions 요약(annotation)에 띄운다
+            grep -E "\.java:[0-9]+: error:|error: |What went wrong|> Could not|FAILED" build.log | sed 's/^#[0-9]* [0-9.]* //' | head -20 | while read -r l; do echo "::error::$l"; done
+            exit 1
+          fi
+      - name: 전체 스택 기동
+        run: docker compose --profile full up -d
+      - name: 백엔드 기동 확인
+        run: |
+          for i in $(seq 1 60); do
+            if docker compose logs backend | grep -q "Started ShoppingMallApplication"; then echo "백엔드 기동 성공"; exit 0; fi
+            if [ "$(docker inspect -f '{{.State.Status}}' m2m-backend)" = exited ]; then break; fi
+            sleep 3
+          done
+          docker compose logs backend | tail -80; exit 1
+      - name: JPA가 만든 테이블
+        if: always()
+        run: docker exec m2m-mysql mysql -uroot -proot_pw_change_me -N meat_to_meat -e "SHOW TABLES" || true
+      - name: 프론트 → 백엔드 프록시 응답
+        run: |
+          for i in $(seq 1 30); do curl -sf -o /dev/null http://localhost:3000/ && break; sleep 2; done
+          echo "front / -> $(curl -s -o /dev/null -w '%{http_code}' http://localhost:3000/)"
+          echo "backend /products -> $(curl -s -o /dev/null -w '%{http_code}' http://localhost:8080/products)"
+          echo "proxy /api/products -> $(curl -s -o /dev/null -w '%{http_code}' http://localhost:3000/api/products)"
+      - if: always()
+        run: docker compose --profile full logs --tail 50
