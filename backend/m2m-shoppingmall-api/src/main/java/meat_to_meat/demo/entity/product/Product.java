@@ -1,6 +1,5 @@
 package meat_to_meat.demo.entity.product;
 
-
 import jakarta.persistence.*;
 import jakarta.persistence.Column;
 import java.util.ArrayList;
@@ -11,16 +10,14 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import java.time.LocalDateTime;
-
+import meat_to_meat.demo.entity.BaseEntity; // BaseEntity 임포트
 
 @org.hibernate.annotations.Check(constraints = "product_price >= 1 AND product_quantity >= 1")
-
 @Entity
 @Table(name = "product")
 @Getter
 @NoArgsConstructor
-public class Product{
+public class Product extends BaseEntity { // 상속 추가
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,9 +46,7 @@ public class Product{
     @Column(nullable = false)
     private Long productQuantity;
 
-
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    // 💡 BaseEntity가 관리하므로 createdAt, updatedAt 필드 삭제
 
     @Builder
     public Product(String productName, Long productPrice, Long productQuantity, String description, List<String> productCategory) {
@@ -60,8 +55,7 @@ public class Product{
         this.productQuantity = productQuantity;
         this.description = description;
         this.productCategory = productCategory;
-        this.createdAt = LocalDateTime.now(); // (참고: BaseEntity를 상속받으셨다면 이 부분은 빼셔도 됩니다)
-        this.updatedAt = LocalDateTime.now();
+        // 💡 수동으로 시간을 넣던 로직 삭제
     }
 
     public void updateProductInfo(String productName, Long productPrice, Long productQuantity, String description, List<String> productCategory) {
@@ -70,13 +64,12 @@ public class Product{
         this.productQuantity = productQuantity;
         this.description = description;
         this.productCategory = productCategory;
-        this.updatedAt = LocalDateTime.now();
+        // 💡 수동으로 시간을 갱신하던 로직 삭제
     }
 
     public void removeStock(int quantity){
+        // 💡 누락되었던 빼기(-) 연산자 수정
         long restStock = this.productQuantity - quantity;
         this.productQuantity = restStock;
     }
-
-
 }

@@ -1,10 +1,10 @@
 package meat_to_meat.demo.controller;
 
-
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import meat_to_meat.demo.dto.order.OrderResponseDTO;
+import meat_to_meat.demo.dto.order.OrderUpdateDTO;
 import meat_to_meat.demo.service.OrderService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/orders")
 @RequiredArgsConstructor
-
 public class OrderController {
 
     private final OrderService orderService;
@@ -32,13 +31,17 @@ public class OrderController {
     }
 
     @PatchMapping(value = "/{order_id}")
-    public ResponseEntity<OrderResponseDTO> updateOrder(@PathVariable("order_id") Long orderId){
-        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
+    public ResponseEntity<OrderResponseDTO> updateOrder(
+            @PathVariable("order_id") Long orderId,
+            @Valid @RequestBody OrderUpdateDTO orderUpdateDTO){
+        return ResponseEntity.ok(
+                orderService.updateOrder(orderId, orderUpdateDTO)
+        );
     }
 
     @DeleteMapping(value = "/{order_id}")
     public ResponseEntity<OrderResponseDTO> deleteOrder(@PathVariable("order_id") Long orderId){
-        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
+        orderService.deleteOrder(orderId);
+        return ResponseEntity.ok().build();
     }
-
 }

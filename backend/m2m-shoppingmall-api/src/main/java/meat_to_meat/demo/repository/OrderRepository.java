@@ -4,4 +4,5 @@ import meat_to_meat.demo.entity.Order.Order; // 대문자 Order 패키지의 Ord
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {
+    List<Order> findAllByUser_UserId(Long userId); // 💡 이 줄을 추가해 주세요!
 }
