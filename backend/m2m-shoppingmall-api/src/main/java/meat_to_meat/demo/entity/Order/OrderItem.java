@@ -1,4 +1,4 @@
-package meat_to_meat.demo.entity.Order;
+package meat_to_meat.demo.entity.order;
 
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -9,7 +9,6 @@ import meat_to_meat.demo.entity.product.Product;
 
 @Entity
 @Getter
-@Table(name = "order_item")
 @NoArgsConstructor
 public class OrderItem extends BaseEntity {
 

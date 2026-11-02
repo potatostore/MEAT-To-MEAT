@@ -3,15 +3,14 @@ package meat_to_meat.demo.repository;
 import meat_to_meat.demo.entity.cart.Cart;
 import meat_to_meat.demo.entity.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+
 import java.util.Optional;
 
-/**
- * 1. jpa가 무엇인지부터 알아야됨.
- * 2. JpaRepository를 상속하므로서 어떤 함수들이 CartRepository에 상속되는지 판단하고,
- * 3. CartRepository를 통해 서비스 레이어에서는 어떤 기능들을 구현할 것인지도 알아야함.
- *
- */
 public interface CartRepository extends JpaRepository<Cart, Long> {
+
     boolean existsByUser(User user);
+
+    // 회원 1명당 장바구니 레코드는 1줄이므로 Optional로 반환
     Optional<Cart> findByUser(User user);
+    Optional<Cart> findByUser_UserId(Long userId);
 }

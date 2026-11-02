@@ -3,12 +3,18 @@ package meat_to_meat.demo.service;
 import lombok.RequiredArgsConstructor;
 import meat_to_meat.demo.dto.user.UserCreateDTO;
 import meat_to_meat.demo.dto.user.UserResponseDTO;
+import meat_to_meat.demo.dto.user.UserUpdateDTO;
 import meat_to_meat.demo.entity.cart.Cart;
 import meat_to_meat.demo.entity.user.User;
+import meat_to_meat.demo.global.npecheck.ErrorCode;
+import meat_to_meat.demo.global.npecheck.NpeCheck;
 import meat_to_meat.demo.repository.CartRepository;
 import meat_to_meat.demo.repository.UserRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction. annotation.Transactional;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -19,20 +25,54 @@ public class UserService {
 
     @Transactional
     public UserResponseDTO createUser(UserCreateDTO userCreateDTO) {
-        // 1. npe check : usercreatedto
-        if(userCreateDTO == null){
-            throw new IllegalArgumentException("회원가입 정보가 존재하지 않습니다.");
-        }
+        // 1. npe check
+        NpeCheck.checkNotNull(userCreateDTO, ErrorCode.USER_DTO_NULL);
 
-        // 2. user entity object craete
+        // 2. user 엔티티 생성 및 저장 (생성자 방식)
         User inputUser = new User(userCreateDTO);
+        User savedUser = userRepository.save(inputUser);
 
-        User saveUser = userRepository.save(inputUser);
+        // 3. 회원가입 시 장바구니 자동 생성 및 DB 저장
+        Cart cart = new Cart(savedUser);
+        cartRepository.save(cart);
 
-        Cart cart = new Cart(inputUser);
-
-        return new UserResponseDTO(userRepository.save(inputUser));
+        return new UserResponseDTO(savedUser);
     }
 
+    @Transactional(readOnly = true)
+    public List<UserResponseDTO> getAllUsers() {
+        return userRepository.findAll().stream()
+                .map(UserResponseDTO::new)
+                .collect(Collectors.toList());
+    }
 
+    @Transactional(readOnly = true)
+    public UserResponseDTO getUser(Long userId) {
+        NpeCheck.checkNotNull(userId, ErrorCode.USER_ID_NULL);
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException(ErrorCode.USER_NOT_FOUND.getMessage() + " id=" + userId));
+        return new UserResponseDTO(user);
+    }
+
+    @Transactional
+    public UserResponseDTO updateUser(Long userId, UserUpdateDTO updateDTO) {
+        NpeCheck.checkNotNull(userId, ErrorCode.USER_ID_NULL);
+        NpeCheck.checkNotNull(updateDTO, ErrorCode.USER_DTO_NULL);
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException(ErrorCode.USER_NOT_FOUND.getMessage() + " id=" + userId));
+
+        user.updateUserInfo(updateDTO);
+        return new UserResponseDTO(user);
+    }
+
+    @Transactional
+    public void deleteUser(Long userId) {
+        NpeCheck.checkNotNull(userId, ErrorCode.USER_ID_NULL);
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException(ErrorCode.USER_NOT_FOUND.getMessage() + " id=" + userId));
+        userRepository.delete(user);
+    }
 }

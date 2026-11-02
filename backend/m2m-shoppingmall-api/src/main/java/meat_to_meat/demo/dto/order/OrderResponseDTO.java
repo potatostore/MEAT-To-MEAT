@@ -1,8 +1,10 @@
 package meat_to_meat.demo.dto.order;
 
 import lombok.Getter;
-import meat_to_meat.demo.entity.Order.Order;
-import meat_to_meat.demo.entity.Order.OrderStatus;
+import meat_to_meat.demo.entity.order.Order;
+import meat_to_meat.demo.entity.order.OrderStatus;
+
+import java.time.LocalDateTime;
 
 @Getter
 public class OrderResponseDTO {
@@ -10,10 +12,12 @@ public class OrderResponseDTO {
     private Long orderId;
     private OrderStatus orderStatus;
     private Long totalOrderPrice;
+    private LocalDateTime createdAt;
 
-    public OrderResponseDTO(Order order){
+    public OrderResponseDTO(Order order) {
         this.orderId = order.getOrderId();
         this.orderStatus = order.getStatus();
         this.totalOrderPrice = order.getTotalOrderPrice();
+        this.createdAt = order.getCreatedAt();
     }
 }

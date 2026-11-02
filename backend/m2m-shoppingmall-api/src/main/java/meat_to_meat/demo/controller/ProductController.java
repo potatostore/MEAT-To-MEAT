@@ -1,53 +1,55 @@
 package meat_to_meat.demo.controller;
 
-
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import meat_to_meat.demo.dto.product.ProductResponseDTO;
 import meat_to_meat.demo.dto.product.ProductCreateDTO;
+import meat_to_meat.demo.dto.product.ProductResponseDTO;
 import meat_to_meat.demo.dto.product.ProductUpdateDTO;
+import meat_to_meat.demo.global.config.UrlNames;
 import meat_to_meat.demo.service.ProductService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "https://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping("/api/products")
+@RequestMapping(UrlNames.productBase)
 @RequiredArgsConstructor
 public class ProductController {
 
     private final ProductService productService;
 
-    @PostMapping("/create")
-    public ResponseEntity<ProductResponseDTO> createProduct(@RequestBody ProductCreateDTO createDTO){
+    @PostMapping(value = UrlNames.createProduct)
+    public ResponseEntity<ProductResponseDTO> createProduct(@Valid @RequestBody ProductCreateDTO createDTO) {
         return ResponseEntity.ok(productService.createProduct(createDTO));
     }
 
-    @GetMapping
-    public ResponseEntity<List<ProductResponseDTO>> getAllProducts(){
+    @GetMapping(value = UrlNames.getAllProducts)
+    public ResponseEntity<List<ProductResponseDTO>> getAllProducts() {
         return ResponseEntity.ok(productService.getAllProducts());
     }
 
-    @GetMapping("/{product_id}")
-    public ResponseEntity<ProductResponseDTO> getProduct(@PathVariable("product_id") Long productId){
+    @GetMapping(value = UrlNames.getProduct)
+    public ResponseEntity<ProductResponseDTO> getProduct(@PathVariable("productId") Long productId) {
         return ResponseEntity.ok(productService.getProduct(productId));
     }
 
-    @GetMapping("/category")
-    public ResponseEntity<List<ProductResponseDTO>> getAllProductsByCategory(@RequestParam("categories") List<String> categories){
+    @GetMapping(value = UrlNames.getProductsByCategory)
+    public ResponseEntity<List<ProductResponseDTO>> getAllProductsByCategory(
+            @RequestParam("categories") List<String> categories) {
         return ResponseEntity.ok(productService.getProductByCategory(categories));
     }
 
-    @PatchMapping("/{product_id}")
+    @PatchMapping(value = UrlNames.updateProduct)
     public ResponseEntity<ProductResponseDTO> updateProduct(
-            @PathVariable("product_id") Long productId,
-            @RequestBody ProductUpdateDTO updateDTO) {
+            @PathVariable("productId") Long productId,
+            @Valid @RequestBody ProductUpdateDTO updateDTO) {
         return ResponseEntity.ok(productService.updateProduct(productId, updateDTO));
     }
 
-    @DeleteMapping("{product_id}")
-    public ResponseEntity<ProductResponseDTO> deleteProduct(@PathVariable("product_id") Long productId){
+    @DeleteMapping(value = UrlNames.deleteProduct)
+    public ResponseEntity<Void> deleteProduct(@PathVariable("productId") Long productId) {
         productService.deleteProduct(productId);
         return ResponseEntity.noContent().build();
     }

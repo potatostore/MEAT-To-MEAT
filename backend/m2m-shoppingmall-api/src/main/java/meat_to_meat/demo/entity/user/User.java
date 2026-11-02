@@ -7,7 +7,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import meat_to_meat.demo.dto.user.UserCreateDTO;
-import meat_to_meat.demo.entity.BaseEntity; // BaseEntity 임포트
+import meat_to_meat.demo.dto.user.UserUpdateDTO;
+import meat_to_meat.demo.entity.BaseEntity;
 
 import java.time.LocalDate;
 
@@ -17,47 +18,62 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
-public class User extends BaseEntity { // 상속 추가
+public class User extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
-    @Column(unique = true)
+    // 패스워드 unique 제거 완료
+    @Column(nullable = false)
     @NotBlank
     private String userPw;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 50)
     @NotBlank
     private String name;
 
-    @Column(unique = true)
+    // 생일 unique 제거 완료
+    @Column(nullable = false)
     private LocalDate birthday;
 
-    @Column(unique = true, nullable = false)
+    @Column(unique = true, nullable = false, length = 30)
     @NotBlank
     private String loginId;
 
-    @Column(unique = true, nullable = false)
+    @Column(unique = true, nullable = false, length = 100)
     @NotBlank
     private String email;
 
-    @Column(unique = true, nullable = false)
+    @Column(unique = true, nullable = false, length = 30)
     @NotBlank
     private String phoneNumber;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, length = 10)
     private Sex sex;
 
-    // 엔티티를 생성할 때 DTO의 데이터를 꺼내어 필드에 모두 채워줍니다.
+    // DTO 기반 생성자
     public User(UserCreateDTO dto) {
         this.loginId = dto.getLoginId();
         this.userPw = dto.getUserPw();
-        this.name = dto.getName(); // 💡 getUser()가 아니라 getName()을 사용합니다!
+        this.name = dto.getName();
         this.email = dto.getEmail();
         this.phoneNumber = dto.getPhoneNumber();
         this.birthday = dto.getBirthday();
         this.sex = dto.getSex();
+    }
+
+    // 회원 정보 수정용 메서드
+    public void updateUserInfo(UserUpdateDTO dto) {
+        if (dto.getName() != null) {
+            this.name = dto.getName();
+        }
+        if (dto.getPhoneNumber() != null) {
+            this.phoneNumber = dto.getPhoneNumber();
+        }
+        if (dto.getEmail() != null) {
+            this.email = dto.getEmail();
+        }
     }
 }

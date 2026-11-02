@@ -4,44 +4,46 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import meat_to_meat.demo.dto.order.OrderResponseDTO;
 import meat_to_meat.demo.dto.order.OrderUpdateDTO;
+import meat_to_meat.demo.global.config.UrlNames;
 import meat_to_meat.demo.service.OrderService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping("/api/orders")
+@RequestMapping(UrlNames.orderBase)
 @RequiredArgsConstructor
 public class OrderController {
 
     private final OrderService orderService;
 
-    @PostMapping(value = "/create/{user_id}")
-    public ResponseEntity<OrderResponseDTO> createOrder(@PathVariable("user_id") Long userId){
-        return ResponseEntity.ok(
-                orderService.createOrder(userId)
-        );
+    @PostMapping(value = UrlNames.createOrder)
+    public ResponseEntity<OrderResponseDTO> createOrder(@PathVariable("userId") Long userId) {
+        return ResponseEntity.ok(orderService.createOrder(userId));
     }
 
-    @GetMapping(value = "/{order_id}")
-    public ResponseEntity<OrderResponseDTO> getOrder(@PathVariable("order_id") Long orderId){
-        return ResponseEntity.ok(
-                orderService.getOrder(orderId)
-        );
+    @GetMapping(value = UrlNames.getOrder)
+    public ResponseEntity<OrderResponseDTO> getOrder(@PathVariable("orderId") Long orderId) {
+        return ResponseEntity.ok(orderService.getOrder(orderId));
     }
 
-    @PatchMapping(value = "/{order_id}")
+    @GetMapping(value = UrlNames.getOrdersByUserId)
+    public ResponseEntity<List<OrderResponseDTO>> getOrdersByUserId(@PathVariable("userId") Long userId) {
+        return ResponseEntity.ok(orderService.getOrdersByUserId(userId));
+    }
+
+    @PatchMapping(value = UrlNames.updateOrder)
     public ResponseEntity<OrderResponseDTO> updateOrder(
-            @PathVariable("order_id") Long orderId,
-            @Valid @RequestBody OrderUpdateDTO orderUpdateDTO){
-        return ResponseEntity.ok(
-                orderService.updateOrder(orderId, orderUpdateDTO)
-        );
+            @PathVariable("orderId") Long orderId,
+            @Valid @RequestBody OrderUpdateDTO orderUpdateDTO) {
+        return ResponseEntity.ok(orderService.updateOrder(orderId, orderUpdateDTO));
     }
 
-    @DeleteMapping(value = "/{order_id}")
-    public ResponseEntity<OrderResponseDTO> deleteOrder(@PathVariable("order_id") Long orderId){
+    @DeleteMapping(value = UrlNames.deleteOrder)
+    public ResponseEntity<Void> deleteOrder(@PathVariable("orderId") Long orderId) {
         orderService.deleteOrder(orderId);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 }
