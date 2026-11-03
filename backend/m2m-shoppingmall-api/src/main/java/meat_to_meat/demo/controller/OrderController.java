@@ -20,29 +20,29 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping(value = UrlNames.createOrder)
-    public ResponseEntity<OrderResponseDTO> createOrder(@PathVariable("userId") Long userId) {
+    public ResponseEntity<OrderResponseDTO> createOrder(@PathVariable Long userId) {
         return ResponseEntity.ok(orderService.createOrder(userId));
     }
 
     @GetMapping(value = UrlNames.getOrder)
-    public ResponseEntity<OrderResponseDTO> getOrder(@PathVariable("orderId") Long orderId) {
+    public ResponseEntity<OrderResponseDTO> getOrder(@PathVariable Long orderId) {
         return ResponseEntity.ok(orderService.getOrder(orderId));
     }
 
     @GetMapping(value = UrlNames.getOrdersByUserId)
-    public ResponseEntity<List<OrderResponseDTO>> getOrdersByUserId(@PathVariable("userId") Long userId) {
+    public ResponseEntity<List<OrderResponseDTO>> getOrdersByUserId(@PathVariable Long userId) {
         return ResponseEntity.ok(orderService.getOrdersByUserId(userId));
     }
 
     @PatchMapping(value = UrlNames.updateOrder)
     public ResponseEntity<OrderResponseDTO> updateOrder(
-            @PathVariable("orderId") Long orderId,
+            @PathVariable Long orderId,
             @Valid @RequestBody OrderUpdateDTO orderUpdateDTO) {
         return ResponseEntity.ok(orderService.updateOrder(orderId, orderUpdateDTO));
     }
 
     @DeleteMapping(value = UrlNames.deleteOrder)
-    public ResponseEntity<Void> deleteOrder(@PathVariable("orderId") Long orderId) {
+    public ResponseEntity<Void> deleteOrder(@PathVariable Long orderId) {
         orderService.deleteOrder(orderId);
         return ResponseEntity.noContent().build();
     }

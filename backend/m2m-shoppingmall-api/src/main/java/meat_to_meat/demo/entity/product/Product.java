@@ -60,10 +60,13 @@ public class Product extends BaseEntity {
         this.productCategory = productCategory;
     }
 
-    public void removeStock(int quantity) {
+    public void removeStock(long quantity) {
         long restStock = this.productQuantity - quantity;
         if (restStock < 0) {
-            throw new IllegalStateException("재고가 부족합니다.");
+            throw new meat_to_meat.demo.global.exception.GlobalMeatToMeatException(
+                    meat_to_meat.demo.global.exception.ErrorCode.OUT_OF_STOCK,
+                    "현재 재고: " + this.productQuantity
+            );
         }
         this.productQuantity = restStock;
     }

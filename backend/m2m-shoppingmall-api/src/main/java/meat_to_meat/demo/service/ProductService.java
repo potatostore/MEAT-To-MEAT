@@ -5,8 +5,10 @@ import meat_to_meat.demo.dto.product.ProductCreateDTO;
 import meat_to_meat.demo.dto.product.ProductResponseDTO;
 import meat_to_meat.demo.dto.product.ProductUpdateDTO;
 import meat_to_meat.demo.entity.product.Product;
-import meat_to_meat.demo.global.npecheck.ErrorCode;
-import meat_to_meat.demo.global.npecheck.NpeCheck;
+import meat_to_meat.demo.global.exception.DuplicateException;
+import meat_to_meat.demo.global.exception.ErrorCode;
+import meat_to_meat.demo.global.exception.NotFoundException;
+import meat_to_meat.demo.global.exception.NpeCheck;
 import meat_to_meat.demo.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +25,10 @@ public class ProductService {
     @Transactional
     public ProductResponseDTO createProduct(ProductCreateDTO createDTO) {
         NpeCheck.checkNotNull(createDTO, ErrorCode.PRODUCT_DTO_NULL);
+
+        if (productRepository.existsByProductName(createDTO.getProductName())) {
+            throw new DuplicateException(ErrorCode.DUPLICATE_PRODUCT_NAME);
+        }
 
         Product product = Product.builder()
                 .productName(createDTO.getProductName())
@@ -48,7 +54,7 @@ public class ProductService {
         NpeCheck.checkNotNull(productId, ErrorCode.PRODUCT_ID_NULL);
 
         Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new IllegalArgumentException(ErrorCode.PRODUCT_NOT_FOUND.getMessage() + " id=" + productId));
+                .orElseThrow(() -> new NotFoundException(ErrorCode.PRODUCT_NOT_FOUND, "id=" + productId));
 
         return new ProductResponseDTO(product);
     }
@@ -59,7 +65,12 @@ public class ProductService {
         NpeCheck.checkNotNull(updateDTO, ErrorCode.PRODUCT_DTO_NULL);
 
         Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new IllegalArgumentException(ErrorCode.PRODUCT_NOT_FOUND.getMessage() + " id=" + productId));
+                .orElseThrow(() -> new NotFoundException(ErrorCode.PRODUCT_NOT_FOUND, "id=" + productId));
+
+        if (!product.getProductName().equals(updateDTO.getProductName())
+                && productRepository.existsByProductName(updateDTO.getProductName())) {
+            throw new DuplicateException(ErrorCode.DUPLICATE_PRODUCT_NAME);
+        }
 
         product.updateProductInfo(
                 updateDTO.getProductName(),
@@ -75,19 +86,18 @@ public class ProductService {
     public void deleteProduct(Long productId) {
         NpeCheck.checkNotNull(productId, ErrorCode.PRODUCT_ID_NULL);
 
-        if (!productRepository.existsById(productId)) {
-            throw new IllegalStateException(ErrorCode.PRODUCT_NOT_FOUND.getMessage() + " ID: " + productId);
-        }
-        productRepository.deleteById(productId);
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new NotFoundException(ErrorCode.PRODUCT_NOT_FOUND, "id=" + productId));
+        productRepository.delete(product);
     }
 
     @Transactional(readOnly = true)
     public List<ProductResponseDTO> getProductByCategory(List<String> categories) {
-        NpeCheck.checkNotNull(categories, "카테고리 목록은 null일 수 없습니다.");
+        NpeCheck.checkNotNull(categories, ErrorCode.CATEGORY_LIST_NULL);
 
         return productRepository.findAll().stream()
                 .filter(product -> product.getProductCategory() != null &&
-                        categories.contains(product.getProductCategory().name()))
+                        product.getProductCategory().stream().anyMatch(categories::contains))
                 .map(ProductResponseDTO::new)
                 .collect(Collectors.toList());
     }

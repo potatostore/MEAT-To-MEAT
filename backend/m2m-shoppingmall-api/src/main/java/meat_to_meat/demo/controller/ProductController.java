@@ -31,25 +31,25 @@ public class ProductController {
     }
 
     @GetMapping(value = UrlNames.getProduct)
-    public ResponseEntity<ProductResponseDTO> getProduct(@PathVariable("productId") Long productId) {
+    public ResponseEntity<ProductResponseDTO> getProduct(@PathVariable Long productId) {
         return ResponseEntity.ok(productService.getProduct(productId));
     }
 
     @GetMapping(value = UrlNames.getProductsByCategory)
     public ResponseEntity<List<ProductResponseDTO>> getAllProductsByCategory(
-            @RequestParam("categories") List<String> categories) {
+            @RequestParam List<String> categories) {
         return ResponseEntity.ok(productService.getProductByCategory(categories));
     }
 
     @PatchMapping(value = UrlNames.updateProduct)
     public ResponseEntity<ProductResponseDTO> updateProduct(
-            @PathVariable("productId") Long productId,
+            @PathVariable Long productId,
             @Valid @RequestBody ProductUpdateDTO updateDTO) {
         return ResponseEntity.ok(productService.updateProduct(productId, updateDTO));
     }
 
     @DeleteMapping(value = UrlNames.deleteProduct)
-    public ResponseEntity<Void> deleteProduct(@PathVariable("productId") Long productId) {
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long productId) {
         productService.deleteProduct(productId);
         return ResponseEntity.noContent().build();
     }

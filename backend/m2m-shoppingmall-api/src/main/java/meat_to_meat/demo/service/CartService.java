@@ -8,9 +8,11 @@ import meat_to_meat.demo.entity.cart.Cart;
 import meat_to_meat.demo.entity.cart.CartItem;
 import meat_to_meat.demo.entity.product.Product;
 import meat_to_meat.demo.entity.user.User;
-import meat_to_meat.demo.global.npecheck.ErrorCode;
-import meat_to_meat.demo.global.npecheck.NpeCheck;
-import meat_to_meat.demo.repository.CartItemRepository;
+import meat_to_meat.demo.global.exception.DuplicateException;
+import meat_to_meat.demo.global.exception.ErrorCode;
+import meat_to_meat.demo.global.exception.GlobalMeatToMeatException;
+import meat_to_meat.demo.global.exception.NotFoundException;
+import meat_to_meat.demo.global.exception.NpeCheck;
 import meat_to_meat.demo.repository.CartRepository;
 import meat_to_meat.demo.repository.ProductRepository;
 import meat_to_meat.demo.repository.UserRepository;
@@ -28,19 +30,16 @@ public class CartService {
     private final CartRepository cartRepository;
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
-    private final CartItemRepository cartItemRepository;
 
     @Transactional
     public CartResponseDTO createCart(Long userId) {
-        // 1. userId npe check
         NpeCheck.checkNotNull(userId, ErrorCode.USER_ID_NULL);
 
-        // 2. user 조회 및 중복 장바구니 검증
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException(ErrorCode.USER_NOT_FOUND.getMessage() + " id=" + userId));
+                .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND, "id=" + userId));
 
         if (cartRepository.existsByUser(user)) {
-            throw new IllegalStateException(ErrorCode.CART_ALREADY_EXISTS.getMessage());
+            throw new DuplicateException(ErrorCode.CART_ALREADY_EXISTS);
         }
 
         Cart cart = Cart.builder()
@@ -56,16 +55,24 @@ public class CartService {
         NpeCheck.checkNotNull(userId, ErrorCode.USER_ID_NULL);
         NpeCheck.checkNotNull(request, ErrorCode.CART_DTO_NULL);
 
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException(ErrorCode.USER_NOT_FOUND.getMessage()));
-
-        Cart cart = cartRepository.findByUser(user)
-                .orElseThrow(() -> new IllegalStateException(ErrorCode.CART_NOT_FOUND.getMessage()));
+        Cart cart = cartRepository.findByUser_UserId(userId)
+                .orElseThrow(() -> new NotFoundException(ErrorCode.CART_NOT_FOUND, "userId=" + userId));
 
         Product product = productRepository.findById(request.getProductId())
-                .orElseThrow(() -> new IllegalArgumentException(ErrorCode.PRODUCT_NOT_FOUND.getMessage()));
+                .orElseThrow(() -> new NotFoundException(ErrorCode.PRODUCT_NOT_FOUND, "productId=" + request.getProductId()));
 
-        Optional<CartItem> existingItem = cartItemRepository.findByCartAndProduct(cart, product);
+        Optional<CartItem> existingItem = cart.getCartItems().stream()
+                .filter(item -> item.getProduct().getProductId().equals(product.getProductId()))
+                .findFirst();
+
+        long totalRequestedQuantity = existingItem
+                .map(item -> item.getQuantity() + request.getQuantity())
+                .orElse(request.getQuantity());
+
+        // CUD 예외 처리: 상품 재고 부족 검증
+        if (product.getProductQuantity() < totalRequestedQuantity) {
+            throw new GlobalMeatToMeatException(ErrorCode.OUT_OF_STOCK, "요청 수량=" + totalRequestedQuantity);
+        }
 
         if (existingItem.isPresent()) {
             existingItem.get().addQuantity(request.getQuantity());
@@ -75,7 +82,7 @@ public class CartService {
                     .product(product)
                     .quantity(request.getQuantity())
                     .build();
-            cartItemRepository.save(newItem);
+            cart.getCartItems().add(newItem);
         }
 
         return new CartResponseDTO(cart);
@@ -92,11 +99,8 @@ public class CartService {
     public CartResponseDTO getCartByUserId(Long userId) {
         NpeCheck.checkNotNull(userId, ErrorCode.USER_ID_NULL);
 
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException(ErrorCode.USER_NOT_FOUND.getMessage()));
-
-        Cart cart = cartRepository.findByUser(user)
-                .orElseThrow(() -> new IllegalStateException(ErrorCode.CART_NOT_FOUND.getMessage()));
+        Cart cart = cartRepository.findByUser_UserId(userId)
+                .orElseThrow(() -> new NotFoundException(ErrorCode.CART_NOT_FOUND, "userId=" + userId));
 
         return new CartResponseDTO(cart);
     }
@@ -107,7 +111,19 @@ public class CartService {
         NpeCheck.checkNotNull(cartUpdateDTO, ErrorCode.CART_DTO_NULL);
 
         Cart cart = cartRepository.findById(cartId)
-                .orElseThrow(() -> new IllegalArgumentException(ErrorCode.CART_NOT_FOUND.getMessage()));
+                .orElseThrow(() -> new NotFoundException(ErrorCode.CART_NOT_FOUND, "cartId=" + cartId));
+
+        CartItem targetItem = cart.getCartItems().stream()
+                .filter(item -> item.getProduct().getProductId().equals(cartUpdateDTO.getProductId()))
+                .findFirst()
+                .orElseThrow(() -> new NotFoundException(ErrorCode.CART_ITEM_NOT_FOUND, "productId=" + cartUpdateDTO.getProductId()));
+
+        // CUD 예외 처리: 변경하려는 수량이 상품 재고를 초과하는지 검증
+        if (targetItem.getProduct().getProductQuantity() < cartUpdateDTO.getQuantity()) {
+            throw new GlobalMeatToMeatException(ErrorCode.OUT_OF_STOCK, "요청 수량=" + cartUpdateDTO.getQuantity());
+        }
+
+        targetItem.updateQuantity(cartUpdateDTO.getQuantity());
 
         return new CartResponseDTO(cart);
     }
@@ -117,7 +133,7 @@ public class CartService {
         NpeCheck.checkNotNull(cartId, ErrorCode.CART_ID_NULL);
 
         Cart cart = cartRepository.findById(cartId)
-                .orElseThrow(() -> new IllegalArgumentException(ErrorCode.CART_NOT_FOUND.getMessage()));
+                .orElseThrow(() -> new NotFoundException(ErrorCode.CART_NOT_FOUND, "cartId=" + cartId));
         cartRepository.delete(cart);
     }
 
@@ -126,18 +142,15 @@ public class CartService {
         NpeCheck.checkNotNull(userId, ErrorCode.USER_ID_NULL);
         NpeCheck.checkNotNull(productId, ErrorCode.PRODUCT_ID_NULL);
 
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException(ErrorCode.USER_NOT_FOUND.getMessage()));
+        Cart cart = cartRepository.findByUser_UserId(userId)
+                .orElseThrow(() -> new NotFoundException(ErrorCode.CART_NOT_FOUND, "userId=" + userId));
 
-        Cart cart = cartRepository.findByUser(user)
-                .orElseThrow(() -> new IllegalStateException(ErrorCode.CART_NOT_FOUND.getMessage()));
+        boolean removed = cart.getCartItems().removeIf(
+                item -> item.getProduct().getProductId().equals(productId)
+        );
 
-        Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new IllegalArgumentException(ErrorCode.PRODUCT_NOT_FOUND.getMessage()));
-
-        CartItem cartItem = cartItemRepository.findByCartAndProduct(cart, product)
-                .orElseThrow(() -> new IllegalArgumentException(ErrorCode.CART_ITEM_NOT_FOUND.getMessage()));
-
-        cartItemRepository.delete(cartItem);
+        if (!removed) {
+            throw new NotFoundException(ErrorCode.CART_ITEM_NOT_FOUND, "productId=" + productId);
+        }
     }
 }

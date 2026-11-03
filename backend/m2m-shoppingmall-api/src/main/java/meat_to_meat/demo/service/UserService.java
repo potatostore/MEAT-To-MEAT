@@ -6,8 +6,10 @@ import meat_to_meat.demo.dto.user.UserResponseDTO;
 import meat_to_meat.demo.dto.user.UserUpdateDTO;
 import meat_to_meat.demo.entity.cart.Cart;
 import meat_to_meat.demo.entity.user.User;
-import meat_to_meat.demo.global.npecheck.ErrorCode;
-import meat_to_meat.demo.global.npecheck.NpeCheck;
+import meat_to_meat.demo.global.exception.DuplicateException;
+import meat_to_meat.demo.global.exception.ErrorCode;
+import meat_to_meat.demo.global.exception.NotFoundException;
+import meat_to_meat.demo.global.exception.NpeCheck;
 import meat_to_meat.demo.repository.CartRepository;
 import meat_to_meat.demo.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -25,14 +27,21 @@ public class UserService {
 
     @Transactional
     public UserResponseDTO createUser(UserCreateDTO userCreateDTO) {
-        // 1. npe check
         NpeCheck.checkNotNull(userCreateDTO, ErrorCode.USER_DTO_NULL);
 
-        // 2. user 엔티티 생성 및 저장 (생성자 방식)
+        if (userRepository.existsByLoginId(userCreateDTO.getLoginId())) {
+            throw new DuplicateException(ErrorCode.DUPLICATE_LOGIN_ID);
+        }
+        if (userRepository.existsByEmail(userCreateDTO.getEmail())) {
+            throw new DuplicateException(ErrorCode.DUPLICATE_EMAIL);
+        }
+        if (userRepository.existsByPhoneNumber(userCreateDTO.getPhoneNumber())) {
+            throw new DuplicateException(ErrorCode.DUPLICATE_PHONE_NUMBER);
+        }
+
         User inputUser = new User(userCreateDTO);
         User savedUser = userRepository.save(inputUser);
 
-        // 3. 회원가입 시 장바구니 자동 생성 및 DB 저장
         Cart cart = new Cart(savedUser);
         cartRepository.save(cart);
 
@@ -51,7 +60,7 @@ public class UserService {
         NpeCheck.checkNotNull(userId, ErrorCode.USER_ID_NULL);
 
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException(ErrorCode.USER_NOT_FOUND.getMessage() + " id=" + userId));
+                .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND, "id=" + userId));
         return new UserResponseDTO(user);
     }
 
@@ -61,7 +70,16 @@ public class UserService {
         NpeCheck.checkNotNull(updateDTO, ErrorCode.USER_DTO_NULL);
 
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException(ErrorCode.USER_NOT_FOUND.getMessage() + " id=" + userId));
+                .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND, "id=" + userId));
+
+        if (updateDTO.getEmail() != null && !user.getEmail().equals(updateDTO.getEmail())
+                && userRepository.existsByEmail(updateDTO.getEmail())) {
+            throw new DuplicateException(ErrorCode.DUPLICATE_EMAIL);
+        }
+        if (updateDTO.getPhoneNumber() != null && !user.getPhoneNumber().equals(updateDTO.getPhoneNumber())
+                && userRepository.existsByPhoneNumber(updateDTO.getPhoneNumber())) {
+            throw new DuplicateException(ErrorCode.DUPLICATE_PHONE_NUMBER);
+        }
 
         user.updateUserInfo(updateDTO);
         return new UserResponseDTO(user);
@@ -72,7 +90,7 @@ public class UserService {
         NpeCheck.checkNotNull(userId, ErrorCode.USER_ID_NULL);
 
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException(ErrorCode.USER_NOT_FOUND.getMessage() + " id=" + userId));
+                .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND, "id=" + userId));
         userRepository.delete(user);
     }
 }

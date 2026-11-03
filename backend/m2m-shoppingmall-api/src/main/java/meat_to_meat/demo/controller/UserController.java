@@ -31,19 +31,19 @@ public class UserController {
     }
 
     @GetMapping(value = UrlNames.getUser)
-    public ResponseEntity<UserResponseDTO> getUser(@PathVariable("userId") Long userId) {
+    public ResponseEntity<UserResponseDTO> getUser(@PathVariable Long userId) {
         return ResponseEntity.ok(userService.getUser(userId));
     }
 
     @PatchMapping(value = UrlNames.updateUser)
     public ResponseEntity<UserResponseDTO> updateUser(
-            @PathVariable("userId") Long userId,
+            @PathVariable Long userId,
             @Valid @RequestBody UserUpdateDTO updateDTO) {
         return ResponseEntity.ok(userService.updateUser(userId, updateDTO));
     }
 
     @DeleteMapping(value = UrlNames.deleteUser)
-    public ResponseEntity<Void> deleteUser(@PathVariable("userId") Long userId) {
+    public ResponseEntity<Void> deleteUser(@PathVariable Long userId) {
         userService.deleteUser(userId);
         return ResponseEntity.noContent().build();
     }
