@@ -32,7 +32,7 @@ public class Order extends BaseEntity {
     private User user;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OrderItem> orderItems = new ArrayList<>();
+    private List<meat_to_meat.demo.entity.order.OrderItem> orderItems = new ArrayList<>();
 
     @Builder
     public Order(User user, OrderStatus status, Long totalOrderPrice) {

@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import meat_to_meat.demo.entity.BaseEntity;
+import meat_to_meat.demo.global.exception.ErrorCode;
+import meat_to_meat.demo.global.exception.GlobalMeatToMeatException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,10 +65,7 @@ public class Product extends BaseEntity {
     public void removeStock(long quantity) {
         long restStock = this.productQuantity - quantity;
         if (restStock < 0) {
-            throw new meat_to_meat.demo.global.exception.GlobalMeatToMeatException(
-                    meat_to_meat.demo.global.exception.ErrorCode.OUT_OF_STOCK,
-                    "현재 재고: " + this.productQuantity
-            );
+            throw new GlobalMeatToMeatException(ErrorCode.OUT_OF_STOCK, "현재 재고: " + this.productQuantity);
         }
         this.productQuantity = restStock;
     }
