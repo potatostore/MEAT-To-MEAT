@@ -76,4 +76,8 @@ public class User extends BaseEntity {
             this.email = dto.getEmail();
         }
     }
+
+    public void encodePassword(String encodedPassword) {
+        this.userPw = encodedPassword;
+    }
 }

@@ -5,6 +5,7 @@ public class UrlNames {
     // === User URLs ===
     public static final String userBase = "/users";
     public static final String createUser = "/signup";
+    public static final String login = "/login";
     public static final String getAllUsers = "";
     public static final String getUser = "/{userId}";
     public static final String updateUser = "/{userId}";

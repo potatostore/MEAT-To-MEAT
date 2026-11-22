@@ -15,6 +15,7 @@ public enum ErrorCode {
     USER_ID_NULL(HttpStatus.BAD_REQUEST, "유저 ID는 null일 수 없습니다."),
     USER_DTO_NULL(HttpStatus.BAD_REQUEST, "회원 요청 정보가 존재하지 않습니다."),
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 유저입니다."),
+    INVALID_PASSWORD(HttpStatus.UNAUTHORIZED, "비밀번호가 일치하지 않습니다."),
     DUPLICATE_LOGIN_ID(HttpStatus.CONFLICT, "이미 사용 중인 아이디입니다."),
     DUPLICATE_EMAIL(HttpStatus.CONFLICT, "이미 사용 중인 이메일입니다."),
     DUPLICATE_PHONE_NUMBER(HttpStatus.CONFLICT, "이미 사용 중인 전화번호입니다."),
@@ -26,6 +27,7 @@ public enum ErrorCode {
     PRODUCT_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 상품입니다."),
     DUPLICATE_PRODUCT_NAME(HttpStatus.CONFLICT, "이미 존재하는 상품명입니다."),
     OUT_OF_STOCK(HttpStatus.BAD_REQUEST, "상품의 재고가 부족합니다."),
+    CANNOT_DELETE_ORDERED_PRODUCT(HttpStatus.CONFLICT, "이미 주문 내역에 포함된 상품은 삭제할 수 없습니다."),
 
     // Cart 관련 에러
     CART_ID_NULL(HttpStatus.BAD_REQUEST, "장바구니 ID는 null일 수 없습니다."),

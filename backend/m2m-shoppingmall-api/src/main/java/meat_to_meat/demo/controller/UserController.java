@@ -2,6 +2,7 @@ package meat_to_meat.demo.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import meat_to_meat.demo.dto.user.LogInDTO;
 import meat_to_meat.demo.dto.user.UserCreateDTO;
 import meat_to_meat.demo.dto.user.UserResponseDTO;
 import meat_to_meat.demo.dto.user.UserUpdateDTO;
@@ -23,6 +24,11 @@ public class UserController {
     @PostMapping(value = UrlNames.createUser)
     public ResponseEntity<UserResponseDTO> createUser(@Valid @RequestBody UserCreateDTO createDTO) {
         return ResponseEntity.ok(userService.createUser(createDTO));
+    }
+
+    @PostMapping(value = UrlNames.login)
+    public ResponseEntity<UserResponseDTO> login(@Valid @RequestBody LogInDTO logInDTO) {
+        return ResponseEntity.ok(userService.login(logInDTO));
     }
 
     @GetMapping(value = UrlNames.getAllUsers)

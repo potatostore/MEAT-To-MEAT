@@ -4,11 +4,15 @@ import lombok.RequiredArgsConstructor;
 import meat_to_meat.demo.dto.product.ProductCreateDTO;
 import meat_to_meat.demo.dto.product.ProductResponseDTO;
 import meat_to_meat.demo.dto.product.ProductUpdateDTO;
+import meat_to_meat.demo.entity.cart.Cart;
 import meat_to_meat.demo.entity.product.Product;
 import meat_to_meat.demo.global.exception.DuplicateException;
 import meat_to_meat.demo.global.exception.ErrorCode;
+import meat_to_meat.demo.global.exception.GlobalMeatToMeatException;
 import meat_to_meat.demo.global.exception.NotFoundException;
 import meat_to_meat.demo.global.exception.NpeCheck;
+import meat_to_meat.demo.repository.CartRepository;
+import meat_to_meat.demo.repository.OrderRepository;
 import meat_to_meat.demo.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +25,8 @@ import java.util.stream.Collectors;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final CartRepository cartRepository;
+    private final OrderRepository orderRepository;
 
     @Transactional
     public ProductResponseDTO createProduct(ProductCreateDTO createDTO) {
@@ -88,6 +94,19 @@ public class ProductService {
 
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.PRODUCT_NOT_FOUND, "id=" + productId));
+
+        // 1. 주문 내역에 포함된 상품인지 확인 (FK 오류 방지)
+        if (orderRepository.existsByOrderItems_Product_ProductId(productId)) {
+            throw new GlobalMeatToMeatException(ErrorCode.CANNOT_DELETE_ORDERED_PRODUCT, "productId=" + productId);
+        }
+
+        // 2. 장바구니에 담긴 해당 상품을 먼저 제거 후 DB에 즉시 반영
+        for (Cart cart : cartRepository.findAll()) {
+            cart.getCartItems().removeIf(item -> item.getProduct().getProductId().equals(productId));
+        }
+        cartRepository.flush();
+
+        // 3. FK 참조가 끊긴 뒤 상품 삭제
         productRepository.delete(product);
     }
 
@@ -95,9 +114,7 @@ public class ProductService {
     public List<ProductResponseDTO> getProductByCategory(List<String> categories) {
         NpeCheck.checkNotNull(categories, ErrorCode.CATEGORY_LIST_NULL);
 
-        return productRepository.findAll().stream()
-                .filter(product -> product.getProductCategory() != null &&
-                        product.getProductCategory().stream().anyMatch(categories::contains))
+        return productRepository.findDistinctByProductCategoryIn(categories).stream()
                 .map(ProductResponseDTO::new)
                 .collect(Collectors.toList());
     }
