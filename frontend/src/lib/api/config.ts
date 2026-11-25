@@ -3,11 +3,11 @@
 export const API_BASE_URL = process.env.API_BASE_URL ?? "http://localhost:8080";
 export const API_PROXY_PREFIX = "/api";
 
-// 백엔드가 준비되기 전까지는 mock 데이터로 동작한다.
+// 백엔드 없이 화면만 볼 때는 mock 데이터로 동작한다.
 // 실제 서버에 붙일 때 .env.local 에 NEXT_PUBLIC_API_MOCK=false 를 지정한다.
 export const USE_MOCK = process.env.NEXT_PUBLIC_API_MOCK !== "false";
 
-// 백엔드 엔드포인트 목록 (API_BASE_URL 기준 경로)
+// 백엔드 엔드포인트 목록 (backend .../global/config/UrlNames.java 와 동일)
 export const ENDPOINTS = {
   auth: {
     signup: "/auth/signup", // POST
@@ -17,13 +17,10 @@ export const ENDPOINTS = {
   members: {
     me: "/members/me", // GET, PATCH, DELETE
     password: "/members/me/password", // PATCH
-    addresses: "/members/me/addresses", // GET, POST
-    address: (id: number) => `/members/me/addresses/${id}`, // PATCH, DELETE
   },
   categories: "/categories", // GET
   products: {
     list: "/products", // GET ?category&q&sort&page&size
-    deals: "/products/deals", // GET
     detail: (id: number) => `/products/${id}`, // GET
   },
   cart: {
@@ -35,10 +32,5 @@ export const ENDPOINTS = {
     root: "/orders", // GET(내 주문), POST(주문 생성)
     detail: (id: number) => `/orders/${id}`, // GET
     cancel: (id: number) => `/orders/${id}/cancel`, // POST
-  },
-  support: {
-    faqs: "/faqs", // GET
-    inquiries: "/inquiries", // POST
-    myInquiries: "/inquiries/me", // GET
   },
 } as const;

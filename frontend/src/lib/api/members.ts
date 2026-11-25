@@ -2,8 +2,6 @@ import { request } from "./client";
 import { ENDPOINTS, USE_MOCK } from "./config";
 import * as mock from "./mock/store";
 import type {
-  Address,
-  AddressRequest,
   ChangePasswordRequest,
   LoginRequest,
   LoginResponse,
@@ -45,24 +43,4 @@ export async function changePassword(body: ChangePasswordRequest): Promise<void>
 export async function withdraw(): Promise<void> {
   if (USE_MOCK) return mock.withdraw();
   return request<void>(ENDPOINTS.members.me, { method: "DELETE" });
-}
-
-export async function getAddresses(): Promise<Address[]> {
-  if (USE_MOCK) return mock.getAddresses();
-  return request<Address[]>(ENDPOINTS.members.addresses);
-}
-
-export async function createAddress(body: AddressRequest): Promise<Address> {
-  if (USE_MOCK) return mock.createAddress(body);
-  return request<Address>(ENDPOINTS.members.addresses, { method: "POST", body });
-}
-
-export async function updateAddress(id: number, body: AddressRequest): Promise<Address> {
-  if (USE_MOCK) return mock.updateAddress(id, body);
-  return request<Address>(ENDPOINTS.members.address(id), { method: "PATCH", body });
-}
-
-export async function deleteAddress(id: number): Promise<void> {
-  if (USE_MOCK) return mock.deleteAddress(id);
-  return request<void>(ENDPOINTS.members.address(id), { method: "DELETE" });
 }

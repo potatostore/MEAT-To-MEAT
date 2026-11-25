@@ -1,4 +1,4 @@
-// 백엔드(Spring Boot)와 주고받는 데이터 형태. 백엔드 DTO 작성 시 이 파일을 기준으로 맞춘다.
+// 백엔드(Spring Boot) DTO 와 1:1 로 맞춘 타입. 테이블 구조는 명세서 5장(V1__init_schema.sql)을 따른다.
 
 export type CategoryCode = "HANWOO" | "PORK" | "CHICKEN" | "IMPORTED";
 
@@ -8,35 +8,22 @@ export interface Category {
   description: string;
 }
 
-export interface ProductOption {
-  id: number;
-  name: string; // 예: "구이용 1.5cm", "500g"
-  extraPrice: number;
-}
-
+// product 테이블
 export interface Product {
   id: number;
   name: string;
   category: CategoryCode;
   categoryName: string;
-  summary: string;
   description: string;
-  price: number; // 정가 (unit 기준)
-  salePrice: number | null; // 특가 적용 시 판매가, 없으면 null
-  unit: string; // 예: "300g"
-  grade: string | null; // 예: "1++", 수입육 등은 null
-  origin: string; // 원산지
-  storage: "냉장" | "냉동";
+  price: number;
   stock: number;
-  imageUrl: string | null;
-  options: ProductOption[];
   createdAt: string;
 }
 
-// Spring Data Page 응답을 단순화한 형태
+// Spring Data Page 를 단순화한 형태 (page 는 0부터)
 export interface Page<T> {
   content: T[];
-  page: number; // 0부터 시작
+  page: number;
   size: number;
   totalElements: number;
   totalPages: number;
@@ -52,24 +39,32 @@ export interface ProductQuery {
   size?: number;
 }
 
-// ===== 회원 =====
+// ===== 회원 (users 테이블) =====
+export type Sex = "M" | "F" | "NONE";
+
 export interface Member {
   id: number;
-  email: string;
+  loginId: string;
   name: string;
+  email: string;
   phone: string;
+  sex: Sex;
+  birthday: string; // YYYY-MM-DD
   createdAt: string;
 }
 
 export interface SignupRequest {
-  email: string;
+  loginId: string;
   password: string;
   name: string;
+  email: string;
   phone: string;
+  sex: Sex;
+  birthday: string;
 }
 
 export interface LoginRequest {
-  email: string;
+  loginId: string;
   password: string;
 }
 
@@ -80,6 +75,7 @@ export interface LoginResponse {
 
 export interface UpdateMemberRequest {
   name: string;
+  email: string;
   phone: string;
 }
 
@@ -88,29 +84,13 @@ export interface ChangePasswordRequest {
   newPassword: string;
 }
 
-export interface Address {
-  id: number;
-  label: string; // 예: "집", "회사"
-  receiver: string;
-  phone: string;
-  zipcode: string;
-  address1: string;
-  address2: string;
-  isDefault: boolean;
-}
-
-export type AddressRequest = Omit<Address, "id">;
-
-// ===== 장바구니 =====
+// ===== 장바구니 (cart, cart_item 테이블) =====
 export interface CartItem {
-  id: number;
+  id: number; // cart_item_id
   productId: number;
   productName: string;
   category: CategoryCode;
-  unit: string;
-  optionId: number | null;
-  optionName: string | null;
-  unitPrice: number; // 옵션 추가금 포함 1개 가격
+  unitPrice: number; // 현재 상품 가격
   quantity: number;
   stock: number;
 }
@@ -118,89 +98,45 @@ export interface CartItem {
 export interface Cart {
   items: CartItem[];
   totalPrice: number;
-  shippingFee: number;
-  finalPrice: number;
 }
 
 export interface AddCartItemRequest {
   productId: number;
-  optionId: number | null;
   quantity: number;
 }
 
-// ===== 주문 =====
+// ===== 주문 (orders, order_item 테이블) =====
 export type OrderStatus =
-  | "PAID"
-  | "PREPARING"
-  | "SHIPPING"
+  | "ORDER_RECEIVED"
+  | "PREPARING_DELIVERY"
+  | "IN_TRANSIT"
   | "DELIVERED"
-  | "CANCELLED";
-
-export type PaymentMethod = "CARD" | "BANK_TRANSFER" | "KAKAO_PAY";
+  | "ORDER_CANCELED";
 
 export interface OrderItem {
-  id: number;
+  id: number; // order_item_id
   productId: number;
   productName: string;
-  optionName: string | null;
-  unit: string;
-  unitPrice: number;
+  unitPrice: number; // order_price: 주문 당시 단가 스냅샷
   quantity: number;
-}
-
-export interface Receiver {
-  receiver: string;
-  phone: string;
-  zipcode: string;
-  address1: string;
-  address2: string;
 }
 
 export interface Order {
   id: number;
-  orderNumber: string;
   status: OrderStatus;
   items: OrderItem[];
-  totalPrice: number;
-  shippingFee: number;
-  finalPrice: number;
-  shipping: Receiver;
-  memo: string;
-  paymentMethod: PaymentMethod;
-  trackingNumber: string | null;
+  totalPrice: number; // total_order_price
   createdAt: string;
 }
 
 export interface CreateOrderRequest {
   cartItemIds: number[];
-  shipping: Receiver;
-  memo: string;
-  paymentMethod: PaymentMethod;
 }
 
-// ===== 고객센터 =====
+// ===== 고객센터 (DB 범위 밖: 프론트 정적 데이터) =====
 export interface Faq {
   id: number;
   category: string;
   question: string;
   answer: string;
-}
-
-export type InquiryStatus = "WAITING" | "ANSWERED";
-
-export interface Inquiry {
-  id: number;
-  type: string;
-  title: string;
-  content: string;
-  status: InquiryStatus;
-  answer: string | null;
-  createdAt: string;
-}
-
-export interface CreateInquiryRequest {
-  type: string;
-  title: string;
-  content: string;
-  orderId: number | null;
 }

@@ -18,7 +18,7 @@ export function MypageHome() {
       .catch(() => setOrders([]));
   }, []);
 
-  const inProgress = orders?.filter((o) => o.status !== "DELIVERED" && o.status !== "CANCELLED").length ?? 0;
+  const inProgress = orders?.filter((o) => o.status !== "DELIVERED" && o.status !== "ORDER_CANCELED").length ?? 0;
 
   return (
     <>
@@ -61,7 +61,7 @@ export function MypageHome() {
                     {o.items.length > 1 && ` 외 ${o.items.length - 1}건`}
                   </span>
                   <OrderStatusBadge status={o.status} />
-                  <b>{won(o.finalPrice)}</b>
+                  <b>{won(o.totalPrice)}</b>
                 </Link>
               </li>
             ))}

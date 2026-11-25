@@ -12,14 +12,12 @@ export function SiteFooter() {
             <div className="footer-col">
               <h4>쇼핑</h4>
               <Link href="/products">전체 상품</Link>
-              <Link href="/deals">오늘의 특가</Link>
               <Link href="/#categories">카테고리</Link>
             </div>
             <div className="footer-col">
               <h4>고객지원</h4>
               <Link href="/mypage/orders">배송 조회</Link>
               <Link href="/support">자주 묻는 질문</Link>
-              <Link href="/support/inquiry">1:1 문의</Link>
             </div>
             <div className="footer-col">
               <h4>회사</h4>

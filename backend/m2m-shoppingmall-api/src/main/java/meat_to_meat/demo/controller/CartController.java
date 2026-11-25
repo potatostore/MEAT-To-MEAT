@@ -4,15 +4,13 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import meat_to_meat.demo.dto.cart.AddCartItemRequestDTO;
 import meat_to_meat.demo.dto.cart.CartResponseDTO;
-import meat_to_meat.demo.dto.cart.CartUpdateDTO;
+import meat_to_meat.demo.dto.cart.UpdateCartItemRequestDTO;
 import meat_to_meat.demo.global.config.UrlNames;
 import meat_to_meat.demo.service.CartService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping(UrlNames.cartBase)
 @RequiredArgsConstructor
@@ -20,46 +18,33 @@ public class CartController {
 
     private final CartService cartService;
 
-    @PostMapping(value = UrlNames.createCart)
-    public ResponseEntity<CartResponseDTO> createCart(@PathVariable Long userId) {
-        return ResponseEntity.ok(cartService.createCart(userId));
+    @GetMapping
+    public ResponseEntity<CartResponseDTO> getCart(@AuthenticationPrincipal Long userId) {
+        return ResponseEntity.ok(cartService.getCart(userId));
     }
 
-    @PostMapping(value = UrlNames.addCartItem)
-    public ResponseEntity<CartResponseDTO> addCartItem(
-            @PathVariable Long userId,
-            @Valid @RequestBody AddCartItemRequestDTO requestDTO) {
-        return ResponseEntity.ok(cartService.addCartItem(userId, requestDTO));
+    @PostMapping(UrlNames.cartItems)
+    public ResponseEntity<CartResponseDTO> addCartItem(@AuthenticationPrincipal Long userId,
+                                                       @Valid @RequestBody AddCartItemRequestDTO request) {
+        return ResponseEntity.ok(cartService.addCartItem(userId, request));
     }
 
-    @GetMapping(value = UrlNames.getAllCarts)
-    public ResponseEntity<List<CartResponseDTO>> getCarts() {
-        return ResponseEntity.ok(cartService.getAllCarts());
+    @PatchMapping(UrlNames.cartItemId)
+    public ResponseEntity<CartResponseDTO> updateCartItem(@AuthenticationPrincipal Long userId,
+                                                          @PathVariable Long cartItemId,
+                                                          @Valid @RequestBody UpdateCartItemRequestDTO request) {
+        return ResponseEntity.ok(cartService.updateCartItem(userId, cartItemId, request.getQuantity()));
     }
 
-    @GetMapping(value = UrlNames.getCartByUserId)
-    public ResponseEntity<CartResponseDTO> getCartByUserId(@PathVariable Long userId) {
-        return ResponseEntity.ok(cartService.getCartByUserId(userId));
+    @DeleteMapping(UrlNames.cartItemId)
+    public ResponseEntity<CartResponseDTO> removeCartItem(@AuthenticationPrincipal Long userId,
+                                                          @PathVariable Long cartItemId) {
+        return ResponseEntity.ok(cartService.removeCartItem(userId, cartItemId));
     }
 
-    @PatchMapping(value = UrlNames.updateCart)
-    public ResponseEntity<CartResponseDTO> updateCart(
-            @PathVariable Long cartId,
-            @Valid @RequestBody CartUpdateDTO cartUpdateDTO) {
-        return ResponseEntity.ok(cartService.updateCart(cartId, cartUpdateDTO));
-    }
-
-    @DeleteMapping(value = UrlNames.deleteCart)
-    public ResponseEntity<Void> deleteCart(@PathVariable Long cartId) {
-        cartService.deleteCart(cartId);
-        return ResponseEntity.noContent().build();
-    }
-
-    @DeleteMapping(value = UrlNames.deleteCartItem)
-    public ResponseEntity<Void> deleteCartItem(
-            @PathVariable Long userId,
-            @PathVariable Long productId) {
-        cartService.deleteCartItem(userId, productId);
+    @DeleteMapping
+    public ResponseEntity<Void> clearCart(@AuthenticationPrincipal Long userId) {
+        cartService.clearCart(userId);
         return ResponseEntity.noContent().build();
     }
 }

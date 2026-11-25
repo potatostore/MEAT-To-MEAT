@@ -1,83 +1,66 @@
 package meat_to_meat.demo.entity.user;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import meat_to_meat.demo.dto.user.UserCreateDTO;
-import meat_to_meat.demo.dto.user.UserUpdateDTO;
 import meat_to_meat.demo.entity.BaseEntity;
 
 import java.time.LocalDate;
 
+// 명세서 5.1 (1) 회원: users
 @Entity
 @Getter
 @Table(name = "users")
-@NoArgsConstructor
-@Builder
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private Long userId;
 
-    // 패스워드 unique 제거 완료
-    @Column(nullable = false)
-    @NotBlank
-    private String userPw;
-
-    @Column(nullable = false, length = 50)
-    @NotBlank
-    private String name;
-
-    // 생일 unique 제거 완료
-    @Column(nullable = false)
-    private LocalDate birthday;
-
-    @Column(unique = true, nullable = false, length = 30)
-    @NotBlank
+    @Column(name = "login_id", nullable = false, unique = true, length = 30)
     private String loginId;
 
-    @Column(unique = true, nullable = false, length = 100)
-    @NotBlank
+    @Column(name = "user_pw", nullable = false)
+    private String userPw;
+
+    @Column(name = "name", nullable = false, length = 50)
+    private String name;
+
+    @Column(name = "email", nullable = false, unique = true, length = 100)
     private String email;
 
-    @Column(unique = true, nullable = false, length = 30)
-    @NotBlank
+    @Column(name = "phone_number", nullable = false, unique = true, length = 30)
     private String phoneNumber;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 10)
+    @Column(name = "sex", nullable = false, length = 10)
     private Sex sex;
 
-    // DTO 기반 생성자
-    public User(UserCreateDTO dto) {
-        this.loginId = dto.getLoginId();
-        this.userPw = dto.getUserPw();
-        this.name = dto.getName();
-        this.email = dto.getEmail();
-        this.phoneNumber = dto.getPhoneNumber();
-        this.birthday = dto.getBirthday();
-        this.sex = dto.getSex();
+    @Column(name = "birthday", nullable = false)
+    private LocalDate birthday;
+
+    @Builder
+    public User(String loginId, String userPw, String name, String email, String phoneNumber, Sex sex, LocalDate birthday) {
+        this.loginId = loginId;
+        this.userPw = userPw;
+        this.name = name;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.sex = sex;
+        this.birthday = birthday;
     }
 
-    // 회원 정보 수정용 메서드
-    public void updateUserInfo(UserUpdateDTO dto) {
-        if (dto.getName() != null) {
-            this.name = dto.getName();
-        }
-        if (dto.getPhoneNumber() != null) {
-            this.phoneNumber = dto.getPhoneNumber();
-        }
-        if (dto.getEmail() != null) {
-            this.email = dto.getEmail();
-        }
+    public void updateInfo(String name, String email, String phoneNumber) {
+        this.name = name;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
     }
 
-    public void encodePassword(String encodedPassword) {
+    public void changePassword(String encodedPassword) {
         this.userPw = encodedPassword;
     }
 }

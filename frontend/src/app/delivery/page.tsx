@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageHeader } from "@/components/PageHeader";
-import { won } from "@/lib/format";
-import { FREE_SHIPPING_THRESHOLD, SHIPPING_FEE } from "@/lib/policy";
 
 export const metadata: Metadata = { title: "배송 안내" };
 
@@ -36,12 +34,10 @@ export default function DeliveryPage() {
 
       <div className="two-col">
         <section className="panel">
-          <h2 className="panel-title">배송비</h2>
+          <h2 className="panel-title">배송 지역</h2>
           <dl className="spec">
-            <dt>기본 배송비</dt>
-            <dd>{won(SHIPPING_FEE)}</dd>
-            <dt>무료 배송</dt>
-            <dd>{won(FREE_SHIPPING_THRESHOLD)} 이상 구매 시</dd>
+            <dt>새벽배송</dt>
+            <dd>수도권 및 광역시</dd>
             <dt>도서 · 산간</dt>
             <dd>새벽배송 불가, 택배로 1~2일 소요</dd>
           </dl>

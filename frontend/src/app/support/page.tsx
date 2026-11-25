@@ -13,13 +13,10 @@ export default async function SupportPage() {
 
   return (
     <div className="section">
-      <PageHeader eyebrow="SUPPORT" title="고객센터" description="궁금한 점을 먼저 확인해 보시고, 해결되지 않으면 1:1 문의를 남겨 주세요.">
+      <PageHeader eyebrow="SUPPORT" title="고객센터" description="자주 묻는 질문을 먼저 확인해 보시고, 해결되지 않으면 전화나 이메일로 문의해 주세요.">
         <div className="hero-actions">
-          <Link href="/support/inquiry" className="btn-primary">
-            1:1 문의하기
-          </Link>
-          <Link href="/mypage/inquiries" className="btn-ghost">
-            내 문의 내역
+          <Link href="/mypage/orders" className="btn-primary">
+            내 주문 조회
           </Link>
         </div>
       </PageHeader>

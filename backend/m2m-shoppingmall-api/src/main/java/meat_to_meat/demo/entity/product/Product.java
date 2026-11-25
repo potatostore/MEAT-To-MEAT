@@ -1,8 +1,7 @@
 package meat_to_meat.demo.entity.product;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,63 +9,59 @@ import meat_to_meat.demo.entity.BaseEntity;
 import meat_to_meat.demo.global.exception.ErrorCode;
 import meat_to_meat.demo.global.exception.GlobalMeatToMeatException;
 
-import java.util.ArrayList;
-import java.util.List;
-
+// 명세서 5.1 (6) 상품: product
 @Entity
 @Getter
-@NoArgsConstructor
+@Table(name = "product")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Product extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "product_id")
     private Long productId;
 
-    @ElementCollection
-    @CollectionTable(
-            name = "product_category",
-            joinColumns = @JoinColumn(name = "product_id")
-    )
-    @Column(name = "category_name", nullable = false)
-    private List<String> productCategory = new ArrayList<>();
-
-    @Column(nullable = false, length = 500)
-    @NotBlank
-    private String description;
-
-    @Column(unique = true, nullable = false)
-    @NotBlank
+    @Column(name = "product_name", nullable = false, unique = true)
     private String productName;
 
-    @Column(nullable = false)
-    @Min(value = 1)
+    @Column(name = "product_price", nullable = false)
     private Long productPrice;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "product_category", nullable = false, length = 20)
+    private ProductCategory productCategory;
+
     @Column(name = "stock_quantity", nullable = false)
-    private Long productQuantity;
+    private Integer stockQuantity;
+
+    @Column(name = "description", nullable = false, length = 500)
+    private String description;
 
     @Builder
-    public Product(String productName, Long productPrice, Long productQuantity, String description, List<String> productCategory) {
+    public Product(String productName, Long productPrice, ProductCategory productCategory, Integer stockQuantity, String description) {
         this.productName = productName;
         this.productPrice = productPrice;
-        this.productQuantity = productQuantity;
-        this.description = description;
         this.productCategory = productCategory;
+        this.stockQuantity = stockQuantity;
+        this.description = description;
     }
 
-    public void updateProductInfo(String productName, Long productPrice, Long productQuantity, String description, List<String> productCategory) {
+    public void updateInfo(String productName, Long productPrice, ProductCategory productCategory, Integer stockQuantity, String description) {
         this.productName = productName;
         this.productPrice = productPrice;
-        this.productQuantity = productQuantity;
-        this.description = description;
         this.productCategory = productCategory;
+        this.stockQuantity = stockQuantity;
+        this.description = description;
     }
 
-    public void removeStock(long quantity) {
-        long restStock = this.productQuantity - quantity;
-        if (restStock < 0) {
-            throw new GlobalMeatToMeatException(ErrorCode.OUT_OF_STOCK, "현재 재고: " + this.productQuantity);
+    public void removeStock(int quantity) {
+        if (this.stockQuantity < quantity) {
+            throw new GlobalMeatToMeatException(ErrorCode.OUT_OF_STOCK, "현재 재고: " + this.stockQuantity);
         }
-        this.productQuantity = restStock;
+        this.stockQuantity -= quantity;
+    }
+
+    public void addStock(int quantity) {
+        this.stockQuantity += quantity;
     }
 }

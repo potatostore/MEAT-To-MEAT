@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { errorMessage } from "@/lib/api/client";
 import { getOrder } from "@/lib/api/orders";
 import type { Order } from "@/lib/api/types";
-import { PAYMENT_LABEL, won } from "@/lib/format";
+import { formatDate, ORDER_STATUS_LABEL, won } from "@/lib/format";
 
 export function OrderComplete({ orderId }: { orderId: number }) {
   const [order, setOrder] = useState<Order | null>(null);
@@ -30,17 +30,15 @@ export function OrderComplete({ orderId }: { orderId: number }) {
       </div>
       <h1 className="display">주문이 접수되었습니다</h1>
       <p>
-        주문번호 <b>{order.orderNumber}</b>
+        주문번호 <b>#{order.id}</b>
       </p>
       <dl className="spec">
-        <dt>결제 금액</dt>
-        <dd>{won(order.finalPrice)}</dd>
-        <dt>결제 수단</dt>
-        <dd>{PAYMENT_LABEL[order.paymentMethod]}</dd>
-        <dt>배송지</dt>
-        <dd>
-          {order.shipping.address1} {order.shipping.address2}
-        </dd>
+        <dt>주문 금액</dt>
+        <dd>{won(order.totalPrice)}</dd>
+        <dt>주문 상태</dt>
+        <dd>{ORDER_STATUS_LABEL[order.status]}</dd>
+        <dt>주문 일시</dt>
+        <dd>{formatDate(order.createdAt, true)}</dd>
       </dl>
       <div className="hero-actions">
         <Link href={`/mypage/orders/${order.id}`} className="btn-primary">

@@ -14,11 +14,6 @@ export async function getProducts(query: ProductQuery = {}): Promise<Page<Produc
   return request<Page<Product>>(ENDPOINTS.products.list, { query: { ...query } });
 }
 
-export async function getDeals(): Promise<Product[]> {
-  if (USE_MOCK) return mock.getDeals();
-  return request<Product[]>(ENDPOINTS.products.deals);
-}
-
 export async function getProduct(id: number): Promise<Product> {
   if (USE_MOCK) return mock.getProduct(id);
   return request<Product>(ENDPOINTS.products.detail(id));

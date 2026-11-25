@@ -5,8 +5,7 @@ import { ProductCard } from "@/components/ProductCard";
 import { ProductThumb } from "@/components/ProductThumb";
 import { ApiError } from "@/lib/api/client";
 import { getProduct, getProducts } from "@/lib/api/products";
-import { FREE_SHIPPING_THRESHOLD } from "@/lib/policy";
-import { won } from "@/lib/format";
+import { formatDate } from "@/lib/format";
 import { AddToCart } from "./AddToCart";
 
 async function loadProduct(idParam: string) {
@@ -23,9 +22,10 @@ async function loadProduct(idParam: string) {
 export async function generateMetadata(props: PageProps<"/products/[id]">): Promise<Metadata> {
   const { id } = await props.params;
   const product = await loadProduct(id);
-  return { title: product.name, description: product.summary };
+  return { title: product.name, description: product.description };
 }
 
+// PROD-03 상품 불러오기 / PROD-07 상품 상세 정보
 export default async function ProductDetailPage(props: PageProps<"/products/[id]">) {
   const { id } = await props.params;
   const product = await loadProduct(id);
@@ -44,37 +44,22 @@ export default async function ProductDetailPage(props: PageProps<"/products/[id]
       </div>
 
       <div className="detail">
-        <ProductThumb name={product.name} category={product.category} grade={product.grade} imageUrl={product.imageUrl} size="lg" />
+        <ProductThumb name={product.name} category={product.category} size="lg" />
         <div className="detail-info">
-          <div className="kind">
-            {product.categoryName} · {product.storage}
-          </div>
+          <div className="kind">{product.categoryName}</div>
           <h1 className="display">{product.name}</h1>
-          <p className="detail-summary">{product.summary}</p>
+          <p className="detail-summary">{product.description}</p>
           <AddToCart product={product} />
           <dl className="spec">
-            <dt>원산지</dt>
-            <dd>{product.origin}</dd>
-            {product.grade && (
-              <>
-                <dt>등급</dt>
-                <dd>{product.grade}</dd>
-              </>
-            )}
-            <dt>중량</dt>
-            <dd>{product.unit}</dd>
-            <dt>보관</dt>
-            <dd>{product.storage} 보관</dd>
-            <dt>배송</dt>
-            <dd>새벽배송 · {won(FREE_SHIPPING_THRESHOLD)} 이상 무료</dd>
+            <dt>카테고리</dt>
+            <dd>{product.categoryName}</dd>
+            <dt>재고</dt>
+            <dd>{product.stock > 0 ? `${product.stock}개` : "일시 품절"}</dd>
+            <dt>등록일</dt>
+            <dd>{formatDate(product.createdAt)}</dd>
           </dl>
         </div>
       </div>
-
-      <section className="detail-section">
-        <h2 className="display">상품 설명</h2>
-        <p>{product.description}</p>
-      </section>
 
       {related.length > 0 && (
         <section className="detail-section">

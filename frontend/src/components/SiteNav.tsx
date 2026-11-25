@@ -6,7 +6,6 @@ import { useAuth } from "./AuthProvider";
 
 const links = [
   { href: "/products", label: "전체 상품" },
-  { href: "/deals", label: "오늘의 특가" },
   { href: "/delivery", label: "배송 안내" },
   { href: "/support", label: "고객센터" },
 ];

@@ -1,0 +1,25 @@
+# Prometheus: 15초마다 백엔드의 /actuator/prometheus 를 긁어와(scrape) 시계열로 저장한다.
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: meat-to-meat-backend
+    metrics_path: /actuator/prometheus
+    static_configs:
+      # docker compose 의 backend 컨테이너 (--profile full 로 띄운 경우)
+      - targets: ["backend:8080"]
+        labels:
+          runtime: docker
+      # 백엔드를 IntelliJ / ./gradlew bootRun 으로 맥에서 직접 띄울 때는 위 대상 대신 아래 대상을 쓴다.
+      # (둘 다 켜 두면 docker 백엔드가 맥의 8080 으로도 열려 있어 같은 지표가 두 번 수집된다)
+      # - targets: ["host.docker.internal:8080"]
+      #   labels:
+      #     runtime: host
+
+  - job_name: prometheus
+    static_configs:
+      - targets: ["localhost:9090"]
+
+# k6 의 결과는 scrape 가 아니라 k6 가 직접 밀어넣는다(remote write).
+# 그래서 prometheus 실행 옵션에 --web.enable-remote-write-receiver 를 켜 둔다 (docker-compose.yml 참고).

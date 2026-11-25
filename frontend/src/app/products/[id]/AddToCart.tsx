@@ -7,20 +7,16 @@ import { QuantityInput } from "@/components/QuantityInput";
 import { addCartItem } from "@/lib/api/cart";
 import { errorMessage } from "@/lib/api/client";
 import type { Product } from "@/lib/api/types";
-import { discountRate, effectivePrice, won } from "@/lib/format";
+import { won } from "@/lib/format";
 
+// CART-02 장바구니 상품 담기
 export function AddToCart({ product }: { product: Product }) {
   const router = useRouter();
   const pathname = usePathname();
   const { member, refreshCart } = useAuth();
-  const [optionId, setOptionId] = useState<number | null>(product.options[0]?.id ?? null);
   const [quantity, setQuantity] = useState(1);
   const [pending, setPending] = useState(false);
   const [message, setMessage] = useState<{ ok: boolean; text: string } | null>(null);
-
-  const option = product.options.find((o) => o.id === optionId);
-  const unitPrice = effectivePrice(product) + (option?.extraPrice ?? 0);
-  const rate = discountRate(product);
   const soldOut = product.stock === 0;
 
   async function submit(goCheckout: boolean) {
@@ -31,9 +27,9 @@ export function AddToCart({ product }: { product: Product }) {
     setPending(true);
     setMessage(null);
     try {
-      const cart = await addCartItem({ productId: product.id, optionId, quantity });
+      const cart = await addCartItem({ productId: product.id, quantity });
       await refreshCart();
-      const added = cart.items.find((i) => i.productId === product.id && i.optionId === optionId);
+      const added = cart.items.find((i) => i.productId === product.id);
       if (goCheckout && added) router.push(`/checkout?items=${added.id}`);
       else setMessage({ ok: true, text: "장바구니에 담았습니다." });
     } catch (e) {
@@ -46,40 +42,13 @@ export function AddToCart({ product }: { product: Product }) {
   return (
     <div className="buy-box">
       <div className="detail-price">
-        {rate > 0 && <em className="rate">{rate}%</em>}
-        <b>{won(effectivePrice(product))}</b>
-        <small>/ {product.unit}</small>
-        {rate > 0 && <s className="origin-price">{won(product.price)}</s>}
+        <b>{won(product.price)}</b>
       </div>
 
-      {product.options.length > 0 && (
-        <div className="field">
-          <span>손질 옵션</span>
-          <div className="option-list">
-            {product.options.map((o) => (
-              <button
-                key={o.id}
-                type="button"
-                className={`option${o.id === optionId ? " on" : ""}`}
-                onClick={() => setOptionId(o.id)}
-              >
-                {o.name}
-                {o.extraPrice > 0 && <small> +{won(o.extraPrice)}</small>}
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
-
       <div className="buy-row">
-        <QuantityInput
-          value={quantity}
-          max={Math.max(1, product.stock)}
-          onChange={setQuantity}
-          disabled={soldOut}
-        />
+        <QuantityInput value={quantity} max={Math.max(1, product.stock)} onChange={setQuantity} disabled={soldOut} />
         <div className="buy-total">
-          총 <b>{won(unitPrice * quantity)}</b>
+          총 <b>{won(product.price * quantity)}</b>
         </div>
       </div>
 

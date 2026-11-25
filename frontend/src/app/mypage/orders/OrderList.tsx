@@ -46,7 +46,7 @@ export function OrderList() {
             <li key={o.id} className="panel">
               <div className="panel-head">
                 <span>
-                  <b>{formatDate(o.createdAt)}</b> · {o.orderNumber}
+                  <b>{formatDate(o.createdAt)}</b> · 주문번호 #{o.id}
                 </span>
                 <Link href={`/mypage/orders/${o.id}`}>상세 보기</Link>
               </div>
@@ -58,7 +58,7 @@ export function OrderList() {
                     {o.items.length > 1 && ` 외 ${o.items.length - 1}건`}
                   </p>
                 </div>
-                <b className="order-price">{won(o.finalPrice)}</b>
+                <b className="order-price">{won(o.totalPrice)}</b>
               </div>
             </li>
           ))}

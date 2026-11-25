@@ -6,16 +6,28 @@ import { useState } from "react";
 import { useAuth } from "@/components/AuthProvider";
 import { errorMessage } from "@/lib/api/client";
 import { signup } from "@/lib/api/members";
+import type { Sex } from "@/lib/api/types";
+import { SEX_LABEL } from "@/lib/format";
 
+// MEM-03 회원가입: users 테이블의 필수 컬럼(login_id, user_pw, name, email, phone_number, sex, birthday)을 받는다
 export function SignupForm({ next }: { next: string }) {
   const router = useRouter();
   const { login } = useAuth();
-  const [form, setForm] = useState({ email: "", password: "", confirm: "", name: "", phone: "" });
+  const [form, setForm] = useState({
+    loginId: "",
+    password: "",
+    confirm: "",
+    name: "",
+    email: "",
+    phone: "",
+    sex: "NONE" as Sex,
+    birthday: "",
+  });
   const [agree, setAgree] = useState(false);
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const set = (key: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement>) =>
+  const set = (key: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
     setForm((prev) => ({ ...prev, [key]: e.target.value }));
 
   async function submit(e: React.FormEvent) {
@@ -25,8 +37,16 @@ export function SignupForm({ next }: { next: string }) {
     setPending(true);
     setError(null);
     try {
-      await signup({ email: form.email, password: form.password, name: form.name, phone: form.phone });
-      await login({ email: form.email, password: form.password });
+      await signup({
+        loginId: form.loginId,
+        password: form.password,
+        name: form.name,
+        email: form.email,
+        phone: form.phone,
+        sex: form.sex,
+        birthday: form.birthday,
+      });
+      await login({ loginId: form.loginId, password: form.password });
       router.replace(next);
     } catch (err) {
       setError(errorMessage(err));
@@ -39,8 +59,8 @@ export function SignupForm({ next }: { next: string }) {
       <div className="hero-eyebrow">MEMBER</div>
       <h1 className="display">회원가입</h1>
       <label className="field">
-        <span>이메일</span>
-        <input type="email" value={form.email} onChange={set("email")} autoComplete="email" required />
+        <span>아이디 (30자 이하)</span>
+        <input value={form.loginId} onChange={set("loginId")} maxLength={30} autoComplete="username" required />
       </label>
       <label className="field">
         <span>비밀번호 (8자 이상)</span>
@@ -52,7 +72,11 @@ export function SignupForm({ next }: { next: string }) {
       </label>
       <label className="field">
         <span>이름</span>
-        <input value={form.name} onChange={set("name")} autoComplete="name" required />
+        <input value={form.name} onChange={set("name")} maxLength={50} autoComplete="name" required />
+      </label>
+      <label className="field">
+        <span>이메일</span>
+        <input type="email" value={form.email} onChange={set("email")} maxLength={100} autoComplete="email" required />
       </label>
       <label className="field">
         <span>휴대폰 번호</span>
@@ -66,6 +90,22 @@ export function SignupForm({ next }: { next: string }) {
           required
         />
       </label>
+      <div className="form-grid">
+        <label className="field">
+          <span>성별</span>
+          <select value={form.sex} onChange={set("sex")}>
+            {(Object.keys(SEX_LABEL) as Sex[]).map((s) => (
+              <option key={s} value={s}>
+                {SEX_LABEL[s]}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label className="field">
+          <span>생년월일</span>
+          <input type="date" value={form.birthday} onChange={set("birthday")} autoComplete="bday" required />
+        </label>
+      </div>
       <label className="check">
         <input type="checkbox" checked={agree} onChange={(e) => setAgree(e.target.checked)} />
         이용약관 및 개인정보 수집·이용에 동의합니다.

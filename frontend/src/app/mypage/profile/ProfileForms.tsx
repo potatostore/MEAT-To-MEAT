@@ -5,14 +5,18 @@ import { useState } from "react";
 import { useAuth } from "@/components/AuthProvider";
 import { errorMessage, setToken } from "@/lib/api/client";
 import { changePassword, updateMe, withdraw } from "@/lib/api/members";
-import { formatDate } from "@/lib/format";
+import { formatDate, SEX_LABEL } from "@/lib/format";
 
 type Notice = { ok: boolean; text: string } | null;
 
 export function ProfileForms() {
   const router = useRouter();
   const { member, setMember } = useAuth();
-  const [profile, setProfile] = useState({ name: member?.name ?? "", phone: member?.phone ?? "" });
+  const [profile, setProfile] = useState({
+    name: member?.name ?? "",
+    email: member?.email ?? "",
+    phone: member?.phone ?? "",
+  });
   const [passwords, setPasswords] = useState({ currentPassword: "", newPassword: "", confirm: "" });
   const [profileNotice, setProfileNotice] = useState<Notice>(null);
   const [passwordNotice, setPasswordNotice] = useState<Notice>(null);
@@ -69,9 +73,22 @@ export function ProfileForms() {
       <form className="panel" onSubmit={saveProfile}>
         <h2 className="panel-title">기본 정보</h2>
         <div className="form-grid">
+          <label className="field">
+            <span>아이디 (변경 불가)</span>
+            <input value={member.loginId} disabled />
+          </label>
+          <label className="field">
+            <span>성별 · 생년월일 (변경 불가)</span>
+            <input value={`${SEX_LABEL[member.sex]} · ${member.birthday}`} disabled />
+          </label>
           <label className="field wide">
-            <span>이메일 (변경 불가)</span>
-            <input value={member.email} disabled />
+            <span>이메일</span>
+            <input
+              type="email"
+              value={profile.email}
+              onChange={(e) => setProfile({ ...profile, email: e.target.value })}
+              required
+            />
           </label>
           <label className="field">
             <span>이름</span>

@@ -19,8 +19,8 @@ export default function Home() {
             <Link href="/products" className="btn-primary">
               지금 둘러보기
             </Link>
-            <Link href="/deals" className="btn-ghost">
-              오늘의 특가 보기
+            <Link href="/#categories" className="btn-ghost">
+              부위별로 골라보기
             </Link>
           </div>
         </div>

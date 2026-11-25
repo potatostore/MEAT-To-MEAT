@@ -6,8 +6,9 @@ import { OrderStatusBadge, OrderTracker } from "@/components/OrderStatus";
 import { errorMessage } from "@/lib/api/client";
 import { cancelOrder, getOrder } from "@/lib/api/orders";
 import type { Order } from "@/lib/api/types";
-import { formatDate, PAYMENT_LABEL, won } from "@/lib/format";
+import { formatDate, won } from "@/lib/format";
 
+// ORD-04 사용자별 특정 주문 불러오기 + 주문 취소
 export function OrderDetail({ orderId }: { orderId: number }) {
   const [order, setOrder] = useState<Order | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -41,14 +42,13 @@ export function OrderDetail({ orderId }: { orderId: number }) {
         </Link>
         <h1 className="display">주문 상세</h1>
         <p>
-          {order.orderNumber} · {formatDate(order.createdAt, true)} <OrderStatusBadge status={order.status} />
+          주문번호 #{order.id} · {formatDate(order.createdAt, true)} <OrderStatusBadge status={order.status} />
         </p>
       </div>
 
       <section className="panel">
         <h2 className="panel-title">배송 현황</h2>
         <OrderTracker status={order.status} />
-        {order.trackingNumber && <p className="hint">운송장 번호 {order.trackingNumber} (고기서고기 새벽배송)</p>}
       </section>
 
       <section className="panel">
@@ -59,57 +59,25 @@ export function OrderDetail({ orderId }: { orderId: number }) {
               <span>
                 <Link href={`/products/${i.productId}`}>{i.productName}</Link>
                 <small>
-                  {i.optionName ?? "기본"} · {i.unit} × {i.quantity}
+                  주문 당시 {won(i.unitPrice)} × {i.quantity}
                 </small>
               </span>
               <b>{won(i.unitPrice * i.quantity)}</b>
             </li>
           ))}
         </ul>
+        <div className="summary-total">
+          <span>총 주문 금액</span>
+          <b>{won(order.totalPrice)}</b>
+        </div>
       </section>
 
-      <div className="two-col">
-        <section className="panel">
-          <h2 className="panel-title">배송지</h2>
-          <dl className="spec">
-            <dt>받는 분</dt>
-            <dd>{order.shipping.receiver}</dd>
-            <dt>연락처</dt>
-            <dd>{order.shipping.phone}</dd>
-            <dt>주소</dt>
-            <dd>
-              ({order.shipping.zipcode}) {order.shipping.address1} {order.shipping.address2}
-            </dd>
-            <dt>요청사항</dt>
-            <dd>{order.memo || "-"}</dd>
-          </dl>
-        </section>
-        <section className="panel">
-          <h2 className="panel-title">결제 정보</h2>
-          <dl className="spec">
-            <dt>상품 금액</dt>
-            <dd>{won(order.totalPrice)}</dd>
-            <dt>배송비</dt>
-            <dd>{order.shippingFee === 0 ? "무료" : won(order.shippingFee)}</dd>
-            <dt>결제 수단</dt>
-            <dd>{PAYMENT_LABEL[order.paymentMethod]}</dd>
-            <dt>총 결제</dt>
-            <dd>
-              <b>{won(order.finalPrice)}</b>
-            </dd>
-          </dl>
-        </section>
-      </div>
-
       {error && <p className="hint warn">{error}</p>}
-      <div className="row-actions">
-        <Link href={`/support/inquiry?orderId=${order.id}`} className="btn-outline">
-          이 주문 문의하기
-        </Link>
-        {order.status === "PAID" &&
-          (confirming ? (
+      {order.status === "ORDER_RECEIVED" && (
+        <div className="row-actions">
+          {confirming ? (
             <>
-              <span className="hint">정말 취소할까요?</span>
+              <span className="hint">정말 취소할까요? 재고가 다시 복구됩니다.</span>
               <button type="button" className="btn-danger" onClick={cancel} disabled={pending}>
                 취소 확정
               </button>
@@ -121,8 +89,9 @@ export function OrderDetail({ orderId }: { orderId: number }) {
             <button type="button" className="btn-outline" onClick={() => setConfirming(true)}>
               주문 취소
             </button>
-          ))}
-      </div>
+          )}
+        </div>
+      )}
     </>
   );
 }

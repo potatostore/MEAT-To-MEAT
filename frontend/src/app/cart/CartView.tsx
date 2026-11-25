@@ -10,7 +10,6 @@ import * as cartApi from "@/lib/api/cart";
 import { errorMessage } from "@/lib/api/client";
 import type { Cart } from "@/lib/api/types";
 import { won } from "@/lib/format";
-import { FREE_SHIPPING_THRESHOLD, SHIPPING_FEE } from "@/lib/policy";
 
 export function CartView() {
   const router = useRouter();
@@ -60,7 +59,6 @@ export function CartView() {
 
   const chosen = cart.items.filter((i) => selected.has(i.id));
   const total = chosen.reduce((sum, i) => sum + i.unitPrice * i.quantity, 0);
-  const shipping = total === 0 || total >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_FEE;
   const allChecked = chosen.length === cart.items.length;
 
   function toggle(id: number) {
@@ -113,7 +111,7 @@ export function CartView() {
                   {item.productName}
                 </Link>
                 <div className="line-sub">
-                  {item.optionName ?? "기본"} · {item.unit} · {won(item.unitPrice)}
+                  {won(item.unitPrice)} · 재고 {item.stock}개
                 </div>
                 <QuantityInput
                   value={item.quantity}
@@ -141,17 +139,12 @@ export function CartView() {
       <aside className="summary">
         <h3 className="display">결제 예정 금액</h3>
         <dl>
-          <dt>상품 금액</dt>
-          <dd>{won(total)}</dd>
-          <dt>배송비</dt>
-          <dd>{shipping === 0 ? "무료" : won(shipping)}</dd>
+          <dt>선택 상품</dt>
+          <dd>{chosen.length}개</dd>
         </dl>
-        {total > 0 && total < FREE_SHIPPING_THRESHOLD && (
-          <p className="hint">{won(FREE_SHIPPING_THRESHOLD - total)} 더 담으면 무료배송</p>
-        )}
         <div className="summary-total">
           <span>합계</span>
-          <b>{won(total + shipping)}</b>
+          <b>{won(total)}</b>
         </div>
         <button
           type="button"

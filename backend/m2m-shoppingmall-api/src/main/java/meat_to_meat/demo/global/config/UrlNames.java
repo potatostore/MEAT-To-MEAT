@@ -1,40 +1,35 @@
 package meat_to_meat.demo.global.config;
 
-public class UrlNames {
+// 프론트(frontend/src/lib/api/config.ts 의 ENDPOINTS)와 1:1 로 맞춘 API 경로
+public final class UrlNames {
 
-    // === User URLs ===
-    public static final String userBase = "/users";
-    public static final String createUser = "/signup";
+    private UrlNames() {
+    }
+
+    // 인증
+    public static final String authBase = "/auth";
+    public static final String signup = "/signup";
     public static final String login = "/login";
-    public static final String getAllUsers = "";
-    public static final String getUser = "/{userId}";
-    public static final String updateUser = "/{userId}";
-    public static final String deleteUser = "/{userId}";
+    public static final String logout = "/logout";
 
-    // === Product URLs ===
+    // 회원 (로그인한 본인)
+    public static final String memberBase = "/members/me";
+    public static final String password = "/password";
+
+    // 카테고리
+    public static final String categoryBase = "/categories";
+
+    // 상품
     public static final String productBase = "/products";
-    public static final String createProduct = "/create";
-    public static final String getAllProducts = "";
-    public static final String getProduct = "/{productId}";
-    public static final String getProductsByCategory = "/category";
-    public static final String updateProduct = "/{productId}";
-    public static final String deleteProduct = "/{productId}";
+    public static final String productId = "/{productId}";
 
-    // === Cart URLs ===
+    // 장바구니 (로그인한 본인)
     public static final String cartBase = "/cart";
-    public static final String createCart = "/users/{userId}";
-    public static final String addCartItem = "/users/{userId}/items";
-    public static final String getAllCarts = "";
-    public static final String getCartByUserId = "/users/{userId}";
-    public static final String updateCart = "/{cartId}";
-    public static final String deleteCart = "/{cartId}";
-    public static final String deleteCartItem = "/users/{userId}/products/{productId}";
+    public static final String cartItems = "/items";
+    public static final String cartItemId = "/items/{cartItemId}";
 
-    // === Order URLs ===
+    // 주문 (로그인한 본인)
     public static final String orderBase = "/orders";
-    public static final String createOrder = "/create/{userId}";
-    public static final String getOrder = "/{orderId}";
-    public static final String getOrdersByUserId = "/users/{userId}";
-    public static final String updateOrder = "/{orderId}";
-    public static final String deleteOrder = "/{orderId}";
+    public static final String orderId = "/{orderId}";
+    public static final String cancelOrder = "/{orderId}/cancel";
 }

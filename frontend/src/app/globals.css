@@ -244,11 +244,11 @@ button:disabled{ cursor:not-allowed; opacity:0.45; }
   background:var(--paper-2); border:1px solid var(--line); color:var(--ink); vertical-align:middle;
   white-space:nowrap;
 }
-.badge-paid{ background:var(--brass); border-color:var(--brass); color:var(--charcoal); }
-.badge-preparing{ background:var(--paper); border-color:var(--brass); color:var(--charcoal); }
-.badge-shipping{ background:var(--meat); border-color:var(--meat); color:var(--paper); }
+.badge-order_received{ background:var(--brass); border-color:var(--brass); color:var(--charcoal); }
+.badge-preparing_delivery{ background:var(--paper); border-color:var(--brass); color:var(--charcoal); }
+.badge-in_transit{ background:var(--meat); border-color:var(--meat); color:var(--paper); }
 .badge-delivered{ background:var(--herb); border-color:var(--herb); color:var(--paper); }
-.badge-cancelled{ background:transparent; color:var(--ink); opacity:0.6; text-decoration:line-through; }
+.badge-order_canceled{ background:transparent; color:var(--ink); opacity:0.6; text-decoration:line-through; }
 
 /* ----- forms ----- */
 .field{ display:flex; flex-direction:column; gap:6px; margin-bottom:14px; }

@@ -8,8 +8,6 @@ const links = [
   { href: "/mypage", label: "마이페이지 홈" },
   { href: "/mypage/orders", label: "주문 · 배송 조회" },
   { href: "/mypage/profile", label: "회원 정보" },
-  { href: "/mypage/addresses", label: "배송지 관리" },
-  { href: "/mypage/inquiries", label: "1:1 문의 내역" },
 ];
 
 export function MypageNav() {

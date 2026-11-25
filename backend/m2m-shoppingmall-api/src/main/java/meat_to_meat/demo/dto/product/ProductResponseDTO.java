@@ -1,24 +1,23 @@
 package meat_to_meat.demo.dto.product;
 
-import lombok.Getter;
 import meat_to_meat.demo.entity.product.Product;
-import java.util.List;
+import meat_to_meat.demo.entity.product.ProductCategory;
 
-@Getter
-public class ProductResponseDTO {
-    private Long productId;
-    private String productName;
-    private Long productPrice;
-    private Long productQuantity;
-    private String description;
-    private List<String> productCategory;
+import java.time.LocalDateTime;
 
-    public ProductResponseDTO(Product product) {
-        this.productId = product.getProductId();
-        this.productName = product.getProductName();
-        this.productPrice = product.getProductPrice();
-        this.productQuantity = product.getProductQuantity();
-        this.description = product.getDescription();
-        this.productCategory = product.getProductCategory();
+public record ProductResponseDTO(
+        Long id,
+        String name,
+        ProductCategory category,
+        String categoryName,
+        String description,
+        Long price,
+        Integer stock,
+        LocalDateTime createdAt
+) {
+    public static ProductResponseDTO from(Product product) {
+        return new ProductResponseDTO(product.getProductId(), product.getProductName(), product.getProductCategory(),
+                product.getProductCategory().getDisplayName(), product.getDescription(), product.getProductPrice(),
+                product.getStockQuantity(), product.getCreateAt());
     }
 }

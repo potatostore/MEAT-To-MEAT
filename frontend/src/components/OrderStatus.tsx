@@ -6,7 +6,7 @@ export function OrderStatusBadge({ status }: { status: OrderStatus }) {
 }
 
 export function OrderTracker({ status }: { status: OrderStatus }) {
-  if (status === "CANCELLED") return <div className="tracker-cancelled">취소된 주문입니다.</div>;
+  if (status === "ORDER_CANCELED") return <div className="tracker-cancelled">취소된 주문입니다.</div>;
   const current = ORDER_STEPS.indexOf(status);
   return (
     <ol className="tracker">
