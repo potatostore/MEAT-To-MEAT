@@ -5,14 +5,13 @@ import meat_to_meat.demo.dto.product.CategoryResponseDTO;
 import meat_to_meat.demo.dto.product.PageResponseDTO;
 import meat_to_meat.demo.dto.product.ProductRequestDTO;
 import meat_to_meat.demo.dto.product.ProductResponseDTO;
-import meat_to_meat.demo.entity.cart.Cart;
 import meat_to_meat.demo.entity.product.Product;
 import meat_to_meat.demo.entity.product.ProductCategory;
 import meat_to_meat.demo.global.exception.DuplicateException;
 import meat_to_meat.demo.global.exception.ErrorCode;
 import meat_to_meat.demo.global.exception.GlobalMeatToMeatException;
 import meat_to_meat.demo.global.exception.NotFoundException;
-import meat_to_meat.demo.repository.CartRepository;
+import meat_to_meat.demo.repository.CartItemRepository;
 import meat_to_meat.demo.repository.OrderRepository;
 import meat_to_meat.demo.repository.ProductRepository;
 import org.springframework.data.domain.PageRequest;
@@ -30,7 +29,7 @@ public class ProductService {
     private static final int MAX_PAGE_SIZE = 100;
 
     private final ProductRepository productRepository;
-    private final CartRepository cartRepository;
+    private final CartItemRepository cartItemRepository;
     private final OrderRepository orderRepository;
 
     public List<CategoryResponseDTO> getCategories() {
@@ -89,11 +88,8 @@ public class ProductService {
             throw new GlobalMeatToMeatException(ErrorCode.CANNOT_DELETE_ORDERED_PRODUCT, "productId=" + productId);
         }
 
-        // 2. 장바구니에 담긴 해당 상품을 먼저 제거
-        for (Cart cart : cartRepository.findAll()) {
-            cart.getCartItems().removeIf(item -> item.getProduct().getProductId().equals(productId));
-        }
-        cartRepository.flush();
+        // 2. 장바구니에 담긴 해당 상품을 먼저 제거 (DELETE 한 번)
+        cartItemRepository.deleteAllByProductId(productId);
 
         // 3. FK 참조가 끊긴 뒤 상품 삭제
         productRepository.delete(product);
@@ -114,14 +110,15 @@ public class ProductService {
     }
 
     // 프론트의 sort 값: newest(기본) | price_asc | price_desc | name
+    // [튜닝 3] 동점 정렬(productId)을 주 정렬과 같은 방향으로 맞춰야 V3 인덱스 하나로 정렬 없이 읽을 수 있다
+    //   (예: price ASC, id ASC → 인덱스를 앞에서부터 / price DESC, id DESC → 뒤에서부터)
     private Sort toSort(String sort) {
-        Sort tieBreaker = Sort.by(Sort.Direction.DESC, "productId");
         if (sort == null) sort = "newest";
         return switch (sort) {
-            case "price_asc" -> Sort.by(Sort.Direction.ASC, "productPrice").and(tieBreaker);
-            case "price_desc" -> Sort.by(Sort.Direction.DESC, "productPrice").and(tieBreaker);
+            case "price_asc" -> Sort.by(Sort.Direction.ASC, "productPrice", "productId");
+            case "price_desc" -> Sort.by(Sort.Direction.DESC, "productPrice", "productId");
             case "name" -> Sort.by(Sort.Direction.ASC, "productName");
-            default -> Sort.by(Sort.Direction.DESC, "createAt").and(tieBreaker);
+            default -> Sort.by(Sort.Direction.DESC, "createAt", "productId");
         };
     }
 }

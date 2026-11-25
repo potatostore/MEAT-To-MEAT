@@ -13,10 +13,15 @@ import meat_to_meat.demo.global.exception.GlobalMeatToMeatException;
 import meat_to_meat.demo.global.exception.NotFoundException;
 import meat_to_meat.demo.repository.CartRepository;
 import meat_to_meat.demo.repository.OrderRepository;
+import meat_to_meat.demo.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
+import java.util.TreeSet;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +29,7 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
     private final CartRepository cartRepository;
+    private final ProductRepository productRepository;
 
     // ORD-01 주문 생성: 선택한 장바구니 항목을 주문으로 옮기고 재고를 차감한다
     @Transactional
@@ -38,10 +44,15 @@ public class OrderService {
             throw new GlobalMeatToMeatException(ErrorCode.ORDER_ITEMS_EMPTY);
         }
 
+        // [튜닝 4] 주문할 상품 행을 id 순서로 먼저 잠근 뒤(SELECT ... FOR UPDATE) 최신 재고로 차감한다
+        Map<Long, Product> locked = lockProducts(selected.stream()
+                .map(item -> item.getProduct().getProductId())
+                .toList());
+
         // 재고 차감과 총액 계산 (재고 부족 시 OUT_OF_STOCK)
         long totalOrderPrice = 0L;
         for (CartItem cartItem : selected) {
-            Product product = cartItem.getProduct();
+            Product product = locked.get(cartItem.getProduct().getProductId());
             product.removeStock(cartItem.getQuantity());
             totalOrderPrice += product.getProductPrice() * cartItem.getQuantity();
         }
@@ -88,7 +99,11 @@ public class OrderService {
         if (order.getOrderStatus() != OrderStatus.ORDER_RECEIVED) {
             throw new GlobalMeatToMeatException(ErrorCode.ORDER_CANNOT_CANCEL);
         }
-        order.getOrderItems().forEach(item -> item.getProduct().addStock(item.getQuantity()));
+        // [튜닝 4] 재고 복구도 같은 순서로 잠근 뒤 수행한다
+        Map<Long, Product> locked = lockProducts(order.getOrderItems().stream()
+                .map(item -> item.getProduct().getProductId())
+                .toList());
+        order.getOrderItems().forEach(item -> locked.get(item.getProduct().getProductId()).addStock(item.getQuantity()));
         order.updateOrderStatus(OrderStatus.ORDER_CANCELED);
         return OrderResponseDTO.from(order);
     }
@@ -105,6 +120,11 @@ public class OrderService {
     @Transactional
     public void deleteOrder(Long userId, Long orderId) {
         orderRepository.delete(findOrder(userId, orderId));
+    }
+
+    private Map<Long, Product> lockProducts(List<Long> productIds) {
+        return productRepository.findAllByIdForUpdate(new TreeSet<>(productIds)).stream()
+                .collect(Collectors.toMap(Product::getProductId, Function.identity()));
     }
 
     // 다른 회원의 주문은 존재 여부도 드러내지 않도록 404 로 처리
