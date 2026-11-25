@@ -45,7 +45,11 @@ def ask(req: AskRequest):
     except Exception as e:
         res["error"] = f"LLM 호출 실패: {e}"
         return res
-    con = connect()
+    try:
+        con = connect()
+    except Exception as e:
+        res["error"] = f"DB 접속 실패: {type(e).__name__}: {e}"
+        return res
     try:
         res["columns"], res["rows"] = run_sql(con, res["sql"])
     except Exception as e:
