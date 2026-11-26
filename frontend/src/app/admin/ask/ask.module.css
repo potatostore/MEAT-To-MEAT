@@ -1,0 +1,320 @@
+/* NL2SQL 관리자 화면 전용 스타일. 색은 globals.css 의 변수(--paper, --ink, --meat …)를 그대로 쓴다. */
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  font-size: 13px;
+  opacity: 0.75;
+}
+.meta b {
+  font-weight: 700;
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+
+.gate code {
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  background: var(--paper-2);
+  padding: 2px 6px;
+  border-radius: 2px;
+}
+
+/* ----- 질문 입력 ----- */
+.askBox {
+  background: var(--paper-2);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 24px;
+  margin-bottom: 32px;
+}
+.askLabel {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.askRow {
+  display: flex;
+  gap: 10px;
+}
+.askRow input {
+  flex: 1;
+  min-width: 0;
+  font: inherit;
+  font-size: 17px;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1.5px solid var(--ink);
+  border-radius: 2px;
+  padding: 14px 16px;
+}
+.askRow input:focus {
+  outline: 2px solid var(--meat);
+  outline-offset: 1px;
+}
+.askRow button {
+  white-space: nowrap;
+}
+
+.samples {
+  margin-top: 20px;
+}
+.levelTabs {
+  display: flex;
+  gap: 18px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+}
+.levelTabs button {
+  background: none;
+  border: none;
+  padding: 0 0 8px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
+  opacity: 0.55;
+}
+.levelTabs button small {
+  font-weight: 500;
+  font-size: 12px;
+  margin-left: 4px;
+}
+.levelTabs button.on {
+  opacity: 1;
+  box-shadow: inset 0 -2px 0 var(--meat);
+}
+
+.history {
+  margin-top: 6px;
+  font-size: 13px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  align-items: baseline;
+  opacity: 0.9;
+}
+
+/* ----- 비교 영역 ----- */
+.askedLine {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px 14px;
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 16px;
+}
+.askedLine > span {
+  color: var(--meat);
+  font-weight: 900;
+}
+.askedLine em {
+  font-style: normal;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 2px;
+}
+.same {
+  background: var(--herb);
+  color: var(--paper);
+}
+.diff {
+  background: var(--brass);
+  color: var(--charcoal);
+}
+.warn {
+  background: var(--meat);
+  color: var(--paper);
+}
+
+.compare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.card {
+  background: var(--paper);
+  border: 1.5px solid var(--line);
+  border-radius: 4px;
+  padding: 20px;
+  min-width: 0;
+}
+.card.accent {
+  border-color: var(--ink);
+  box-shadow: 5px 5px 0 var(--meat);
+}
+.cardHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.cardHead h2 {
+  font-size: 22px;
+  font-weight: 900;
+}
+.accent .cardHead h2 {
+  color: var(--meat-dark);
+}
+.cardHead p {
+  font-size: 13px;
+  opacity: 0.65;
+  margin-top: 2px;
+}
+.status {
+  flex-shrink: 0;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 9px;
+  border-radius: 2px;
+  border: 1px solid var(--line);
+}
+.good {
+  background: var(--herb);
+  border-color: var(--herb);
+  color: var(--paper);
+}
+.bad {
+  background: var(--meat);
+  border-color: var(--meat);
+  color: var(--paper);
+}
+
+.sqlWrap {
+  margin-bottom: 14px;
+}
+.sqlBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 700;
+  opacity: 0.8;
+  margin-bottom: 6px;
+}
+.sql {
+  background: var(--charcoal);
+  color: var(--paper);
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  padding: 14px 16px;
+  border-radius: 3px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 260px;
+  overflow: auto;
+}
+
+.error {
+  font-size: 13px;
+  color: var(--meat);
+  font-weight: 600;
+  line-height: 1.6;
+  border-left: 3px solid var(--meat);
+  padding: 4px 0 4px 10px;
+  word-break: break-word;
+}
+
+.tableWrap {
+  max-height: 360px;
+  overflow: auto;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+}
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.table th,
+.table td {
+  padding: 8px 10px;
+  text-align: left;
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+}
+.table th {
+  position: sticky;
+  top: 0;
+  background: var(--paper-2);
+  font-weight: 700;
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 12px;
+}
+.table tr:last-child td {
+  border-bottom: none;
+}
+.num {
+  text-align: right !important;
+  font-variant-numeric: tabular-nums;
+}
+.null {
+  opacity: 0.45;
+  font-style: italic;
+}
+.noRows {
+  padding: 18px;
+  font-size: 13px;
+  opacity: 0.7;
+  text-align: center;
+}
+
+.skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.skeleton i {
+  display: block;
+  height: 14px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--paper-2) 0%, var(--line) 50%, var(--paper-2) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.2s linear infinite;
+}
+.skeleton i:nth-child(1) {
+  width: 90%;
+}
+.skeleton i:nth-child(2) {
+  width: 70%;
+}
+.skeleton i:nth-child(3) {
+  width: 50%;
+  height: 60px;
+}
+@keyframes shimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .skeleton i {
+    animation: none;
+  }
+}
+
+@media (max-width: 860px) {
+  .compare {
+    grid-template-columns: 1fr;
+  }
+  .askBox {
+    padding: 18px;
+  }
+  .askRow {
+    flex-direction: column;
+  }
+  .askedLine {
+    font-size: 17px;
+  }
+  .levelTabs button small {
+    display: none;
+  }
+}

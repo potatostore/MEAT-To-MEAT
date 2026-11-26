@@ -4,6 +4,7 @@
 #   모니터링 추가:          docker compose --profile full --profile monitoring up -d --build
 #   부하 테스트(k6):        docker compose --profile loadtest run --rm k6 run /scripts/products.js
 #   NL2SQL(자연어 → SQL):   docker compose --profile nl2sql up -d --build   (API: http://localhost:8000/docs)
+#   NL2SQL 관리자 화면:    docker compose --profile full --profile nl2sql up -d --build → http://localhost:3000/admin/ask
 #   NL2SQL 평가:            docker compose --profile nl2sql run --rm nl2sql python evaluate.py
 #   자세한 설명: monitoring/README.md
 services:
@@ -60,6 +61,7 @@ services:
       args:
         NEXT_PUBLIC_API_MOCK: ${NEXT_PUBLIC_API_MOCK:-false}
         API_BASE_URL: http://backend:8080
+        NL2SQL_BASE_URL: http://nl2sql:8000   # 관리자 페이지 /admin/ask → NL2SQL 서비스
     container_name: m2m-frontend
     restart: unless-stopped
     depends_on:
@@ -90,6 +92,9 @@ services:
       NL2SQL_TODAY: ${NL2SQL_TODAY:-}
       GROQ_API_KEY: ${GROQ_API_KEY:-}
       GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      # /admin/ask 에서 쓸 수 있는 회원 아이디(쉼표 구분). 토큰은 백엔드 /members/me 로 확인한다
+      NL2SQL_ADMIN_LOGIN_IDS: ${NL2SQL_ADMIN_LOGIN_IDS:-meatlover}
+      NL2SQL_BACKEND_URL: http://backend:8080
       TZ: Asia/Seoul
     volumes:
       - ./nl2sql/results:/app/results     # 평가 결과 CSV가 호스트의 nl2sql/results 에 저장됨
