@@ -2,6 +2,7 @@
 
 사용법:  python evaluate.py                          (Groq)
          python evaluate.py --provider mock --sleep 0  (API 없이 파이프라인 점검)
+         python evaluate.py --timeout 60               (무거운 쿼리가 시간 초과로 실패할 때)
 결과:    results/<provider>_<시각>.csv          질문별 상세 (보고서 6.3 표)
          results/<provider>_<시각>_summary.csv  레벨 x 방식별 정답률
 """
@@ -34,18 +35,20 @@ def main():
     ap.add_argument("--model")
     ap.add_argument("--sleep", type=float, default=15.0, help="호출 사이 대기(초). 무료 등급 분당 한도 대비")
     ap.add_argument("--retries", type=int, default=3)
+    ap.add_argument("--timeout", type=float, default=30.0, help="쿼리 하나의 최대 실행 시간(초). 화면은 5초")
     args = ap.parse_args()
 
     call, model = make_llm(args.provider, args.model)
     provider = args.provider or os.getenv("NL2SQL_PROVIDER", "groq")
-    con = connect()
+    con = connect(timeout_ms=args.timeout * 1000)
     os.makedirs("results", exist_ok=True)
     out = f"results/{provider}_{datetime.now():%Y%m%d_%H%M%S}.csv"
-    print(f"[{provider}:{model}] 기준일 {today()}  질문 {len(QUESTIONS)}개 x 2방식")
+    print(f"[{provider}:{model}] 기준일 {today()}  질문 {len(QUESTIONS)}개 x 2방식  (쿼리 제한 {args.timeout:g}초, 행 제한 없음)")
 
     rows_out, score = [], defaultdict(lambda: [0, 0])
     for item in QUESTIONS:
-        ref_cols, ref_rows = run_sql(con, item["ref"])
+        # 평가는 행 제한 없이 전체 결과로 비교한다 (잘린 결과끼리 비교하면 판정이 틀어짐)
+        ref_cols, ref_rows, _ = run_sql(con, item["ref"], max_rows=None)
         for mode in ("simple", "rich"):
             raw, err = "", ""
             for attempt in range(args.retries):
@@ -65,7 +68,7 @@ def main():
                 verdict, gen_prev = "생성 실패", err or f"응답에 SQL 없음: {raw[:100]}"
             else:
                 try:
-                    gen_cols, gen_rows = run_sql(con, gen_sql)
+                    gen_cols, gen_rows, _ = run_sql(con, gen_sql, max_rows=None)
                     verdict = compare(ref_rows, gen_rows, item.get("check_order", False))
                     gen_prev = preview(gen_cols, gen_rows)
                 except Exception as e:

@@ -220,6 +220,17 @@
   word-break: break-word;
 }
 
+.truncated {
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.6;
+  background: var(--brass);
+  color: var(--charcoal);
+  padding: 6px 10px;
+  border-radius: 2px;
+  margin-bottom: 8px;
+}
+
 .tableWrap {
   max-height: 360px;
   overflow: auto;

@@ -90,6 +90,8 @@ export function AskConsole() {
     const b = slots.rich.answer;
     if (!a || !b || busy) return null;
     if (a.error || b.error) return { tone: "warn", text: "한쪽 이상이 실행에 실패했습니다" };
+    if (a.truncated || b.truncated)
+      return { tone: "diff", text: "결과가 많아 화면에 보이는 행만으로는 같은지 판단할 수 없습니다" };
     if (normalizeRows(a) === normalizeRows(b)) return { tone: "same", text: "두 방식의 결과가 같습니다" };
     return { tone: "diff", text: "두 방식의 결과가 다릅니다. 업무 규칙을 해석한 차이를 확인해 보세요" };
   }, [slots, busy]);
@@ -243,7 +245,7 @@ function ResultCard({ name, desc, slot, accent }: { name: string; desc: string; 
           <span className={`${styles.status} ${styles.bad}`}>실패</span>
         ) : a ? (
           <span className={`${styles.status} ${styles.good}`}>
-            {a.rows.length}행{a.elapsed_ms != null && ` · ${(a.elapsed_ms / 1000).toFixed(1)}초`}
+            {a.rows.length.toLocaleString("ko-KR")}행{a.truncated && "+"}{a.elapsed_ms != null && ` · ${(a.elapsed_ms / 1000).toFixed(1)}초`}
           </span>
         ) : null}
       </header>
@@ -280,6 +282,13 @@ function ResultCard({ name, desc, slot, accent }: { name: string; desc: string; 
           )}
 
           {error && <p className={styles.error}>{error}</p>}
+
+          {a && !a.error && a.truncated && (
+            <p className={styles.truncated}>
+              결과가 많아 앞 {a.rows.length.toLocaleString("ko-KR")}행만 표시합니다. 전체가 필요하면 질문에 조건이나
+              개수를 넣어 보세요.
+            </p>
+          )}
 
           {a && !a.error && (
             <div className={styles.tableWrap}>

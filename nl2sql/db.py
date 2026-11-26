@@ -5,21 +5,32 @@ LLM이 만든 SQL은 nl2sql_reader 계정(SELECT 권한만)으로 실행한다.
   - SELECT/WITH 조회문 한 개만 허용
   - 데이터·권한을 바꾸는 키워드 차단
   - 비밀번호 해시(user_pw), 전화번호(phone_number)는 SQL에 쓰거나 결과에 나오면 거부
-  - 읽기 전용 트랜잭션, 실행 시간 5초 제한, 결과 최대 500행
+  - 읽기 전용 트랜잭션, 실행 시간 제한 (화면 5초, 평가 30초)
+  - 결과 행 수 제한 (화면 500행, 평가는 제한 없음)
+
+행 제한은 SSCursor(결과를 한 행씩 받아 오는 커서)로 건다. 기본 커서는 결과 전체를 메모리에 받은 다음
+잘라서, 10만 행짜리 결과면 10만 행을 다 받아 온다. 평가에서는 잘린 결과끼리 비교하면 판정이 틀어지므로
+(앞 500행만 같고 뒤가 다른 경우 등) 전체를 받아서 비교한다.
 """
+import itertools
 import os
 import re
+from collections import Counter
 
 import pymysql
+import pymysql.cursors
 
-MAX_ROWS = 500
+MAX_ROWS = 500                  # 화면(/ask)에 돌려주는 최대 행 수
+TIMEOUT_MS = int(os.getenv("NL2SQL_TIMEOUT_MS", "5000"))
 FORBIDDEN = re.compile(
     r"\b(INSERT|UPDATE|DELETE|DROP|ALTER|CREATE|TRUNCATE|RENAME|GRANT|REVOKE|"
     r"LOCK|UNLOCK|CALL|LOAD|HANDLER|SET|INTO\s+OUTFILE|INTO\s+DUMPFILE)\b", re.I)
 SENSITIVE = ("user_pw", "phone_number")
 
 
-def connect():
+def connect(timeout_ms=None):
+    """timeout_ms: 쿼리 하나의 최대 실행 시간. 비우면 NL2SQL_TIMEOUT_MS(기본 5000)."""
+    timeout_ms = int(timeout_ms or TIMEOUT_MS)
     con = pymysql.connect(
         host=os.getenv("NL2SQL_DB_HOST", "localhost"),
         port=int(os.getenv("NL2SQL_DB_PORT", "3306")),
@@ -32,9 +43,9 @@ def connect():
     with con.cursor() as cur:
         cur.execute("SET SESSION TRANSACTION READ ONLY")
         try:
-            cur.execute("SET SESSION MAX_EXECUTION_TIME = 5000")      # MySQL
+            cur.execute(f"SET SESSION MAX_EXECUTION_TIME = {timeout_ms}")              # MySQL
         except pymysql.MySQLError:
-            cur.execute("SET SESSION max_statement_time = 5")         # MariaDB (로컬 테스트용)
+            cur.execute(f"SET SESSION max_statement_time = {timeout_ms / 1000:g}")     # MariaDB (로컬 테스트용)
     return con
 
 
@@ -51,16 +62,23 @@ def check_sql(sql):
     return s
 
 
-def run_sql(con, sql):
-    """(컬럼명 목록, 행 목록)을 돌려준다. 막힌 SQL이면 ValueError."""
+def run_sql(con, sql, max_rows=MAX_ROWS):
+    """(컬럼명 목록, 행 목록, 잘림 여부)를 돌려준다. 막힌 SQL이면 ValueError.
+
+    max_rows=None 이면 전체 행을 돌려준다 (평가용).
+    잘렸으면 남은 결과는 서버에서 받아 버리기만 하고 메모리에 쌓지 않는다.
+    """
     s = check_sql(sql)
-    with con.cursor() as cur:
+    with con.cursor(pymysql.cursors.SSCursor) as cur:
         cur.execute(s)
         cols = [d[0] for d in cur.description] if cur.description else []
         if any(c.lower() in SENSITIVE for c in cols):          # SELECT * FROM users 같은 경우
             raise ValueError("결과에 조회할 수 없는 컬럼(비밀번호, 전화번호)이 포함되어 있습니다")
-        rows = [list(r) for r in cur.fetchmany(MAX_ROWS)]
-    return cols, rows
+        if max_rows is None:
+            return cols, [list(r) for r in cur.fetchall()], False
+        rows = [list(r) for r in cur.fetchmany(max_rows + 1)]
+    truncated = len(rows) > max_rows
+    return cols, rows[:max_rows], truncated
 
 
 def _norm(v):
@@ -84,17 +102,32 @@ def compare(ref_rows, gen_rows, check_order=False):
     결과 불일치   : 실행은 됐지만 값이 다름 → '의도와 다른 결과' 오류 사례
     """
     a, b = _norm_rows(ref_rows), _norm_rows(gen_rows)
-    if (a == b) if check_order else (sorted(a) == sorted(b)):
+    if (a == b) if check_order else (Counter(a) == Counter(b)):
         return "정답"
-    if a and len(a) == len(b):
-        pool = [list(r) for r in b]
-        for ra in a:
-            for i, rb in enumerate(pool):
-                rest = list(rb)
-                if all(v in rest and not rest.remove(v) for v in ra):
-                    pool.pop(i)
-                    break
-            else:
-                return "결과 불일치"
+    if a and len(a) == len(b) and _covers(a, b):
         return "정답(열 차이)"
     return "결과 불일치"
+
+
+def _covers(a, b, max_tries=2000):
+    """b의 열 중 일부를 골라 a와 똑같은 결과를 만들 수 있는지 (생성 SQL이 열을 더 붙인 경우).
+
+    열 단위로 값 묶음이 같은 후보를 먼저 찾고, 후보 조합마다 행 단위로 확인한다.
+    행마다 모든 행을 비교하던 방식은 10만 행에서 끝나지 않아서 바꿨다.
+    """
+    ncol_a, ncol_b = len(a[0]), len(b[0])
+    if ncol_a > ncol_b:
+        return False
+    col_b = [Counter(r[k] for r in b) for k in range(ncol_b)]
+    cands = []
+    for j in range(ncol_a):
+        ca = Counter(r[j] for r in a)
+        ks = [k for k in range(ncol_b) if col_b[k] == ca]
+        if not ks:
+            return False
+        cands.append(ks)
+    target = Counter(a)
+    for pick in itertools.islice(itertools.product(*cands), max_tries):
+        if len(set(pick)) == len(pick) and Counter(tuple(r[k] for k in pick) for r in b) == target:
+            return True
+    return False

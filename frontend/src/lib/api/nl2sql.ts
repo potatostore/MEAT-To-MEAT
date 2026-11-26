@@ -13,6 +13,7 @@ export interface Nl2sqlAnswer {
   sql: string | null;
   columns: string[];
   rows: (string | number | boolean | null)[][];
+  truncated: boolean; // 결과가 maxRows(500)행을 넘어 잘렸는지
   error: string | null;
   elapsed_ms: number | null;
 }
@@ -27,6 +28,7 @@ export interface Nl2sqlSamples {
   today: string;
   provider: string;
   model: string;
+  maxRows: number;
   questions: { id: string; level: number; question: string }[];
 }
 
