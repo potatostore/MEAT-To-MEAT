@@ -116,9 +116,15 @@ def ask(req: AskRequest, _=Depends(require_admin)):
            "error": None, "elapsed_ms": None}
     t0 = time.perf_counter()
     try:
-        res["sql"] = extract_sql(llm()(build_prompt(req.mode), req.question))
+        raw = llm()(build_prompt(req.mode), req.question)
     except Exception as e:
         res["error"] = f"LLM 호출 실패: {e}"
+        res["elapsed_ms"] = round((time.perf_counter() - t0) * 1000)
+        return res
+    res["sql"] = extract_sql(raw) or None
+    if not res["sql"]:                       # 거절 등으로 SQL이 없으면 DB에 보내지 않는다
+        reply = " ".join((raw or "").split())[:200]
+        res["error"] = f"SQL을 만들지 못했습니다. (LLM 응답: {reply or '빈 응답'})"
         res["elapsed_ms"] = round((time.perf_counter() - t0) * 1000)
         return res
     try:

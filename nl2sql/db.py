@@ -8,9 +8,10 @@ LLM이 만든 SQL은 nl2sql_reader 계정(SELECT 권한만)으로 실행한다.
   - 읽기 전용 트랜잭션, 실행 시간 제한 (화면 5초, 평가 30초)
   - 결과 행 수 제한 (화면 500행, 평가는 제한 없음)
 
-행 제한은 SSCursor(결과를 한 행씩 받아 오는 커서)로 건다. 기본 커서는 결과 전체를 메모리에 받은 다음
+화면용 행 제한은 SQL 끝에 LIMIT 501을 붙여 DB가 501행에서 멈추게 한다 (with_limit).
+결과는 SSCursor(결과를 한 행씩 받아 오는 커서)로 받는다. 기본 커서는 결과 전체를 메모리에 받은 다음
 잘라서, 10만 행짜리 결과면 10만 행을 다 받아 온다. 평가에서는 잘린 결과끼리 비교하면 판정이 틀어지므로
-(앞 500행만 같고 뒤가 다른 경우 등) 전체를 받아서 비교한다.
+(앞 500행만 같고 뒤가 다른 경우 등) LIMIT 없이 전체를 받아서 비교한다.
 """
 import itertools
 import os
@@ -62,13 +63,34 @@ def check_sql(sql):
     return s
 
 
+TRAILING_LIMIT = re.compile(r"\bLIMIT\s+(\d+)(?:\s*,\s*(\d+))?(?:\s+OFFSET\s+(\d+))?\s*$", re.I)
+
+
+def with_limit(sql, n):
+    """맨 바깥 쿼리가 n행에서 멈추게 LIMIT을 붙인다. 이미 LIMIT이 있으면 n 이하로만 줄인다.
+
+    SSCursor만 쓰면 메모리에는 안 쌓이지만, 커서를 닫을 때 남은 행을 서버에서 끝까지 받아 버려서
+    10만 행 조회는 여전히 10만 행 전송 시간이 든다. LIMIT을 붙이면 DB가 n행에서 멈춘다.
+    끝이 ')'인 경우(서브쿼리 안의 LIMIT)는 바깥 LIMIT이 아니므로 새로 붙인다.
+    """
+    m = TRAILING_LIMIT.search(sql)
+    if not m:
+        return f"{sql}\nLIMIT {n}"
+    if m.group(2):                                   # LIMIT offset, count
+        return sql[:m.start()] + f"LIMIT {m.group(1)}, {min(int(m.group(2)), n)}"
+    offset = m.group(3)
+    return sql[:m.start()] + f"LIMIT {min(int(m.group(1)), n)}" + (f" OFFSET {offset}" if offset else "")
+
+
 def run_sql(con, sql, max_rows=MAX_ROWS):
     """(컬럼명 목록, 행 목록, 잘림 여부)를 돌려준다. 막힌 SQL이면 ValueError.
 
     max_rows=None 이면 전체 행을 돌려준다 (평가용).
-    잘렸으면 남은 결과는 서버에서 받아 버리기만 하고 메모리에 쌓지 않는다.
+    화면용은 LIMIT max_rows+1 을 붙여 DB가 거기서 멈추게 하고, 1행 더 왔으면 잘린 것으로 본다.
     """
     s = check_sql(sql)
+    if max_rows is not None:
+        s = with_limit(s, max_rows + 1)
     with con.cursor(pymysql.cursors.SSCursor) as cur:
         cur.execute(s)
         cols = [d[0] for d in cur.description] if cur.description else []

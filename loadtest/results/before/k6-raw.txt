@@ -1,0 +1,1527 @@
+ Container meat-to-meat-k6-run-ce1c11c63b2f Creating 
+ Container meat-to-meat-k6-run-ce1c11c63b2f Created 
+
+         /\      Grafana   /‾‾/  
+    /\  /  \     |\  __   /  /   
+   /  \/    \    | |/ /  /   ‾‾\ 
+  /          \   |   (  |  (‾)  |
+ / __________ \  |_|\_\  \_____/ 
+
+     execution: local
+        script: /scripts/all-apis.js
+        output: Prometheus remote write (http://prometheus:9090/api/v1/write)
+
+     scenarios: (100.00%) 5 scenarios, 46 max VUs, 3m30s max duration (incl. graceful stop):
+              * account: 2 looping VUs for 3m0s (exec: account, gracefulStop: 30s)
+              * admin: 1 looping VUs for 3m0s (exec: admin, gracefulStop: 30s)
+              * browse: 20 looping VUs for 3m0s (exec: browse, gracefulStop: 30s)
+              * hot_order: 8 looping VUs for 3m0s (exec: hotOrder, gracefulStop: 30s)
+              * shopper: 15 looping VUs for 3m0s (exec: shopper, gracefulStop: 30s)
+
+
+running (0m01.0s), 46/46 VUs, 0 complete and 0 interrupted iterations
+account     [   1% ] 2 VUs   0m01.0s/3m0s
+admin       [   1% ] 1 VUs   0m01.0s/3m0s
+browse      [   1% ] 20 VUs  0m01.0s/3m0s
+hot_order   [   1% ] 8 VUs   0m01.0s/3m0s
+shopper     [   1% ] 15 VUs  0m01.0s/3m0s
+
+running (0m02.0s), 46/46 VUs, 35 complete and 0 interrupted iterations
+account     [   1% ] 2 VUs   0m02.0s/3m0s
+admin       [   1% ] 1 VUs   0m02.0s/3m0s
+browse      [   1% ] 20 VUs  0m02.0s/3m0s
+hot_order   [   1% ] 8 VUs   0m02.0s/3m0s
+shopper     [   1% ] 15 VUs  0m02.0s/3m0s
+
+running (0m03.0s), 46/46 VUs, 88 complete and 0 interrupted iterations
+account     [   2% ] 2 VUs   0m03.0s/3m0s
+admin       [   2% ] 1 VUs   0m03.0s/3m0s
+browse      [   2% ] 20 VUs  0m03.0s/3m0s
+hot_order   [   2% ] 8 VUs   0m03.0s/3m0s
+shopper     [   2% ] 15 VUs  0m03.0s/3m0s
+
+running (0m04.0s), 46/46 VUs, 135 complete and 0 interrupted iterations
+account     [   2% ] 2 VUs   0m04.0s/3m0s
+admin       [   2% ] 1 VUs   0m04.0s/3m0s
+browse      [   2% ] 20 VUs  0m04.0s/3m0s
+hot_order   [   2% ] 8 VUs   0m04.0s/3m0s
+shopper     [   2% ] 15 VUs  0m04.0s/3m0s
+
+running (0m05.0s), 46/46 VUs, 186 complete and 0 interrupted iterations
+account     [   3% ] 2 VUs   0m05.0s/3m0s
+admin       [   3% ] 1 VUs   0m05.0s/3m0s
+browse      [   3% ] 20 VUs  0m05.0s/3m0s
+hot_order   [   3% ] 8 VUs   0m05.0s/3m0s
+shopper     [   3% ] 15 VUs  0m05.0s/3m0s
+
+running (0m06.0s), 46/46 VUs, 222 complete and 0 interrupted iterations
+account     [   3% ] 2 VUs   0m06.0s/3m0s
+admin       [   3% ] 1 VUs   0m06.0s/3m0s
+browse      [   3% ] 20 VUs  0m06.0s/3m0s
+hot_order   [   3% ] 8 VUs   0m06.0s/3m0s
+shopper     [   3% ] 15 VUs  0m06.0s/3m0s
+
+running (0m07.0s), 46/46 VUs, 269 complete and 0 interrupted iterations
+account     [   4% ] 2 VUs   0m07.0s/3m0s
+admin       [   4% ] 1 VUs   0m07.0s/3m0s
+browse      [   4% ] 20 VUs  0m07.0s/3m0s
+hot_order   [   4% ] 8 VUs   0m07.0s/3m0s
+shopper     [   4% ] 15 VUs  0m07.0s/3m0s
+
+running (0m08.0s), 46/46 VUs, 320 complete and 0 interrupted iterations
+account     [   4% ] 2 VUs   0m08.0s/3m0s
+admin       [   4% ] 1 VUs   0m08.0s/3m0s
+browse      [   4% ] 20 VUs  0m08.0s/3m0s
+hot_order   [   4% ] 8 VUs   0m08.0s/3m0s
+shopper     [   4% ] 15 VUs  0m08.0s/3m0s
+
+running (0m09.0s), 46/46 VUs, 373 complete and 0 interrupted iterations
+account     [   5% ] 2 VUs   0m09.0s/3m0s
+admin       [   5% ] 1 VUs   0m09.0s/3m0s
+browse      [   5% ] 20 VUs  0m09.0s/3m0s
+hot_order   [   5% ] 8 VUs   0m09.0s/3m0s
+shopper     [   5% ] 15 VUs  0m09.0s/3m0s
+
+running (0m10.0s), 46/46 VUs, 417 complete and 0 interrupted iterations
+account     [   6% ] 2 VUs   0m10.0s/3m0s
+admin       [   6% ] 1 VUs   0m10.0s/3m0s
+browse      [   6% ] 20 VUs  0m10.0s/3m0s
+hot_order   [   6% ] 8 VUs   0m10.0s/3m0s
+shopper     [   6% ] 15 VUs  0m10.0s/3m0s
+
+running (0m11.0s), 46/46 VUs, 469 complete and 0 interrupted iterations
+account     [   6% ] 2 VUs   0m11.0s/3m0s
+admin       [   6% ] 1 VUs   0m11.0s/3m0s
+browse      [   6% ] 20 VUs  0m11.0s/3m0s
+hot_order   [   6% ] 8 VUs   0m11.0s/3m0s
+shopper     [   6% ] 15 VUs  0m11.0s/3m0s
+
+running (0m12.0s), 46/46 VUs, 517 complete and 0 interrupted iterations
+account     [   7% ] 2 VUs   0m12.0s/3m0s
+admin       [   7% ] 1 VUs   0m12.0s/3m0s
+browse      [   7% ] 20 VUs  0m12.0s/3m0s
+hot_order   [   7% ] 8 VUs   0m12.0s/3m0s
+shopper     [   7% ] 15 VUs  0m12.0s/3m0s
+
+running (0m13.0s), 46/46 VUs, 566 complete and 0 interrupted iterations
+account     [   7% ] 2 VUs   0m13.0s/3m0s
+admin       [   7% ] 1 VUs   0m13.0s/3m0s
+browse      [   7% ] 20 VUs  0m13.0s/3m0s
+hot_order   [   7% ] 8 VUs   0m13.0s/3m0s
+shopper     [   7% ] 15 VUs  0m13.0s/3m0s
+
+running (0m14.0s), 46/46 VUs, 619 complete and 0 interrupted iterations
+account     [   8% ] 2 VUs   0m14.0s/3m0s
+admin       [   8% ] 1 VUs   0m14.0s/3m0s
+browse      [   8% ] 20 VUs  0m14.0s/3m0s
+hot_order   [   8% ] 8 VUs   0m14.0s/3m0s
+shopper     [   8% ] 15 VUs  0m14.0s/3m0s
+
+running (0m15.0s), 46/46 VUs, 665 complete and 0 interrupted iterations
+account     [   8% ] 2 VUs   0m15.0s/3m0s
+admin       [   8% ] 1 VUs   0m15.0s/3m0s
+browse      [   8% ] 20 VUs  0m15.0s/3m0s
+hot_order   [   8% ] 8 VUs   0m15.0s/3m0s
+shopper     [   8% ] 15 VUs  0m15.0s/3m0s
+
+running (0m16.0s), 46/46 VUs, 714 complete and 0 interrupted iterations
+account     [   9% ] 2 VUs   0m16.0s/3m0s
+admin       [   9% ] 1 VUs   0m16.0s/3m0s
+browse      [   9% ] 20 VUs  0m16.0s/3m0s
+hot_order   [   9% ] 8 VUs   0m16.0s/3m0s
+shopper     [   9% ] 15 VUs  0m16.0s/3m0s
+
+running (0m17.0s), 46/46 VUs, 766 complete and 0 interrupted iterations
+account     [   9% ] 2 VUs   0m17.0s/3m0s
+admin       [   9% ] 1 VUs   0m17.0s/3m0s
+browse      [   9% ] 20 VUs  0m17.0s/3m0s
+hot_order   [   9% ] 8 VUs   0m17.0s/3m0s
+shopper     [   9% ] 15 VUs  0m17.0s/3m0s
+
+running (0m18.0s), 46/46 VUs, 814 complete and 0 interrupted iterations
+account     [  10% ] 2 VUs   0m18.0s/3m0s
+admin       [  10% ] 1 VUs   0m18.0s/3m0s
+browse      [  10% ] 20 VUs  0m18.0s/3m0s
+hot_order   [  10% ] 8 VUs   0m18.0s/3m0s
+shopper     [  10% ] 15 VUs  0m18.0s/3m0s
+
+running (0m19.0s), 46/46 VUs, 866 complete and 0 interrupted iterations
+account     [  11% ] 2 VUs   0m19.0s/3m0s
+admin       [  11% ] 1 VUs   0m19.0s/3m0s
+browse      [  11% ] 20 VUs  0m19.0s/3m0s
+hot_order   [  11% ] 8 VUs   0m19.0s/3m0s
+shopper     [  11% ] 15 VUs  0m19.0s/3m0s
+
+running (0m20.0s), 46/46 VUs, 918 complete and 0 interrupted iterations
+account     [  11% ] 2 VUs   0m20.0s/3m0s
+admin       [  11% ] 1 VUs   0m20.0s/3m0s
+browse      [  11% ] 20 VUs  0m20.0s/3m0s
+hot_order   [  11% ] 8 VUs   0m20.0s/3m0s
+shopper     [  11% ] 15 VUs  0m20.0s/3m0s
+
+running (0m21.0s), 46/46 VUs, 965 complete and 0 interrupted iterations
+account     [  12% ] 2 VUs   0m21.0s/3m0s
+admin       [  12% ] 1 VUs   0m21.0s/3m0s
+browse      [  12% ] 20 VUs  0m21.0s/3m0s
+hot_order   [  12% ] 8 VUs   0m21.0s/3m0s
+shopper     [  12% ] 15 VUs  0m21.0s/3m0s
+
+running (0m22.0s), 46/46 VUs, 1012 complete and 0 interrupted iterations
+account     [  12% ] 2 VUs   0m22.0s/3m0s
+admin       [  12% ] 1 VUs   0m22.0s/3m0s
+browse      [  12% ] 20 VUs  0m22.0s/3m0s
+hot_order   [  12% ] 8 VUs   0m22.0s/3m0s
+shopper     [  12% ] 15 VUs  0m22.0s/3m0s
+
+running (0m23.0s), 46/46 VUs, 1065 complete and 0 interrupted iterations
+account     [  13% ] 2 VUs   0m23.0s/3m0s
+admin       [  13% ] 1 VUs   0m23.0s/3m0s
+browse      [  13% ] 20 VUs  0m23.0s/3m0s
+hot_order   [  13% ] 8 VUs   0m23.0s/3m0s
+shopper     [  13% ] 15 VUs  0m23.0s/3m0s
+
+running (0m24.0s), 46/46 VUs, 1116 complete and 0 interrupted iterations
+account     [  13% ] 2 VUs   0m24.0s/3m0s
+admin       [  13% ] 1 VUs   0m24.0s/3m0s
+browse      [  13% ] 20 VUs  0m24.0s/3m0s
+hot_order   [  13% ] 8 VUs   0m24.0s/3m0s
+shopper     [  13% ] 15 VUs  0m24.0s/3m0s
+
+running (0m25.0s), 46/46 VUs, 1169 complete and 0 interrupted iterations
+account     [  14% ] 2 VUs   0m25.0s/3m0s
+admin       [  14% ] 1 VUs   0m25.0s/3m0s
+browse      [  14% ] 20 VUs  0m25.0s/3m0s
+hot_order   [  14% ] 8 VUs   0m25.0s/3m0s
+shopper     [  14% ] 15 VUs  0m25.0s/3m0s
+
+running (0m26.0s), 46/46 VUs, 1222 complete and 0 interrupted iterations
+account     [  14% ] 2 VUs   0m26.0s/3m0s
+admin       [  14% ] 1 VUs   0m26.0s/3m0s
+browse      [  14% ] 20 VUs  0m26.0s/3m0s
+hot_order   [  14% ] 8 VUs   0m26.0s/3m0s
+shopper     [  14% ] 15 VUs  0m26.0s/3m0s
+
+running (0m27.0s), 46/46 VUs, 1265 complete and 0 interrupted iterations
+account     [  15% ] 2 VUs   0m27.0s/3m0s
+admin       [  15% ] 1 VUs   0m27.0s/3m0s
+browse      [  15% ] 20 VUs  0m27.0s/3m0s
+hot_order   [  15% ] 8 VUs   0m27.0s/3m0s
+shopper     [  15% ] 15 VUs  0m27.0s/3m0s
+
+running (0m28.0s), 46/46 VUs, 1310 complete and 0 interrupted iterations
+account     [  16% ] 2 VUs   0m28.0s/3m0s
+admin       [  16% ] 1 VUs   0m28.0s/3m0s
+browse      [  16% ] 20 VUs  0m28.0s/3m0s
+hot_order   [  16% ] 8 VUs   0m28.0s/3m0s
+shopper     [  16% ] 15 VUs  0m28.0s/3m0s
+
+running (0m29.0s), 46/46 VUs, 1361 complete and 0 interrupted iterations
+account     [  16% ] 2 VUs   0m29.0s/3m0s
+admin       [  16% ] 1 VUs   0m29.0s/3m0s
+browse      [  16% ] 20 VUs  0m29.0s/3m0s
+hot_order   [  16% ] 8 VUs   0m29.0s/3m0s
+shopper     [  16% ] 15 VUs  0m29.0s/3m0s
+
+running (0m30.0s), 46/46 VUs, 1410 complete and 0 interrupted iterations
+account     [  17% ] 2 VUs   0m30.0s/3m0s
+admin       [  17% ] 1 VUs   0m30.0s/3m0s
+browse      [  17% ] 20 VUs  0m30.0s/3m0s
+hot_order   [  17% ] 8 VUs   0m30.0s/3m0s
+shopper     [  17% ] 15 VUs  0m30.0s/3m0s
+
+running (0m31.0s), 46/46 VUs, 1458 complete and 0 interrupted iterations
+account     [  17% ] 2 VUs   0m31.0s/3m0s
+admin       [  17% ] 1 VUs   0m31.0s/3m0s
+browse      [  17% ] 20 VUs  0m31.0s/3m0s
+hot_order   [  17% ] 8 VUs   0m31.0s/3m0s
+shopper     [  17% ] 15 VUs  0m31.0s/3m0s
+
+running (0m32.0s), 46/46 VUs, 1511 complete and 0 interrupted iterations
+account     [  18% ] 2 VUs   0m32.0s/3m0s
+admin       [  18% ] 1 VUs   0m32.0s/3m0s
+browse      [  18% ] 20 VUs  0m32.0s/3m0s
+hot_order   [  18% ] 8 VUs   0m32.0s/3m0s
+shopper     [  18% ] 15 VUs  0m32.0s/3m0s
+
+running (0m33.0s), 46/46 VUs, 1560 complete and 0 interrupted iterations
+account     [  18% ] 2 VUs   0m33.0s/3m0s
+admin       [  18% ] 1 VUs   0m33.0s/3m0s
+browse      [  18% ] 20 VUs  0m33.0s/3m0s
+hot_order   [  18% ] 8 VUs   0m33.0s/3m0s
+shopper     [  18% ] 15 VUs  0m33.0s/3m0s
+
+running (0m34.0s), 46/46 VUs, 1612 complete and 0 interrupted iterations
+account     [  19% ] 2 VUs   0m34.0s/3m0s
+admin       [  19% ] 1 VUs   0m34.0s/3m0s
+browse      [  19% ] 20 VUs  0m34.0s/3m0s
+hot_order   [  19% ] 8 VUs   0m34.0s/3m0s
+shopper     [  19% ] 15 VUs  0m34.0s/3m0s
+
+running (0m35.0s), 46/46 VUs, 1652 complete and 0 interrupted iterations
+account     [  19% ] 2 VUs   0m35.0s/3m0s
+admin       [  19% ] 1 VUs   0m35.0s/3m0s
+browse      [  19% ] 20 VUs  0m35.0s/3m0s
+hot_order   [  19% ] 8 VUs   0m35.0s/3m0s
+shopper     [  19% ] 15 VUs  0m35.0s/3m0s
+
+running (0m36.0s), 46/46 VUs, 1703 complete and 0 interrupted iterations
+account     [  20% ] 2 VUs   0m36.0s/3m0s
+admin       [  20% ] 1 VUs   0m36.0s/3m0s
+browse      [  20% ] 20 VUs  0m36.0s/3m0s
+hot_order   [  20% ] 8 VUs   0m36.0s/3m0s
+shopper     [  20% ] 15 VUs  0m36.0s/3m0s
+
+running (0m37.0s), 46/46 VUs, 1754 complete and 0 interrupted iterations
+account     [  21% ] 2 VUs   0m37.0s/3m0s
+admin       [  21% ] 1 VUs   0m37.0s/3m0s
+browse      [  21% ] 20 VUs  0m37.0s/3m0s
+hot_order   [  21% ] 8 VUs   0m37.0s/3m0s
+shopper     [  21% ] 15 VUs  0m37.0s/3m0s
+
+running (0m38.0s), 46/46 VUs, 1802 complete and 0 interrupted iterations
+account     [  21% ] 2 VUs   0m38.0s/3m0s
+admin       [  21% ] 1 VUs   0m38.0s/3m0s
+browse      [  21% ] 20 VUs  0m38.0s/3m0s
+hot_order   [  21% ] 8 VUs   0m38.0s/3m0s
+shopper     [  21% ] 15 VUs  0m38.0s/3m0s
+
+running (0m39.0s), 46/46 VUs, 1854 complete and 0 interrupted iterations
+account     [  22% ] 2 VUs   0m39.0s/3m0s
+admin       [  22% ] 1 VUs   0m39.0s/3m0s
+browse      [  22% ] 20 VUs  0m39.0s/3m0s
+hot_order   [  22% ] 8 VUs   0m39.0s/3m0s
+shopper     [  22% ] 15 VUs  0m39.0s/3m0s
+
+running (0m40.0s), 46/46 VUs, 1903 complete and 0 interrupted iterations
+account     [  22% ] 2 VUs   0m40.0s/3m0s
+admin       [  22% ] 1 VUs   0m40.0s/3m0s
+browse      [  22% ] 20 VUs  0m40.0s/3m0s
+hot_order   [  22% ] 8 VUs   0m40.0s/3m0s
+shopper     [  22% ] 15 VUs  0m40.0s/3m0s
+
+running (0m41.0s), 46/46 VUs, 1954 complete and 0 interrupted iterations
+account     [  23% ] 2 VUs   0m41.0s/3m0s
+admin       [  23% ] 1 VUs   0m41.0s/3m0s
+browse      [  23% ] 20 VUs  0m41.0s/3m0s
+hot_order   [  23% ] 8 VUs   0m41.0s/3m0s
+shopper     [  23% ] 15 VUs  0m41.0s/3m0s
+
+running (0m42.0s), 46/46 VUs, 2006 complete and 0 interrupted iterations
+account     [  23% ] 2 VUs   0m42.0s/3m0s
+admin       [  23% ] 1 VUs   0m42.0s/3m0s
+browse      [  23% ] 20 VUs  0m42.0s/3m0s
+hot_order   [  23% ] 8 VUs   0m42.0s/3m0s
+shopper     [  23% ] 15 VUs  0m42.0s/3m0s
+
+running (0m43.0s), 46/46 VUs, 2058 complete and 0 interrupted iterations
+account     [  24% ] 2 VUs   0m43.0s/3m0s
+admin       [  24% ] 1 VUs   0m43.0s/3m0s
+browse      [  24% ] 20 VUs  0m43.0s/3m0s
+hot_order   [  24% ] 8 VUs   0m43.0s/3m0s
+shopper     [  24% ] 15 VUs  0m43.0s/3m0s
+
+running (0m44.0s), 46/46 VUs, 2106 complete and 0 interrupted iterations
+account     [  24% ] 2 VUs   0m44.0s/3m0s
+admin       [  24% ] 1 VUs   0m44.0s/3m0s
+browse      [  24% ] 20 VUs  0m44.0s/3m0s
+hot_order   [  24% ] 8 VUs   0m44.0s/3m0s
+shopper     [  24% ] 15 VUs  0m44.0s/3m0s
+
+running (0m45.0s), 46/46 VUs, 2153 complete and 0 interrupted iterations
+account     [  25% ] 2 VUs   0m45.0s/3m0s
+admin       [  25% ] 1 VUs   0m45.0s/3m0s
+browse      [  25% ] 20 VUs  0m45.0s/3m0s
+hot_order   [  25% ] 8 VUs   0m45.0s/3m0s
+shopper     [  25% ] 15 VUs  0m45.0s/3m0s
+
+running (0m46.0s), 46/46 VUs, 2203 complete and 0 interrupted iterations
+account     [  26% ] 2 VUs   0m46.0s/3m0s
+admin       [  26% ] 1 VUs   0m46.0s/3m0s
+browse      [  26% ] 20 VUs  0m46.0s/3m0s
+hot_order   [  26% ] 8 VUs   0m46.0s/3m0s
+shopper     [  26% ] 15 VUs  0m46.0s/3m0s
+
+running (0m47.0s), 46/46 VUs, 2251 complete and 0 interrupted iterations
+account     [  26% ] 2 VUs   0m47.0s/3m0s
+admin       [  26% ] 1 VUs   0m47.0s/3m0s
+browse      [  26% ] 20 VUs  0m47.0s/3m0s
+hot_order   [  26% ] 8 VUs   0m47.0s/3m0s
+shopper     [  26% ] 15 VUs  0m47.0s/3m0s
+
+running (0m48.0s), 46/46 VUs, 2302 complete and 0 interrupted iterations
+account     [  27% ] 2 VUs   0m48.0s/3m0s
+admin       [  27% ] 1 VUs   0m48.0s/3m0s
+browse      [  27% ] 20 VUs  0m48.0s/3m0s
+hot_order   [  27% ] 8 VUs   0m48.0s/3m0s
+shopper     [  27% ] 15 VUs  0m48.0s/3m0s
+
+running (0m49.0s), 46/46 VUs, 2355 complete and 0 interrupted iterations
+account     [  27% ] 2 VUs   0m49.0s/3m0s
+admin       [  27% ] 1 VUs   0m49.0s/3m0s
+browse      [  27% ] 20 VUs  0m49.0s/3m0s
+hot_order   [  27% ] 8 VUs   0m49.0s/3m0s
+shopper     [  27% ] 15 VUs  0m49.0s/3m0s
+
+running (0m50.0s), 46/46 VUs, 2404 complete and 0 interrupted iterations
+account     [  28% ] 2 VUs   0m50.0s/3m0s
+admin       [  28% ] 1 VUs   0m50.0s/3m0s
+browse      [  28% ] 20 VUs  0m50.0s/3m0s
+hot_order   [  28% ] 8 VUs   0m50.0s/3m0s
+shopper     [  28% ] 15 VUs  0m50.0s/3m0s
+
+running (0m51.0s), 46/46 VUs, 2456 complete and 0 interrupted iterations
+account     [  28% ] 2 VUs   0m51.0s/3m0s
+admin       [  28% ] 1 VUs   0m51.0s/3m0s
+browse      [  28% ] 20 VUs  0m51.0s/3m0s
+hot_order   [  28% ] 8 VUs   0m51.0s/3m0s
+shopper     [  28% ] 15 VUs  0m51.0s/3m0s
+
+running (0m52.0s), 46/46 VUs, 2505 complete and 0 interrupted iterations
+account     [  29% ] 2 VUs   0m52.0s/3m0s
+admin       [  29% ] 1 VUs   0m52.0s/3m0s
+browse      [  29% ] 20 VUs  0m52.0s/3m0s
+hot_order   [  29% ] 8 VUs   0m52.0s/3m0s
+shopper     [  29% ] 15 VUs  0m52.0s/3m0s
+
+running (0m53.0s), 46/46 VUs, 2553 complete and 0 interrupted iterations
+account     [  29% ] 2 VUs   0m53.0s/3m0s
+admin       [  29% ] 1 VUs   0m53.0s/3m0s
+browse      [  29% ] 20 VUs  0m53.0s/3m0s
+hot_order   [  29% ] 8 VUs   0m53.0s/3m0s
+shopper     [  29% ] 15 VUs  0m53.0s/3m0s
+
+running (0m54.0s), 46/46 VUs, 2606 complete and 0 interrupted iterations
+account     [  30% ] 2 VUs   0m54.0s/3m0s
+admin       [  30% ] 1 VUs   0m54.0s/3m0s
+browse      [  30% ] 20 VUs  0m54.0s/3m0s
+hot_order   [  30% ] 8 VUs   0m54.0s/3m0s
+shopper     [  30% ] 15 VUs  0m54.0s/3m0s
+
+running (0m55.0s), 46/46 VUs, 2657 complete and 0 interrupted iterations
+account     [  31% ] 2 VUs   0m55.0s/3m0s
+admin       [  31% ] 1 VUs   0m55.0s/3m0s
+browse      [  31% ] 20 VUs  0m55.0s/3m0s
+hot_order   [  31% ] 8 VUs   0m55.0s/3m0s
+shopper     [  31% ] 15 VUs  0m55.0s/3m0s
+
+running (0m56.0s), 46/46 VUs, 2706 complete and 0 interrupted iterations
+account     [  31% ] 2 VUs   0m56.0s/3m0s
+admin       [  31% ] 1 VUs   0m56.0s/3m0s
+browse      [  31% ] 20 VUs  0m56.0s/3m0s
+hot_order   [  31% ] 8 VUs   0m56.0s/3m0s
+shopper     [  31% ] 15 VUs  0m56.0s/3m0s
+
+running (0m57.0s), 46/46 VUs, 2754 complete and 0 interrupted iterations
+account     [  32% ] 2 VUs   0m57.0s/3m0s
+admin       [  32% ] 1 VUs   0m57.0s/3m0s
+browse      [  32% ] 20 VUs  0m57.0s/3m0s
+hot_order   [  32% ] 8 VUs   0m57.0s/3m0s
+shopper     [  32% ] 15 VUs  0m57.0s/3m0s
+
+running (0m58.0s), 46/46 VUs, 2806 complete and 0 interrupted iterations
+account     [  32% ] 2 VUs   0m58.0s/3m0s
+admin       [  32% ] 1 VUs   0m58.0s/3m0s
+browse      [  32% ] 20 VUs  0m58.0s/3m0s
+hot_order   [  32% ] 8 VUs   0m58.0s/3m0s
+shopper     [  32% ] 15 VUs  0m58.0s/3m0s
+
+running (0m59.0s), 46/46 VUs, 2859 complete and 0 interrupted iterations
+account     [  33% ] 2 VUs   0m59.0s/3m0s
+admin       [  33% ] 1 VUs   0m59.0s/3m0s
+browse      [  33% ] 20 VUs  0m59.0s/3m0s
+hot_order   [  33% ] 8 VUs   0m59.0s/3m0s
+shopper     [  33% ] 15 VUs  0m59.0s/3m0s
+
+running (1m00.0s), 46/46 VUs, 2908 complete and 0 interrupted iterations
+account     [  33% ] 2 VUs   1m00.0s/3m0s
+admin       [  33% ] 1 VUs   1m00.0s/3m0s
+browse      [  33% ] 20 VUs  1m00.0s/3m0s
+hot_order   [  33% ] 8 VUs   1m00.0s/3m0s
+shopper     [  33% ] 15 VUs  1m00.0s/3m0s
+
+running (1m01.0s), 46/46 VUs, 2956 complete and 0 interrupted iterations
+account     [  34% ] 2 VUs   1m01.0s/3m0s
+admin       [  34% ] 1 VUs   1m01.0s/3m0s
+browse      [  34% ] 20 VUs  1m01.0s/3m0s
+hot_order   [  34% ] 8 VUs   1m01.0s/3m0s
+shopper     [  34% ] 15 VUs  1m01.0s/3m0s
+
+running (1m02.0s), 46/46 VUs, 3009 complete and 0 interrupted iterations
+account     [  34% ] 2 VUs   1m02.0s/3m0s
+admin       [  34% ] 1 VUs   1m02.0s/3m0s
+browse      [  34% ] 20 VUs  1m02.0s/3m0s
+hot_order   [  34% ] 8 VUs   1m02.0s/3m0s
+shopper     [  34% ] 15 VUs  1m02.0s/3m0s
+
+running (1m03.0s), 46/46 VUs, 3060 complete and 0 interrupted iterations
+account     [  35% ] 2 VUs   1m03.0s/3m0s
+admin       [  35% ] 1 VUs   1m03.0s/3m0s
+browse      [  35% ] 20 VUs  1m03.0s/3m0s
+hot_order   [  35% ] 8 VUs   1m03.0s/3m0s
+shopper     [  35% ] 15 VUs  1m03.0s/3m0s
+
+running (1m04.0s), 46/46 VUs, 3109 complete and 0 interrupted iterations
+account     [  36% ] 2 VUs   1m04.0s/3m0s
+admin       [  36% ] 1 VUs   1m04.0s/3m0s
+browse      [  36% ] 20 VUs  1m04.0s/3m0s
+hot_order   [  36% ] 8 VUs   1m04.0s/3m0s
+shopper     [  36% ] 15 VUs  1m04.0s/3m0s
+
+running (1m05.0s), 46/46 VUs, 3158 complete and 0 interrupted iterations
+account     [  36% ] 2 VUs   1m05.0s/3m0s
+admin       [  36% ] 1 VUs   1m05.0s/3m0s
+browse      [  36% ] 20 VUs  1m05.0s/3m0s
+hot_order   [  36% ] 8 VUs   1m05.0s/3m0s
+shopper     [  36% ] 15 VUs  1m05.0s/3m0s
+
+running (1m06.0s), 46/46 VUs, 3204 complete and 0 interrupted iterations
+account     [  37% ] 2 VUs   1m06.0s/3m0s
+admin       [  37% ] 1 VUs   1m06.0s/3m0s
+browse      [  37% ] 20 VUs  1m06.0s/3m0s
+hot_order   [  37% ] 8 VUs   1m06.0s/3m0s
+shopper     [  37% ] 15 VUs  1m06.0s/3m0s
+
+running (1m07.0s), 46/46 VUs, 3253 complete and 0 interrupted iterations
+account     [  37% ] 2 VUs   1m07.0s/3m0s
+admin       [  37% ] 1 VUs   1m07.0s/3m0s
+browse      [  37% ] 20 VUs  1m07.0s/3m0s
+hot_order   [  37% ] 8 VUs   1m07.0s/3m0s
+shopper     [  37% ] 15 VUs  1m07.0s/3m0s
+
+running (1m08.0s), 46/46 VUs, 3301 complete and 0 interrupted iterations
+account     [  38% ] 2 VUs   1m08.0s/3m0s
+admin       [  38% ] 1 VUs   1m08.0s/3m0s
+browse      [  38% ] 20 VUs  1m08.0s/3m0s
+hot_order   [  38% ] 8 VUs   1m08.0s/3m0s
+shopper     [  38% ] 15 VUs  1m08.0s/3m0s
+
+running (1m09.0s), 46/46 VUs, 3351 complete and 0 interrupted iterations
+account     [  38% ] 2 VUs   1m09.0s/3m0s
+admin       [  38% ] 1 VUs   1m09.0s/3m0s
+browse      [  38% ] 20 VUs  1m09.0s/3m0s
+hot_order   [  38% ] 8 VUs   1m09.0s/3m0s
+shopper     [  38% ] 15 VUs  1m09.0s/3m0s
+
+running (1m10.0s), 46/46 VUs, 3401 complete and 0 interrupted iterations
+account     [  39% ] 2 VUs   1m10.0s/3m0s
+admin       [  39% ] 1 VUs   1m10.0s/3m0s
+browse      [  39% ] 20 VUs  1m10.0s/3m0s
+hot_order   [  39% ] 8 VUs   1m10.0s/3m0s
+shopper     [  39% ] 15 VUs  1m10.0s/3m0s
+
+running (1m11.0s), 46/46 VUs, 3453 complete and 0 interrupted iterations
+account     [  39% ] 2 VUs   1m11.0s/3m0s
+admin       [  39% ] 1 VUs   1m11.0s/3m0s
+browse      [  39% ] 20 VUs  1m11.0s/3m0s
+hot_order   [  39% ] 8 VUs   1m11.0s/3m0s
+shopper     [  39% ] 15 VUs  1m11.0s/3m0s
+
+running (1m12.0s), 46/46 VUs, 3506 complete and 0 interrupted iterations
+account     [  40% ] 2 VUs   1m12.0s/3m0s
+admin       [  40% ] 1 VUs   1m12.0s/3m0s
+browse      [  40% ] 20 VUs  1m12.0s/3m0s
+hot_order   [  40% ] 8 VUs   1m12.0s/3m0s
+shopper     [  40% ] 15 VUs  1m12.0s/3m0s
+
+running (1m13.0s), 46/46 VUs, 3557 complete and 0 interrupted iterations
+account     [  41% ] 2 VUs   1m13.0s/3m0s
+admin       [  41% ] 1 VUs   1m13.0s/3m0s
+browse      [  41% ] 20 VUs  1m13.0s/3m0s
+hot_order   [  41% ] 8 VUs   1m13.0s/3m0s
+shopper     [  41% ] 15 VUs  1m13.0s/3m0s
+
+running (1m14.0s), 46/46 VUs, 3606 complete and 0 interrupted iterations
+account     [  41% ] 2 VUs   1m14.0s/3m0s
+admin       [  41% ] 1 VUs   1m14.0s/3m0s
+browse      [  41% ] 20 VUs  1m14.0s/3m0s
+hot_order   [  41% ] 8 VUs   1m14.0s/3m0s
+shopper     [  41% ] 15 VUs  1m14.0s/3m0s
+
+running (1m15.0s), 46/46 VUs, 3654 complete and 0 interrupted iterations
+account     [  42% ] 2 VUs   1m15.0s/3m0s
+admin       [  42% ] 1 VUs   1m15.0s/3m0s
+browse      [  42% ] 20 VUs  1m15.0s/3m0s
+hot_order   [  42% ] 8 VUs   1m15.0s/3m0s
+shopper     [  42% ] 15 VUs  1m15.0s/3m0s
+
+running (1m16.0s), 46/46 VUs, 3705 complete and 0 interrupted iterations
+account     [  42% ] 2 VUs   1m16.0s/3m0s
+admin       [  42% ] 1 VUs   1m16.0s/3m0s
+browse      [  42% ] 20 VUs  1m16.0s/3m0s
+hot_order   [  42% ] 8 VUs   1m16.0s/3m0s
+shopper     [  42% ] 15 VUs  1m16.0s/3m0s
+
+running (1m17.0s), 46/46 VUs, 3753 complete and 0 interrupted iterations
+account     [  43% ] 2 VUs   1m17.0s/3m0s
+admin       [  43% ] 1 VUs   1m17.0s/3m0s
+browse      [  43% ] 20 VUs  1m17.0s/3m0s
+hot_order   [  43% ] 8 VUs   1m17.0s/3m0s
+shopper     [  43% ] 15 VUs  1m17.0s/3m0s
+
+running (1m18.0s), 46/46 VUs, 3800 complete and 0 interrupted iterations
+account     [  43% ] 2 VUs   1m18.0s/3m0s
+admin       [  43% ] 1 VUs   1m18.0s/3m0s
+browse      [  43% ] 20 VUs  1m18.0s/3m0s
+hot_order   [  43% ] 8 VUs   1m18.0s/3m0s
+shopper     [  43% ] 15 VUs  1m18.0s/3m0s
+
+running (1m19.0s), 46/46 VUs, 3851 complete and 0 interrupted iterations
+account     [  44% ] 2 VUs   1m19.0s/3m0s
+admin       [  44% ] 1 VUs   1m19.0s/3m0s
+browse      [  44% ] 20 VUs  1m19.0s/3m0s
+hot_order   [  44% ] 8 VUs   1m19.0s/3m0s
+shopper     [  44% ] 15 VUs  1m19.0s/3m0s
+
+running (1m20.0s), 46/46 VUs, 3900 complete and 0 interrupted iterations
+account     [  44% ] 2 VUs   1m20.0s/3m0s
+admin       [  44% ] 1 VUs   1m20.0s/3m0s
+browse      [  44% ] 20 VUs  1m20.0s/3m0s
+hot_order   [  44% ] 8 VUs   1m20.0s/3m0s
+shopper     [  44% ] 15 VUs  1m20.0s/3m0s
+
+running (1m21.0s), 46/46 VUs, 3952 complete and 0 interrupted iterations
+account     [  45% ] 2 VUs   1m21.0s/3m0s
+admin       [  45% ] 1 VUs   1m21.0s/3m0s
+browse      [  45% ] 20 VUs  1m21.0s/3m0s
+hot_order   [  45% ] 8 VUs   1m21.0s/3m0s
+shopper     [  45% ] 15 VUs  1m21.0s/3m0s
+
+running (1m22.0s), 46/46 VUs, 4005 complete and 0 interrupted iterations
+account     [  46% ] 2 VUs   1m22.0s/3m0s
+admin       [  46% ] 1 VUs   1m22.0s/3m0s
+browse      [  46% ] 20 VUs  1m22.0s/3m0s
+hot_order   [  46% ] 8 VUs   1m22.0s/3m0s
+shopper     [  46% ] 15 VUs  1m22.0s/3m0s
+
+running (1m23.0s), 46/46 VUs, 4057 complete and 0 interrupted iterations
+account     [  46% ] 2 VUs   1m23.0s/3m0s
+admin       [  46% ] 1 VUs   1m23.0s/3m0s
+browse      [  46% ] 20 VUs  1m23.0s/3m0s
+hot_order   [  46% ] 8 VUs   1m23.0s/3m0s
+shopper     [  46% ] 15 VUs  1m23.0s/3m0s
+
+running (1m24.0s), 46/46 VUs, 4110 complete and 0 interrupted iterations
+account     [  47% ] 2 VUs   1m24.0s/3m0s
+admin       [  47% ] 1 VUs   1m24.0s/3m0s
+browse      [  47% ] 20 VUs  1m24.0s/3m0s
+hot_order   [  47% ] 8 VUs   1m24.0s/3m0s
+shopper     [  47% ] 15 VUs  1m24.0s/3m0s
+
+running (1m25.0s), 46/46 VUs, 4155 complete and 0 interrupted iterations
+account     [  47% ] 2 VUs   1m25.0s/3m0s
+admin       [  47% ] 1 VUs   1m25.0s/3m0s
+browse      [  47% ] 20 VUs  1m25.0s/3m0s
+hot_order   [  47% ] 8 VUs   1m25.0s/3m0s
+shopper     [  47% ] 15 VUs  1m25.0s/3m0s
+
+running (1m26.0s), 46/46 VUs, 4206 complete and 0 interrupted iterations
+account     [  48% ] 2 VUs   1m26.0s/3m0s
+admin       [  48% ] 1 VUs   1m26.0s/3m0s
+browse      [  48% ] 20 VUs  1m26.0s/3m0s
+hot_order   [  48% ] 8 VUs   1m26.0s/3m0s
+shopper     [  48% ] 15 VUs  1m26.0s/3m0s
+
+running (1m27.0s), 46/46 VUs, 4258 complete and 0 interrupted iterations
+account     [  48% ] 2 VUs   1m27.0s/3m0s
+admin       [  48% ] 1 VUs   1m27.0s/3m0s
+browse      [  48% ] 20 VUs  1m27.0s/3m0s
+hot_order   [  48% ] 8 VUs   1m27.0s/3m0s
+shopper     [  48% ] 15 VUs  1m27.0s/3m0s
+
+running (1m28.0s), 46/46 VUs, 4309 complete and 0 interrupted iterations
+account     [  49% ] 2 VUs   1m28.0s/3m0s
+admin       [  49% ] 1 VUs   1m28.0s/3m0s
+browse      [  49% ] 20 VUs  1m28.0s/3m0s
+hot_order   [  49% ] 8 VUs   1m28.0s/3m0s
+shopper     [  49% ] 15 VUs  1m28.0s/3m0s
+
+running (1m29.0s), 46/46 VUs, 4362 complete and 0 interrupted iterations
+account     [  49% ] 2 VUs   1m29.0s/3m0s
+admin       [  49% ] 1 VUs   1m29.0s/3m0s
+browse      [  49% ] 20 VUs  1m29.0s/3m0s
+hot_order   [  49% ] 8 VUs   1m29.0s/3m0s
+shopper     [  49% ] 15 VUs  1m29.0s/3m0s
+
+running (1m30.0s), 46/46 VUs, 4408 complete and 0 interrupted iterations
+account     [  50% ] 2 VUs   1m30.0s/3m0s
+admin       [  50% ] 1 VUs   1m30.0s/3m0s
+browse      [  50% ] 20 VUs  1m30.0s/3m0s
+hot_order   [  50% ] 8 VUs   1m30.0s/3m0s
+shopper     [  50% ] 15 VUs  1m30.0s/3m0s
+
+running (1m31.0s), 46/46 VUs, 4458 complete and 0 interrupted iterations
+account     [  51% ] 2 VUs   1m31.0s/3m0s
+admin       [  51% ] 1 VUs   1m31.0s/3m0s
+browse      [  51% ] 20 VUs  1m31.0s/3m0s
+hot_order   [  51% ] 8 VUs   1m31.0s/3m0s
+shopper     [  51% ] 15 VUs  1m31.0s/3m0s
+
+running (1m32.0s), 46/46 VUs, 4509 complete and 0 interrupted iterations
+account     [  51% ] 2 VUs   1m32.0s/3m0s
+admin       [  51% ] 1 VUs   1m32.0s/3m0s
+browse      [  51% ] 20 VUs  1m32.0s/3m0s
+hot_order   [  51% ] 8 VUs   1m32.0s/3m0s
+shopper     [  51% ] 15 VUs  1m32.0s/3m0s
+
+running (1m33.0s), 46/46 VUs, 4558 complete and 0 interrupted iterations
+account     [  52% ] 2 VUs   1m33.0s/3m0s
+admin       [  52% ] 1 VUs   1m33.0s/3m0s
+browse      [  52% ] 20 VUs  1m33.0s/3m0s
+hot_order   [  52% ] 8 VUs   1m33.0s/3m0s
+shopper     [  52% ] 15 VUs  1m33.0s/3m0s
+
+running (1m34.0s), 46/46 VUs, 4608 complete and 0 interrupted iterations
+account     [  52% ] 2 VUs   1m34.0s/3m0s
+admin       [  52% ] 1 VUs   1m34.0s/3m0s
+browse      [  52% ] 20 VUs  1m34.0s/3m0s
+hot_order   [  52% ] 8 VUs   1m34.0s/3m0s
+shopper     [  52% ] 15 VUs  1m34.0s/3m0s
+
+running (1m35.0s), 46/46 VUs, 4657 complete and 0 interrupted iterations
+account     [  53% ] 2 VUs   1m35.0s/3m0s
+admin       [  53% ] 1 VUs   1m35.0s/3m0s
+browse      [  53% ] 20 VUs  1m35.0s/3m0s
+hot_order   [  53% ] 8 VUs   1m35.0s/3m0s
+shopper     [  53% ] 15 VUs  1m35.0s/3m0s
+
+running (1m36.0s), 46/46 VUs, 4708 complete and 0 interrupted iterations
+account     [  53% ] 2 VUs   1m36.0s/3m0s
+admin       [  53% ] 1 VUs   1m36.0s/3m0s
+browse      [  53% ] 20 VUs  1m36.0s/3m0s
+hot_order   [  53% ] 8 VUs   1m36.0s/3m0s
+shopper     [  53% ] 15 VUs  1m36.0s/3m0s
+
+running (1m37.0s), 46/46 VUs, 4759 complete and 0 interrupted iterations
+account     [  54% ] 2 VUs   1m37.0s/3m0s
+admin       [  54% ] 1 VUs   1m37.0s/3m0s
+browse      [  54% ] 20 VUs  1m37.0s/3m0s
+hot_order   [  54% ] 8 VUs   1m37.0s/3m0s
+shopper     [  54% ] 15 VUs  1m37.0s/3m0s
+
+running (1m38.0s), 46/46 VUs, 4812 complete and 0 interrupted iterations
+account     [  54% ] 2 VUs   1m38.0s/3m0s
+admin       [  54% ] 1 VUs   1m38.0s/3m0s
+browse      [  54% ] 20 VUs  1m38.0s/3m0s
+hot_order   [  54% ] 8 VUs   1m38.0s/3m0s
+shopper     [  54% ] 15 VUs  1m38.0s/3m0s
+
+running (1m39.0s), 46/46 VUs, 4865 complete and 0 interrupted iterations
+account     [  55% ] 2 VUs   1m39.0s/3m0s
+admin       [  55% ] 1 VUs   1m39.0s/3m0s
+browse      [  55% ] 20 VUs  1m39.0s/3m0s
+hot_order   [  55% ] 8 VUs   1m39.0s/3m0s
+shopper     [  55% ] 15 VUs  1m39.0s/3m0s
+
+running (1m40.0s), 46/46 VUs, 4909 complete and 0 interrupted iterations
+account     [  56% ] 2 VUs   1m40.0s/3m0s
+admin       [  56% ] 1 VUs   1m40.0s/3m0s
+browse      [  56% ] 20 VUs  1m40.0s/3m0s
+hot_order   [  56% ] 8 VUs   1m40.0s/3m0s
+shopper     [  56% ] 15 VUs  1m40.0s/3m0s
+
+running (1m41.0s), 46/46 VUs, 4957 complete and 0 interrupted iterations
+account     [  56% ] 2 VUs   1m41.0s/3m0s
+admin       [  56% ] 1 VUs   1m41.0s/3m0s
+browse      [  56% ] 20 VUs  1m41.0s/3m0s
+hot_order   [  56% ] 8 VUs   1m41.0s/3m0s
+shopper     [  56% ] 15 VUs  1m41.0s/3m0s
+
+running (1m42.0s), 46/46 VUs, 5010 complete and 0 interrupted iterations
+account     [  57% ] 2 VUs   1m42.0s/3m0s
+admin       [  57% ] 1 VUs   1m42.0s/3m0s
+browse      [  57% ] 20 VUs  1m42.0s/3m0s
+hot_order   [  57% ] 8 VUs   1m42.0s/3m0s
+shopper     [  57% ] 15 VUs  1m42.0s/3m0s
+
+running (1m43.0s), 46/46 VUs, 5058 complete and 0 interrupted iterations
+account     [  57% ] 2 VUs   1m43.0s/3m0s
+admin       [  57% ] 1 VUs   1m43.0s/3m0s
+browse      [  57% ] 20 VUs  1m43.0s/3m0s
+hot_order   [  57% ] 8 VUs   1m43.0s/3m0s
+shopper     [  57% ] 15 VUs  1m43.0s/3m0s
+
+running (1m44.0s), 46/46 VUs, 5112 complete and 0 interrupted iterations
+account     [  58% ] 2 VUs   1m44.0s/3m0s
+admin       [  58% ] 1 VUs   1m44.0s/3m0s
+browse      [  58% ] 20 VUs  1m44.0s/3m0s
+hot_order   [  58% ] 8 VUs   1m44.0s/3m0s
+shopper     [  58% ] 15 VUs  1m44.0s/3m0s
+
+running (1m45.0s), 46/46 VUs, 5149 complete and 0 interrupted iterations
+account     [  58% ] 2 VUs   1m45.0s/3m0s
+admin       [  58% ] 1 VUs   1m45.0s/3m0s
+browse      [  58% ] 20 VUs  1m45.0s/3m0s
+hot_order   [  58% ] 8 VUs   1m45.0s/3m0s
+shopper     [  58% ] 15 VUs  1m45.0s/3m0s
+
+running (1m46.0s), 46/46 VUs, 5199 complete and 0 interrupted iterations
+account     [  59% ] 2 VUs   1m46.0s/3m0s
+admin       [  59% ] 1 VUs   1m46.0s/3m0s
+browse      [  59% ] 20 VUs  1m46.0s/3m0s
+hot_order   [  59% ] 8 VUs   1m46.0s/3m0s
+shopper     [  59% ] 15 VUs  1m46.0s/3m0s
+
+running (1m47.0s), 46/46 VUs, 5251 complete and 0 interrupted iterations
+account     [  59% ] 2 VUs   1m47.0s/3m0s
+admin       [  59% ] 1 VUs   1m47.0s/3m0s
+browse      [  59% ] 20 VUs  1m47.0s/3m0s
+hot_order   [  59% ] 8 VUs   1m47.0s/3m0s
+shopper     [  59% ] 15 VUs  1m47.0s/3m0s
+
+running (1m48.0s), 46/46 VUs, 5304 complete and 0 interrupted iterations
+account     [  60% ] 2 VUs   1m48.0s/3m0s
+admin       [  60% ] 1 VUs   1m48.0s/3m0s
+browse      [  60% ] 20 VUs  1m48.0s/3m0s
+hot_order   [  60% ] 8 VUs   1m48.0s/3m0s
+shopper     [  60% ] 15 VUs  1m48.0s/3m0s
+
+running (1m49.0s), 46/46 VUs, 5351 complete and 0 interrupted iterations
+account     [  61% ] 2 VUs   1m49.0s/3m0s
+admin       [  61% ] 1 VUs   1m49.0s/3m0s
+browse      [  61% ] 20 VUs  1m49.0s/3m0s
+hot_order   [  61% ] 8 VUs   1m49.0s/3m0s
+shopper     [  61% ] 15 VUs  1m49.0s/3m0s
+
+running (1m50.0s), 46/46 VUs, 5402 complete and 0 interrupted iterations
+account     [  61% ] 2 VUs   1m50.0s/3m0s
+admin       [  61% ] 1 VUs   1m50.0s/3m0s
+browse      [  61% ] 20 VUs  1m50.0s/3m0s
+hot_order   [  61% ] 8 VUs   1m50.0s/3m0s
+shopper     [  61% ] 15 VUs  1m50.0s/3m0s
+
+running (1m51.0s), 46/46 VUs, 5442 complete and 0 interrupted iterations
+account     [  62% ] 2 VUs   1m51.0s/3m0s
+admin       [  62% ] 1 VUs   1m51.0s/3m0s
+browse      [  62% ] 20 VUs  1m51.0s/3m0s
+hot_order   [  62% ] 8 VUs   1m51.0s/3m0s
+shopper     [  62% ] 15 VUs  1m51.0s/3m0s
+
+running (1m52.0s), 46/46 VUs, 5495 complete and 0 interrupted iterations
+account     [  62% ] 2 VUs   1m52.0s/3m0s
+admin       [  62% ] 1 VUs   1m52.0s/3m0s
+browse      [  62% ] 20 VUs  1m52.0s/3m0s
+hot_order   [  62% ] 8 VUs   1m52.0s/3m0s
+shopper     [  62% ] 15 VUs  1m52.0s/3m0s
+
+running (1m53.0s), 46/46 VUs, 5545 complete and 0 interrupted iterations
+account     [  63% ] 2 VUs   1m53.0s/3m0s
+admin       [  63% ] 1 VUs   1m53.0s/3m0s
+browse      [  63% ] 20 VUs  1m53.0s/3m0s
+hot_order   [  63% ] 8 VUs   1m53.0s/3m0s
+shopper     [  63% ] 15 VUs  1m53.0s/3m0s
+
+running (1m54.0s), 46/46 VUs, 5598 complete and 0 interrupted iterations
+account     [  63% ] 2 VUs   1m54.0s/3m0s
+admin       [  63% ] 1 VUs   1m54.0s/3m0s
+browse      [  63% ] 20 VUs  1m54.0s/3m0s
+hot_order   [  63% ] 8 VUs   1m54.0s/3m0s
+shopper     [  63% ] 15 VUs  1m54.0s/3m0s
+
+running (1m55.0s), 46/46 VUs, 5648 complete and 0 interrupted iterations
+account     [  64% ] 2 VUs   1m55.0s/3m0s
+admin       [  64% ] 1 VUs   1m55.0s/3m0s
+browse      [  64% ] 20 VUs  1m55.0s/3m0s
+hot_order   [  64% ] 8 VUs   1m55.0s/3m0s
+shopper     [  64% ] 15 VUs  1m55.0s/3m0s
+
+running (1m56.0s), 46/46 VUs, 5687 complete and 0 interrupted iterations
+account     [  64% ] 2 VUs   1m56.0s/3m0s
+admin       [  64% ] 1 VUs   1m56.0s/3m0s
+browse      [  64% ] 20 VUs  1m56.0s/3m0s
+hot_order   [  64% ] 8 VUs   1m56.0s/3m0s
+shopper     [  64% ] 15 VUs  1m56.0s/3m0s
+
+running (1m57.0s), 46/46 VUs, 5737 complete and 0 interrupted iterations
+account     [  65% ] 2 VUs   1m57.0s/3m0s
+admin       [  65% ] 1 VUs   1m57.0s/3m0s
+browse      [  65% ] 20 VUs  1m57.0s/3m0s
+hot_order   [  65% ] 8 VUs   1m57.0s/3m0s
+shopper     [  65% ] 15 VUs  1m57.0s/3m0s
+
+running (1m58.0s), 46/46 VUs, 5786 complete and 0 interrupted iterations
+account     [  66% ] 2 VUs   1m58.0s/3m0s
+admin       [  66% ] 1 VUs   1m58.0s/3m0s
+browse      [  66% ] 20 VUs  1m58.0s/3m0s
+hot_order   [  66% ] 8 VUs   1m58.0s/3m0s
+shopper     [  66% ] 15 VUs  1m58.0s/3m0s
+
+running (1m59.0s), 46/46 VUs, 5830 complete and 0 interrupted iterations
+account     [  66% ] 2 VUs   1m59.0s/3m0s
+admin       [  66% ] 1 VUs   1m59.0s/3m0s
+browse      [  66% ] 20 VUs  1m59.0s/3m0s
+hot_order   [  66% ] 8 VUs   1m59.0s/3m0s
+shopper     [  66% ] 15 VUs  1m59.0s/3m0s
+
+running (2m00.0s), 46/46 VUs, 5873 complete and 0 interrupted iterations
+account     [  67% ] 2 VUs   2m00.0s/3m0s
+admin       [  67% ] 1 VUs   2m00.0s/3m0s
+browse      [  67% ] 20 VUs  2m00.0s/3m0s
+hot_order   [  67% ] 8 VUs   2m00.0s/3m0s
+shopper     [  67% ] 15 VUs  2m00.0s/3m0s
+
+running (2m01.0s), 46/46 VUs, 5925 complete and 0 interrupted iterations
+account     [  67% ] 2 VUs   2m01.0s/3m0s
+admin       [  67% ] 1 VUs   2m01.0s/3m0s
+browse      [  67% ] 20 VUs  2m01.0s/3m0s
+hot_order   [  67% ] 8 VUs   2m01.0s/3m0s
+shopper     [  67% ] 15 VUs  2m01.0s/3m0s
+
+running (2m02.0s), 46/46 VUs, 5979 complete and 0 interrupted iterations
+account     [  68% ] 2 VUs   2m02.0s/3m0s
+admin       [  68% ] 1 VUs   2m02.0s/3m0s
+browse      [  68% ] 20 VUs  2m02.0s/3m0s
+hot_order   [  68% ] 8 VUs   2m02.0s/3m0s
+shopper     [  68% ] 15 VUs  2m02.0s/3m0s
+
+running (2m03.0s), 46/46 VUs, 6021 complete and 0 interrupted iterations
+account     [  68% ] 2 VUs   2m03.0s/3m0s
+admin       [  68% ] 1 VUs   2m03.0s/3m0s
+browse      [  68% ] 20 VUs  2m03.0s/3m0s
+hot_order   [  68% ] 8 VUs   2m03.0s/3m0s
+shopper     [  68% ] 15 VUs  2m03.0s/3m0s
+
+running (2m04.0s), 46/46 VUs, 6073 complete and 0 interrupted iterations
+account     [  69% ] 2 VUs   2m04.0s/3m0s
+admin       [  69% ] 1 VUs   2m04.0s/3m0s
+browse      [  69% ] 20 VUs  2m04.0s/3m0s
+hot_order   [  69% ] 8 VUs   2m04.0s/3m0s
+shopper     [  69% ] 15 VUs  2m04.0s/3m0s
+
+running (2m05.0s), 46/46 VUs, 6122 complete and 0 interrupted iterations
+account     [  69% ] 2 VUs   2m05.0s/3m0s
+admin       [  69% ] 1 VUs   2m05.0s/3m0s
+browse      [  69% ] 20 VUs  2m05.0s/3m0s
+hot_order   [  69% ] 8 VUs   2m05.0s/3m0s
+shopper     [  69% ] 15 VUs  2m05.0s/3m0s
+
+running (2m06.0s), 46/46 VUs, 6166 complete and 0 interrupted iterations
+account     [  70% ] 2 VUs   2m06.0s/3m0s
+admin       [  70% ] 1 VUs   2m06.0s/3m0s
+browse      [  70% ] 20 VUs  2m06.0s/3m0s
+hot_order   [  70% ] 8 VUs   2m06.0s/3m0s
+shopper     [  70% ] 15 VUs  2m06.0s/3m0s
+
+running (2m07.0s), 46/46 VUs, 6217 complete and 0 interrupted iterations
+account     [  71% ] 2 VUs   2m07.0s/3m0s
+admin       [  71% ] 1 VUs   2m07.0s/3m0s
+browse      [  71% ] 20 VUs  2m07.0s/3m0s
+hot_order   [  71% ] 8 VUs   2m07.0s/3m0s
+shopper     [  71% ] 15 VUs  2m07.0s/3m0s
+
+running (2m08.0s), 46/46 VUs, 6266 complete and 0 interrupted iterations
+account     [  71% ] 2 VUs   2m08.0s/3m0s
+admin       [  71% ] 1 VUs   2m08.0s/3m0s
+browse      [  71% ] 20 VUs  2m08.0s/3m0s
+hot_order   [  71% ] 8 VUs   2m08.0s/3m0s
+shopper     [  71% ] 15 VUs  2m08.0s/3m0s
+
+running (2m09.0s), 46/46 VUs, 6304 complete and 0 interrupted iterations
+account     [  72% ] 2 VUs   2m09.0s/3m0s
+admin       [  72% ] 1 VUs   2m09.0s/3m0s
+browse      [  72% ] 20 VUs  2m09.0s/3m0s
+hot_order   [  72% ] 8 VUs   2m09.0s/3m0s
+shopper     [  72% ] 15 VUs  2m09.0s/3m0s
+
+running (2m10.0s), 46/46 VUs, 6354 complete and 0 interrupted iterations
+account     [  72% ] 2 VUs   2m10.0s/3m0s
+admin       [  72% ] 1 VUs   2m10.0s/3m0s
+browse      [  72% ] 20 VUs  2m10.0s/3m0s
+hot_order   [  72% ] 8 VUs   2m10.0s/3m0s
+shopper     [  72% ] 15 VUs  2m10.0s/3m0s
+
+running (2m11.0s), 46/46 VUs, 6403 complete and 0 interrupted iterations
+account     [  73% ] 2 VUs   2m11.0s/3m0s
+admin       [  73% ] 1 VUs   2m11.0s/3m0s
+browse      [  73% ] 20 VUs  2m11.0s/3m0s
+hot_order   [  73% ] 8 VUs   2m11.0s/3m0s
+shopper     [  73% ] 15 VUs  2m11.0s/3m0s
+
+running (2m12.0s), 46/46 VUs, 6454 complete and 0 interrupted iterations
+account     [  73% ] 2 VUs   2m12.0s/3m0s
+admin       [  73% ] 1 VUs   2m12.0s/3m0s
+browse      [  73% ] 20 VUs  2m12.0s/3m0s
+hot_order   [  73% ] 8 VUs   2m12.0s/3m0s
+shopper     [  73% ] 15 VUs  2m12.0s/3m0s
+
+running (2m13.0s), 46/46 VUs, 6505 complete and 0 interrupted iterations
+account     [  74% ] 2 VUs   2m13.0s/3m0s
+admin       [  74% ] 1 VUs   2m13.0s/3m0s
+browse      [  74% ] 20 VUs  2m13.0s/3m0s
+hot_order   [  74% ] 8 VUs   2m13.0s/3m0s
+shopper     [  74% ] 15 VUs  2m13.0s/3m0s
+
+running (2m14.0s), 46/46 VUs, 6555 complete and 0 interrupted iterations
+account     [  74% ] 2 VUs   2m14.0s/3m0s
+admin       [  74% ] 1 VUs   2m14.0s/3m0s
+browse      [  74% ] 20 VUs  2m14.0s/3m0s
+hot_order   [  74% ] 8 VUs   2m14.0s/3m0s
+shopper     [  74% ] 15 VUs  2m14.0s/3m0s
+
+running (2m15.0s), 46/46 VUs, 6606 complete and 0 interrupted iterations
+account     [  75% ] 2 VUs   2m15.0s/3m0s
+admin       [  75% ] 1 VUs   2m15.0s/3m0s
+browse      [  75% ] 20 VUs  2m15.0s/3m0s
+hot_order   [  75% ] 8 VUs   2m15.0s/3m0s
+shopper     [  75% ] 15 VUs  2m15.0s/3m0s
+
+running (2m16.0s), 46/46 VUs, 6654 complete and 0 interrupted iterations
+account     [  76% ] 2 VUs   2m16.0s/3m0s
+admin       [  76% ] 1 VUs   2m16.0s/3m0s
+browse      [  76% ] 20 VUs  2m16.0s/3m0s
+hot_order   [  76% ] 8 VUs   2m16.0s/3m0s
+shopper     [  76% ] 15 VUs  2m16.0s/3m0s
+
+running (2m17.0s), 46/46 VUs, 6704 complete and 0 interrupted iterations
+account     [  76% ] 2 VUs   2m17.0s/3m0s
+admin       [  76% ] 1 VUs   2m17.0s/3m0s
+browse      [  76% ] 20 VUs  2m17.0s/3m0s
+hot_order   [  76% ] 8 VUs   2m17.0s/3m0s
+shopper     [  76% ] 15 VUs  2m17.0s/3m0s
+
+running (2m18.0s), 46/46 VUs, 6746 complete and 0 interrupted iterations
+account     [  77% ] 2 VUs   2m18.0s/3m0s
+admin       [  77% ] 1 VUs   2m18.0s/3m0s
+browse      [  77% ] 20 VUs  2m18.0s/3m0s
+hot_order   [  77% ] 8 VUs   2m18.0s/3m0s
+shopper     [  77% ] 15 VUs  2m18.0s/3m0s
+
+running (2m19.0s), 46/46 VUs, 6799 complete and 0 interrupted iterations
+account     [  77% ] 2 VUs   2m19.0s/3m0s
+admin       [  77% ] 1 VUs   2m19.0s/3m0s
+browse      [  77% ] 20 VUs  2m19.0s/3m0s
+hot_order   [  77% ] 8 VUs   2m19.0s/3m0s
+shopper     [  77% ] 15 VUs  2m19.0s/3m0s
+
+running (2m20.0s), 46/46 VUs, 6849 complete and 0 interrupted iterations
+account     [  78% ] 2 VUs   2m20.0s/3m0s
+admin       [  78% ] 1 VUs   2m20.0s/3m0s
+browse      [  78% ] 20 VUs  2m20.0s/3m0s
+hot_order   [  78% ] 8 VUs   2m20.0s/3m0s
+shopper     [  78% ] 15 VUs  2m20.0s/3m0s
+
+running (2m21.0s), 46/46 VUs, 6896 complete and 0 interrupted iterations
+account     [  78% ] 2 VUs   2m21.0s/3m0s
+admin       [  78% ] 1 VUs   2m21.0s/3m0s
+browse      [  78% ] 20 VUs  2m21.0s/3m0s
+hot_order   [  78% ] 8 VUs   2m21.0s/3m0s
+shopper     [  78% ] 15 VUs  2m21.0s/3m0s
+
+running (2m22.0s), 46/46 VUs, 6949 complete and 0 interrupted iterations
+account     [  79% ] 2 VUs   2m22.0s/3m0s
+admin       [  79% ] 1 VUs   2m22.0s/3m0s
+browse      [  79% ] 20 VUs  2m22.0s/3m0s
+hot_order   [  79% ] 8 VUs   2m22.0s/3m0s
+shopper     [  79% ] 15 VUs  2m22.0s/3m0s
+
+running (2m23.0s), 46/46 VUs, 6998 complete and 0 interrupted iterations
+account     [  79% ] 2 VUs   2m23.0s/3m0s
+admin       [  79% ] 1 VUs   2m23.0s/3m0s
+browse      [  79% ] 20 VUs  2m23.0s/3m0s
+hot_order   [  79% ] 8 VUs   2m23.0s/3m0s
+shopper     [  79% ] 15 VUs  2m23.0s/3m0s
+
+running (2m24.0s), 46/46 VUs, 7052 complete and 0 interrupted iterations
+account     [  80% ] 2 VUs   2m24.0s/3m0s
+admin       [  80% ] 1 VUs   2m24.0s/3m0s
+browse      [  80% ] 20 VUs  2m24.0s/3m0s
+hot_order   [  80% ] 8 VUs   2m24.0s/3m0s
+shopper     [  80% ] 15 VUs  2m24.0s/3m0s
+
+running (2m25.0s), 46/46 VUs, 7098 complete and 0 interrupted iterations
+account     [  81% ] 2 VUs   2m25.0s/3m0s
+admin       [  81% ] 1 VUs   2m25.0s/3m0s
+browse      [  81% ] 20 VUs  2m25.0s/3m0s
+hot_order   [  81% ] 8 VUs   2m25.0s/3m0s
+shopper     [  81% ] 15 VUs  2m25.0s/3m0s
+
+running (2m26.0s), 46/46 VUs, 7147 complete and 0 interrupted iterations
+account     [  81% ] 2 VUs   2m26.0s/3m0s
+admin       [  81% ] 1 VUs   2m26.0s/3m0s
+browse      [  81% ] 20 VUs  2m26.0s/3m0s
+hot_order   [  81% ] 8 VUs   2m26.0s/3m0s
+shopper     [  81% ] 15 VUs  2m26.0s/3m0s
+
+running (2m27.0s), 46/46 VUs, 7200 complete and 0 interrupted iterations
+account     [  82% ] 2 VUs   2m27.0s/3m0s
+admin       [  82% ] 1 VUs   2m27.0s/3m0s
+browse      [  82% ] 20 VUs  2m27.0s/3m0s
+hot_order   [  82% ] 8 VUs   2m27.0s/3m0s
+shopper     [  82% ] 15 VUs  2m27.0s/3m0s
+
+running (2m28.0s), 46/46 VUs, 7252 complete and 0 interrupted iterations
+account     [  82% ] 2 VUs   2m28.0s/3m0s
+admin       [  82% ] 1 VUs   2m28.0s/3m0s
+browse      [  82% ] 20 VUs  2m28.0s/3m0s
+hot_order   [  82% ] 8 VUs   2m28.0s/3m0s
+shopper     [  82% ] 15 VUs  2m28.0s/3m0s
+
+running (2m29.0s), 46/46 VUs, 7299 complete and 0 interrupted iterations
+account     [  83% ] 2 VUs   2m29.0s/3m0s
+admin       [  83% ] 1 VUs   2m29.0s/3m0s
+browse      [  83% ] 20 VUs  2m29.0s/3m0s
+hot_order   [  83% ] 8 VUs   2m29.0s/3m0s
+shopper     [  83% ] 15 VUs  2m29.0s/3m0s
+
+running (2m30.0s), 46/46 VUs, 7343 complete and 0 interrupted iterations
+account     [  83% ] 2 VUs   2m30.0s/3m0s
+admin       [  83% ] 1 VUs   2m30.0s/3m0s
+browse      [  83% ] 20 VUs  2m30.0s/3m0s
+hot_order   [  83% ] 8 VUs   2m30.0s/3m0s
+shopper     [  83% ] 15 VUs  2m30.0s/3m0s
+
+running (2m31.0s), 46/46 VUs, 7396 complete and 0 interrupted iterations
+account     [  84% ] 2 VUs   2m31.0s/3m0s
+admin       [  84% ] 1 VUs   2m31.0s/3m0s
+browse      [  84% ] 20 VUs  2m31.0s/3m0s
+hot_order   [  84% ] 8 VUs   2m31.0s/3m0s
+shopper     [  84% ] 15 VUs  2m31.0s/3m0s
+
+running (2m32.0s), 46/46 VUs, 7442 complete and 0 interrupted iterations
+account     [  84% ] 2 VUs   2m32.0s/3m0s
+admin       [  84% ] 1 VUs   2m32.0s/3m0s
+browse      [  84% ] 20 VUs  2m32.0s/3m0s
+hot_order   [  84% ] 8 VUs   2m32.0s/3m0s
+shopper     [  84% ] 15 VUs  2m32.0s/3m0s
+
+running (2m33.0s), 46/46 VUs, 7495 complete and 0 interrupted iterations
+account     [  85% ] 2 VUs   2m33.0s/3m0s
+admin       [  85% ] 1 VUs   2m33.0s/3m0s
+browse      [  85% ] 20 VUs  2m33.0s/3m0s
+hot_order   [  85% ] 8 VUs   2m33.0s/3m0s
+shopper     [  85% ] 15 VUs  2m33.0s/3m0s
+
+running (2m34.0s), 46/46 VUs, 7541 complete and 0 interrupted iterations
+account     [  86% ] 2 VUs   2m34.0s/3m0s
+admin       [  86% ] 1 VUs   2m34.0s/3m0s
+browse      [  86% ] 20 VUs  2m34.0s/3m0s
+hot_order   [  86% ] 8 VUs   2m34.0s/3m0s
+shopper     [  86% ] 15 VUs  2m34.0s/3m0s
+
+running (2m35.0s), 46/46 VUs, 7589 complete and 0 interrupted iterations
+account     [  86% ] 2 VUs   2m35.0s/3m0s
+admin       [  86% ] 1 VUs   2m35.0s/3m0s
+browse      [  86% ] 20 VUs  2m35.0s/3m0s
+hot_order   [  86% ] 8 VUs   2m35.0s/3m0s
+shopper     [  86% ] 15 VUs  2m35.0s/3m0s
+
+running (2m36.0s), 46/46 VUs, 7637 complete and 0 interrupted iterations
+account     [  87% ] 2 VUs   2m36.0s/3m0s
+admin       [  87% ] 1 VUs   2m36.0s/3m0s
+browse      [  87% ] 20 VUs  2m36.0s/3m0s
+hot_order   [  87% ] 8 VUs   2m36.0s/3m0s
+shopper     [  87% ] 15 VUs  2m36.0s/3m0s
+
+running (2m37.0s), 46/46 VUs, 7686 complete and 0 interrupted iterations
+account     [  87% ] 2 VUs   2m37.0s/3m0s
+admin       [  87% ] 1 VUs   2m37.0s/3m0s
+browse      [  87% ] 20 VUs  2m37.0s/3m0s
+hot_order   [  87% ] 8 VUs   2m37.0s/3m0s
+shopper     [  87% ] 15 VUs  2m37.0s/3m0s
+
+running (2m38.0s), 46/46 VUs, 7738 complete and 0 interrupted iterations
+account     [  88% ] 2 VUs   2m38.0s/3m0s
+admin       [  88% ] 1 VUs   2m38.0s/3m0s
+browse      [  88% ] 20 VUs  2m38.0s/3m0s
+hot_order   [  88% ] 8 VUs   2m38.0s/3m0s
+shopper     [  88% ] 15 VUs  2m38.0s/3m0s
+
+running (2m39.0s), 46/46 VUs, 7787 complete and 0 interrupted iterations
+account     [  88% ] 2 VUs   2m39.0s/3m0s
+admin       [  88% ] 1 VUs   2m39.0s/3m0s
+browse      [  88% ] 20 VUs  2m39.0s/3m0s
+hot_order   [  88% ] 8 VUs   2m39.0s/3m0s
+shopper     [  88% ] 15 VUs  2m39.0s/3m0s
+
+running (2m40.0s), 46/46 VUs, 7829 complete and 0 interrupted iterations
+account     [  89% ] 2 VUs   2m40.0s/3m0s
+admin       [  89% ] 1 VUs   2m40.0s/3m0s
+browse      [  89% ] 20 VUs  2m40.0s/3m0s
+hot_order   [  89% ] 8 VUs   2m40.0s/3m0s
+shopper     [  89% ] 15 VUs  2m40.0s/3m0s
+
+running (2m41.0s), 46/46 VUs, 7877 complete and 0 interrupted iterations
+account     [  89% ] 2 VUs   2m41.0s/3m0s
+admin       [  89% ] 1 VUs   2m41.0s/3m0s
+browse      [  89% ] 20 VUs  2m41.0s/3m0s
+hot_order   [  89% ] 8 VUs   2m41.0s/3m0s
+shopper     [  89% ] 15 VUs  2m41.0s/3m0s
+
+running (2m42.0s), 46/46 VUs, 7930 complete and 0 interrupted iterations
+account     [  90% ] 2 VUs   2m42.0s/3m0s
+admin       [  90% ] 1 VUs   2m42.0s/3m0s
+browse      [  90% ] 20 VUs  2m42.0s/3m0s
+hot_order   [  90% ] 8 VUs   2m42.0s/3m0s
+shopper     [  90% ] 15 VUs  2m42.0s/3m0s
+
+running (2m43.0s), 46/46 VUs, 7982 complete and 0 interrupted iterations
+account     [  91% ] 2 VUs   2m43.0s/3m0s
+admin       [  91% ] 1 VUs   2m43.0s/3m0s
+browse      [  91% ] 20 VUs  2m43.0s/3m0s
+hot_order   [  91% ] 8 VUs   2m43.0s/3m0s
+shopper     [  91% ] 15 VUs  2m43.0s/3m0s
+
+running (2m44.0s), 46/46 VUs, 8031 complete and 0 interrupted iterations
+account     [  91% ] 2 VUs   2m44.0s/3m0s
+admin       [  91% ] 1 VUs   2m44.0s/3m0s
+browse      [  91% ] 20 VUs  2m44.0s/3m0s
+hot_order   [  91% ] 8 VUs   2m44.0s/3m0s
+shopper     [  91% ] 15 VUs  2m44.0s/3m0s
+
+running (2m45.0s), 46/46 VUs, 8083 complete and 0 interrupted iterations
+account     [  92% ] 2 VUs   2m45.0s/3m0s
+admin       [  92% ] 1 VUs   2m45.0s/3m0s
+browse      [  92% ] 20 VUs  2m45.0s/3m0s
+hot_order   [  92% ] 8 VUs   2m45.0s/3m0s
+shopper     [  92% ] 15 VUs  2m45.0s/3m0s
+
+running (2m46.0s), 46/46 VUs, 8130 complete and 0 interrupted iterations
+account     [  92% ] 2 VUs   2m46.0s/3m0s
+admin       [  92% ] 1 VUs   2m46.0s/3m0s
+browse      [  92% ] 20 VUs  2m46.0s/3m0s
+hot_order   [  92% ] 8 VUs   2m46.0s/3m0s
+shopper     [  92% ] 15 VUs  2m46.0s/3m0s
+
+running (2m47.0s), 46/46 VUs, 8179 complete and 0 interrupted iterations
+account     [  93% ] 2 VUs   2m47.0s/3m0s
+admin       [  93% ] 1 VUs   2m47.0s/3m0s
+browse      [  93% ] 20 VUs  2m47.0s/3m0s
+hot_order   [  93% ] 8 VUs   2m47.0s/3m0s
+shopper     [  93% ] 15 VUs  2m47.0s/3m0s
+
+running (2m48.0s), 46/46 VUs, 8233 complete and 0 interrupted iterations
+account     [  93% ] 2 VUs   2m48.0s/3m0s
+admin       [  93% ] 1 VUs   2m48.0s/3m0s
+browse      [  93% ] 20 VUs  2m48.0s/3m0s
+hot_order   [  93% ] 8 VUs   2m48.0s/3m0s
+shopper     [  93% ] 15 VUs  2m48.0s/3m0s
+
+running (2m49.0s), 46/46 VUs, 8278 complete and 0 interrupted iterations
+account     [  94% ] 2 VUs   2m49.0s/3m0s
+admin       [  94% ] 1 VUs   2m49.0s/3m0s
+browse      [  94% ] 20 VUs  2m49.0s/3m0s
+hot_order   [  94% ] 8 VUs   2m49.0s/3m0s
+shopper     [  94% ] 15 VUs  2m49.0s/3m0s
+
+running (2m50.0s), 46/46 VUs, 8330 complete and 0 interrupted iterations
+account     [  94% ] 2 VUs   2m50.0s/3m0s
+admin       [  94% ] 1 VUs   2m50.0s/3m0s
+browse      [  94% ] 20 VUs  2m50.0s/3m0s
+hot_order   [  94% ] 8 VUs   2m50.0s/3m0s
+shopper     [  94% ] 15 VUs  2m50.0s/3m0s
+
+running (2m51.0s), 46/46 VUs, 8381 complete and 0 interrupted iterations
+account     [  95% ] 2 VUs   2m51.0s/3m0s
+admin       [  95% ] 1 VUs   2m51.0s/3m0s
+browse      [  95% ] 20 VUs  2m51.0s/3m0s
+hot_order   [  95% ] 8 VUs   2m51.0s/3m0s
+shopper     [  95% ] 15 VUs  2m51.0s/3m0s
+
+running (2m52.0s), 46/46 VUs, 8426 complete and 0 interrupted iterations
+account     [  96% ] 2 VUs   2m52.0s/3m0s
+admin       [  96% ] 1 VUs   2m52.0s/3m0s
+browse      [  96% ] 20 VUs  2m52.0s/3m0s
+hot_order   [  96% ] 8 VUs   2m52.0s/3m0s
+shopper     [  96% ] 15 VUs  2m52.0s/3m0s
+
+running (2m53.0s), 46/46 VUs, 8475 complete and 0 interrupted iterations
+account     [  96% ] 2 VUs   2m53.0s/3m0s
+admin       [  96% ] 1 VUs   2m53.0s/3m0s
+browse      [  96% ] 20 VUs  2m53.0s/3m0s
+hot_order   [  96% ] 8 VUs   2m53.0s/3m0s
+shopper     [  96% ] 15 VUs  2m53.0s/3m0s
+
+running (2m54.0s), 46/46 VUs, 8526 complete and 0 interrupted iterations
+account     [  97% ] 2 VUs   2m54.0s/3m0s
+admin       [  97% ] 1 VUs   2m54.0s/3m0s
+browse      [  97% ] 20 VUs  2m54.0s/3m0s
+hot_order   [  97% ] 8 VUs   2m54.0s/3m0s
+shopper     [  97% ] 15 VUs  2m54.0s/3m0s
+
+running (2m55.0s), 46/46 VUs, 8579 complete and 0 interrupted iterations
+account     [  97% ] 2 VUs   2m55.0s/3m0s
+admin       [  97% ] 1 VUs   2m55.0s/3m0s
+browse      [  97% ] 20 VUs  2m55.0s/3m0s
+hot_order   [  97% ] 8 VUs   2m55.0s/3m0s
+shopper     [  97% ] 15 VUs  2m55.0s/3m0s
+
+running (2m56.0s), 46/46 VUs, 8631 complete and 0 interrupted iterations
+account     [  98% ] 2 VUs   2m56.0s/3m0s
+admin       [  98% ] 1 VUs   2m56.0s/3m0s
+browse      [  98% ] 20 VUs  2m56.0s/3m0s
+hot_order   [  98% ] 8 VUs   2m56.0s/3m0s
+shopper     [  98% ] 15 VUs  2m56.0s/3m0s
+
+running (2m57.0s), 46/46 VUs, 8667 complete and 0 interrupted iterations
+account     [  98% ] 2 VUs   2m57.0s/3m0s
+admin       [  98% ] 1 VUs   2m57.0s/3m0s
+browse      [  98% ] 20 VUs  2m57.0s/3m0s
+hot_order   [  98% ] 8 VUs   2m57.0s/3m0s
+shopper     [  98% ] 15 VUs  2m57.0s/3m0s
+
+running (2m58.0s), 46/46 VUs, 8718 complete and 0 interrupted iterations
+account     [  99% ] 2 VUs   2m58.0s/3m0s
+admin       [  99% ] 1 VUs   2m58.0s/3m0s
+browse      [  99% ] 20 VUs  2m58.0s/3m0s
+hot_order   [  99% ] 8 VUs   2m58.0s/3m0s
+shopper     [  99% ] 15 VUs  2m58.0s/3m0s
+
+running (2m59.0s), 46/46 VUs, 8770 complete and 0 interrupted iterations
+account     [  99% ] 2 VUs   2m59.0s/3m0s
+admin       [  99% ] 1 VUs   2m59.0s/3m0s
+browse      [  99% ] 20 VUs  2m59.0s/3m0s
+hot_order   [  99% ] 8 VUs   2m59.0s/3m0s
+shopper     [  99% ] 15 VUs  2m59.0s/3m0s
+
+running (3m00.0s), 46/46 VUs, 8822 complete and 0 interrupted iterations
+account     [ 100% ] 2 VUs   3m00.0s/3m0s
+admin       [ 100% ] 1 VUs   3m00.0s/3m0s
+browse      [ 100% ] 20 VUs  3m00.0s/3m0s
+hot_order   [ 100% ] 8 VUs   3m00.0s/3m0s
+shopper     [ 100% ] 15 VUs  3m00.0s/3m0s
+
+running (3m01.0s), 02/46 VUs, 8867 complete and 0 interrupted iterations
+account   ↓ [ 100% ] 2 VUs   3m0s
+admin     ↓ [ 100% ] 1 VUs   3m0s
+browse    ✓ [ 100% ] 20 VUs  3m0s
+hot_order ✓ [ 100% ] 8 VUs   3m0s
+shopper   ✓ [ 100% ] 15 VUs  3m0s
+
+running (3m02.0s), 01/46 VUs, 8868 complete and 0 interrupted iterations
+account   ✓ [ 100% ] 2 VUs   3m0s
+admin     ↓ [ 100% ] 1 VUs   3m0s
+browse    ✓ [ 100% ] 20 VUs  3m0s
+hot_order ✓ [ 100% ] 8 VUs   3m0s
+shopper   ✓ [ 100% ] 15 VUs  3m0s
+
+
+  █ TOTAL RESULTS 
+
+    checks_total.......: 17615  96.710869/s
+    checks_succeeded...: 99.60% 17545 out of 17615
+    checks_failed......: 0.39%  70 out of 17615
+
+    ✓ 로그인 200
+    ✓ 회원가입 200
+    ✓ 상품 목록 200
+    ✓ 상품 상세 200
+    ✓ 상품 생성 200
+    ✓ 장바구니 담기 200
+    ✗ 인기 상품 주문 200
+      ↳  97% — ✓ 2661 / ✗ 70
+    ✓ 주문 목록 200
+    ✓ 주문 200
+    ✓ 탈퇴 204
+    ✓ 상품 삭제 204
+
+    HTTP
+    http_req_duration..............: avg=18.47ms  med=6.18ms p(95)=84.56ms p(99)=184.42ms max=856.49ms
+      { expected_response:true }...: avg=18.41ms  med=6.16ms p(95)=84.31ms p(99)=184.4ms  max=856.49ms
+    http_req_failed................: 0.18%  70 out of 38318
+    http_reqs......................: 38318  210.375651/s
+
+    EXECUTION
+    iteration_duration.............: avg=936.35ms med=1.02s  p(95)=1.3s    p(99)=2.03s    max=3.4s    
+    iterations.....................: 8869   48.693086/s
+    vus............................: 1      min=1           max=46
+    vus_max........................: 46     min=46          max=46
+
+    NETWORK
+    data_received..................: 111 MB 607 kB/s
+    data_sent......................: 9.6 MB 53 kB/s
+
+
+
+{
+    "root_group": {
+        "name": "",
+        "path": "",
+        "id": "d41d8cd98f00b204e9800998ecf8427e",
+        "groups": {},
+        "checks": {
+                "로그인 200": {
+                    "name": "로그인 200",
+                    "path": "::로그인 200",
+                    "id": "d863a8d08bb8f25724e48d7d609fdb4b",
+                    "passes": 262,
+                    "fails": 0
+                },
+                "회원가입 200": {
+                    "name": "회원가입 200",
+                    "path": "::회원가입 200",
+                    "id": "43c55574be875551930685690c56fd9b",
+                    "passes": 238,
+                    "fails": 0
+                },
+                "상품 목록 200": {
+                    "path": "::상품 목록 200",
+                    "id": "3545462e9beac223304644e4dc4f7314",
+                    "passes": 3481,
+                    "fails": 0,
+                    "name": "상품 목록 200"
+                },
+                "상품 상세 200": {
+                    "fails": 0,
+                    "name": "상품 상세 200",
+                    "path": "::상품 상세 200",
+                    "id": "503d0bcb7c1530aa0c8a0e79b1bf7c2e",
+                    "passes": 3481
+                },
+                "상품 생성 200": {
+                    "id": "cfa7856f0d312b43015d24db09d38a29",
+                    "passes": 73,
+                    "fails": 0,
+                    "name": "상품 생성 200",
+                    "path": "::상품 생성 200"
+                },
+                "장바구니 담기 200": {
+                    "fails": 0,
+                    "name": "장바구니 담기 200",
+                    "path": "::장바구니 담기 200",
+                    "id": "9255fa34da733b4f2a805ebad889293f",
+                    "passes": 2346
+                },
+                "인기 상품 주문 200": {
+                    "id": "0445e5c81771504e911c77d16ae86dde",
+                    "passes": 2661,
+                    "fails": 70,
+                    "name": "인기 상품 주문 200",
+                    "path": "::인기 상품 주문 200"
+                },
+                "주문 목록 200": {
+                    "name": "주문 목록 200",
+                    "path": "::주문 목록 200",
+                    "id": "15096510339be6d0363b96361a8fedbc",
+                    "passes": 2346,
+                    "fails": 0
+                },
+                "주문 200": {
+                    "name": "주문 200",
+                    "path": "::주문 200",
+                    "id": "df2f304dfdaf6c0b177056832dea9ab3",
+                    "passes": 2346,
+                    "fails": 0
+                },
+                "탈퇴 204": {
+                    "id": "ad85b823ce01664f0caa62bdf3304e7d",
+                    "passes": 238,
+                    "fails": 0,
+                    "name": "탈퇴 204",
+                    "path": "::탈퇴 204"
+                },
+                "상품 삭제 204": {
+                    "passes": 73,
+                    "fails": 0,
+                    "name": "상품 삭제 204",
+                    "path": "::상품 삭제 204",
+                    "id": "a17d7eb01625428988afcf0e9f2db14e"
+                }
+            }
+    },
+    "metrics": {
+        "iterations": {
+            "count": 8869,
+            "rate": 48.693085519985914
+        },
+        "http_req_duration{expected_response:true}": {
+            "avg": 18.415019057022455,
+            "med": 6.16775,
+            "p(95)": 84.31070284999998,
+            "p(99)": 184.40675449999998,
+            "max": 856.492042
+        },
+        "checks": {
+            "passes": 17545,
+            "fails": 70,
+            "value": 0.9960261141072949
+        },
+        "http_req_duration": {
+            "med": 6.1832085,
+            "p(95)": 84.5658687,
+            "p(99)": 184.42887949999997,
+            "max": 856.492042,
+            "avg": 18.471455108565074
+        },
+        "iteration_duration": {
+            "med": 1024.577376,
+            "p(95)": 1306.9085,
+            "p(99)": 2033.6698595599994,
+            "max": 3404.997959,
+            "avg": 936.3565099108125
+        },
+        "http_req_receiving": {
+            "p(99)": 3.01419903,
+            "max": 27.452042,
+            "avg": 0.3035830971084101,
+            "med": 0.1348545,
+            "p(95)": 1.0313767999999996
+        },
+        "data_sent": {
+            "count": 9565579,
+            "rate": 52517.48295131146
+        },
+        "http_req_blocked": {
+            "p(95)": 0.021958,
+            "p(99)": 0.3028640299999997,
+            "max": 12.835584,
+            "avg": 0.021353521765227836,
+            "med": 0.003959
+        },
+        "http_req_failed": {
+            "passes": 70,
+            "fails": 38248,
+            "value": 0.001826817683595177
+        },
+        "http_reqs": {
+            "count": 38318,
+            "rate": 210.37565125209383
+        },
+        "data_received": {
+            "count": 110535742,
+            "rate": 606869.5837434997
+        },
+        "http_req_connecting": {
+            "max": 11.565416,
+            "avg": 0.007383771151939034,
+            "med": 0,
+            "p(95)": 0,
+            "p(99)": 0.14786088999999997
+        },
+        "http_req_tls_handshaking": {
+            "avg": 0,
+            "med": 0,
+            "p(95)": 0,
+            "p(99)": 0,
+            "max": 0
+        },
+        "http_req_sending": {
+            "avg": 0.033048940263061814,
+            "med": 0.01625,
+            "p(95)": 0.06196429999999993,
+            "p(99)": 0.25011485999999966,
+            "max": 16.478875
+        },
+        "http_req_waiting": {
+            "avg": 18.134823071193715,
+            "med": 5.921291500000001,
+            "p(95)": 83.75083934999985,
+            "p(99)": 183.98340888999994,
+            "max": 856.284584
+        },
+        "vus": {
+            "min": 1,
+            "max": 46,
+            "value": 1
+        },
+        "vus_max": {
+            "max": 46,
+            "value": 46,
+            "min": 46
+        }
+    }
+}
+running (3m02.1s), 00/46 VUs, 8869 complete and 0 interrupted iterations
+account   ✓ [ 100% ] 2 VUs   3m0s
+admin     ✓ [ 100% ] 1 VUs   3m0s
+browse    ✓ [ 100% ] 20 VUs  3m0s
+hot_order ✓ [ 100% ] 8 VUs   3m0s
+shopper   ✓ [ 100% ] 15 VUs  3m0s

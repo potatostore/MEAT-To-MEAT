@@ -1,0 +1,29 @@
+API                                      status   SQL 수    응답(ms)
+GET /categories                             200       0      39.8
+GET /products (전체, 최신순)                     200       2     203.0
+GET /products (카테고리, 최신순)                   200       2      24.9
+GET /products (카테고리, 가격순)                   200       2      19.3
+GET /products (상품명 검색)                      200       2      19.3
+GET /products/{id}                          200       1      17.9
+POST /auth/login                            200       1     195.2
+GET /members/me                             200       1      27.7
+GET /cart                                   200       3      35.5
+POST /cart/items                            200       7      52.4
+PATCH /cart/items/{id}                      200       4      19.9
+GET /orders                                 200       3      52.4
+GET /orders/{id}                            200       3      12.2
+POST /orders                                200       7      31.5
+POST /orders/{id}/cancel                    200       5      21.6
+PATCH /orders/{id}                          200       4      15.7
+DELETE /orders/{id}                         204       4      12.2
+POST /cart/items (2)                        200       7      12.3
+DELETE /cart/items/{id}                     200       4      13.3
+POST /auth/signup                           200       5     111.2
+PATCH /members/me                           200       2      10.3
+PATCH /members/me/password                  204       2     167.5
+DELETE /cart                                204       3       9.7
+POST /auth/logout                           204       0       6.0
+DELETE /members/me                          204       6      23.5
+POST /products                              200       2      15.7
+PATCH /products/{id}                        200       3      11.0
+DELETE /products/{id}                       204       5      30.5

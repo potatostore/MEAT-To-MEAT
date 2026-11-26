@@ -1,0 +1,6 @@
+time="2026-11-25T06:33:15Z" level=info msg="[setup] 상품 2 재고 18개, 동시 주문자 30명" source=console
+time="2026-11-25T06:33:16Z" level=info msg="[result] 주문 성공 18건 / 실제 재고 감소 18개 (재고 18 → 0)" source=console
+time="2026-11-25T06:33:16Z" level=info msg="[result] 재고 정합성 OK" source=console
+    ✓ 성공한 주문 수 == 재고 감소량
+    order_failed...................: 12    2.240271/s
+    order_success..................: 18    3.360406/s
