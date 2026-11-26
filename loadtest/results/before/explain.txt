@@ -1,0 +1,27 @@
+### 1) 전체 상품 최신순 (GET /products?sort=newest)
+-> Limit: 12 row(s)  (cost=3066 rows=12) (actual time=17.3..17.3 rows=12 loops=1)
+    -> Sort: p.create_at DESC, p.product_id DESC, limit input to 12 row(s) per chunk  (cost=3066 rows=29782) (actual time=17.3..17.3 rows=12 loops=1)
+        -> Table scan on p  (cost=3066 rows=29782) (actual time=1.25..12.2 rows=30020 loops=1)
+
+### 2) 카테고리 최신순 (category=PORK)
+-> Limit: 12 row(s)  (cost=1615 rows=12) (actual time=6.1..6.11 rows=12 loops=1)
+    -> Sort: p.create_at DESC, p.product_id DESC, limit input to 12 row(s) per chunk  (cost=1615 rows=13506) (actual time=6.1..6.1 rows=12 loops=1)
+        -> Index lookup on p using idx_product_category (product_category='PORK')  (cost=1615 rows=13506) (actual time=0.118..5.25 rows=7505 loops=1)
+
+### 3) 카테고리 가격순 (category=PORK, price_asc)
+-> Limit: 12 row(s)  (cost=1615 rows=12) (actual time=6.04..6.04 rows=12 loops=1)
+    -> Sort: p.product_price, p.product_id DESC, limit input to 12 row(s) per chunk  (cost=1615 rows=13506) (actual time=6.03..6.03 rows=12 loops=1)
+        -> Index lookup on p using idx_product_category (product_category='PORK')  (cost=1615 rows=13506) (actual time=0.0557..5.22 rows=7505 loops=1)
+
+### 4) 페이지 count (category=PORK)
+-> Aggregate: count(p.product_id)  (cost=2738 rows=1) (actual time=1.3..1.3 rows=1 loops=1)
+    -> Covering index lookup on p using idx_product_category (product_category='PORK')  (cost=1388 rows=13506) (actual time=0.0286..1.06 rows=7505 loops=1)
+
+### 5) 상품명 검색 (q=123)
+-> Limit: 12 row(s)  (cost=3066 rows=12) (actual time=11..11 rows=12 loops=1)
+    -> Sort: p.create_at DESC, p.product_id DESC, limit input to 12 row(s) per chunk  (cost=3066 rows=29782) (actual time=11..11 rows=12 loops=1)
+        -> Filter: (p.product_name like <cache>(convert(concat('%','123','%') using utf8mb4)))  (cost=3066 rows=29782) (actual time=0.496..11 rows=160 loops=1)
+            -> Table scan on p  (cost=3066 rows=29782) (actual time=0.025..5.92 rows=30020 loops=1)
+
+### 6) 내 주문 목록 (user 2002)
+-> Index lookup on o using idx_orders_user_created (user_id=2002) (reverse)  (cost=17.5 rows=50) (actual time=0.0712..0.1 rows=50 loops=1)

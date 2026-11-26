@@ -1,0 +1,19 @@
++----------------------------------------------------------------------------------------------------------------+-------+---------+--------+--------+-------------------+----------+-----------+
+| query                                                                                                          | calls | total_s | avg_ms | lock_s | rows_examined_avg | no_index | sort_rows |
++----------------------------------------------------------------------------------------------------------------+-------+---------+--------+--------+-------------------+----------+-----------+
+| COMMIT                                                                                                         | 38237 |   59.37 |   1.55 |      0 |                 0 |        0 |         0 |
+| SELECT COUNT ( `p1_0` . `product_id` ) FROM `product` `p1_0` WHERE ( ? IS NULL OR `p1_0` . `product_category`  |  3590 |   34.54 |   9.62 |      0 |              7129 |        0 |         0 |
+| SET `autocommit` = ?                                                                                           | 76479 |    5.16 |   0.07 |      0 |                 0 |        0 |         0 |
+| SELECT `p1_0` . `product_id` , `p1_0` . `create_at` , `p1_0` . `description` , `p1_0` . `product_category` , ` |  8463 |    4.94 |   0.58 |   3.72 |                 1 |        0 |         0 |
+| SELECT `p1_0` . `product_id` , `p1_0` . `create_at` , `p1_0` . `description` , `p1_0` . `product_category` , ` | 12837 |     4.9 |   0.38 |   0.01 |                40 |        0 |         0 |
+| INSERT INTO `cart_item` ( `cart_id` , `create_at` , `product_id` , `quantity` , `update_at` ) VALUES (...)     |  6352 |    3.36 |   0.53 |   1.98 |                 0 |        0 |         0 |
+| SELECT `oi1_0` . `order_id` , `oi1_0` . `order_item_id` , `oi1_0` . `create_at` , `oi1_0` . `order_price` , `o |  4847 |    3.33 |   0.69 |      0 |               102 |        0 |         0 |
+| SELECT `p1_0` . `product_id` , `p1_0` . `create_at` , `p1_0` . `description` , `p1_0` . `product_category` , ` | 29851 |    3.26 |   0.11 |   0.03 |                 1 |        0 |         0 |
+| SELECT `c1_0` . `cart_id` , `c1_0` . `create_at` , `c1_0` . `update_at` , `c1_0` . `user_id` FROM `cart` `c1_0 | 18277 |    2.71 |   0.15 |   0.04 |                 1 |        0 |         0 |
+| SELECT `ci1_0` . `cart_id` , `ci1_0` . `cart_item_id` , `ci1_0` . `create_at` , `ci1_0` . `product_id` , `ci1_ | 18283 |     2.6 |   0.14 |   0.02 |                 3 |        0 |         0 |
+| SELECT `p1_0` . `product_id` , `p1_0` . `create_at` , `p1_0` . `description` , `p1_0` . `product_category` , ` |   764 |    2.35 |   3.08 |      0 |              1482 |        0 |         0 |
+| SELECT `p1_0` . `product_id` , `p1_0` . `create_at` , `p1_0` . `description` , `p1_0` . `product_category` , ` |   702 |    2.01 |   2.86 |      0 |              1426 |        0 |         0 |
+| SELECT `p1_0` . `product_id` , `p1_0` . `create_at` , `p1_0` . `description` , `p1_0` . `product_category` , ` |   710 |    1.94 |   2.73 |      0 |              1377 |        0 |         0 |
+| UPDATE `product` SET DESCRIPTION = ? , `product_category` = ? , `product_name` = ? , `product_price` = ? , `st |  8568 |    1.67 |   0.19 |   0.01 |                 1 |        0 |         0 |
+| SET SESSION TRANSACTION READ ONLY                                                                              | 18280 |    1.45 |   0.08 |      0 |                 0 |        0 |         0 |
++----------------------------------------------------------------------------------------------------------------+-------+---------+--------+--------+-------------------+----------+-----------+

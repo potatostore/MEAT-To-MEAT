@@ -1,0 +1,7 @@
+# 튜닝 전 정합성 테스트 (2026-11-25 11:35, 목데이터 상품 20개 상태에서 첫 측정)
+[setup] 상품 2 재고 18개, 동시 주문자 30명
+[result] 주문 성공 5건 / 실제 재고 감소 3개 (재고 18 → 15)
+[result] ⚠ 재고 불일치: 2건이 재고 차감 없이 팔림 (Lost Update)
+✗ 성공한 주문 수 == 재고 감소량
+order_failed: 25 (Loki 로그 기준 23건이 Deadlock found when trying to get lock)
+order_success: 5

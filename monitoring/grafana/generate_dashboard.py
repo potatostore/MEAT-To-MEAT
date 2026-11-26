@@ -44,6 +44,53 @@ def logs(title, expr, x, w=12, h=10, description=""):
     })
 
 
+def api_table():
+    """선택한 시간 범위($__range) 전체에 대한 API별 요약 표. 튜닝 전후 비교 캡처용."""
+    global y
+    rng = "[$__range]"
+    q = lambda expr, ref: {"datasource": PROM, "expr": expr, "refId": ref, "instant": True, "format": "table"}
+    panels.append({
+        "type": "table", "title": "API별 요약 (화면의 시간 범위 전체)", "datasource": PROM,
+        "description": "선택한 시간 범위 동안의 API별 요청 수, 평균·p95·p99 응답 시간, 5xx 수. 부하 테스트 구간으로 시간을 맞춰서 본다",
+        "gridPos": {"h": 17, "w": 24, "x": 0, "y": y},
+        "targets": [
+            q(f'sum by (method, uri) (increase(http_server_requests_seconds_count{{{API}}}{rng}))', "A"),
+            q(f'sum by (method, uri) (increase(http_server_requests_seconds_sum{{{API}}}{rng})) / '
+              f'sum by (method, uri) (increase(http_server_requests_seconds_count{{{API}}}{rng}))', "B"),
+            q(f'histogram_quantile(0.95, sum by (le, method, uri) (increase(http_server_requests_seconds_bucket{{{API}}}{rng})))', "C"),
+            q(f'histogram_quantile(0.99, sum by (le, method, uri) (increase(http_server_requests_seconds_bucket{{{API}}}{rng})))', "D"),
+            q(f'sum by (method, uri) (increase(http_server_requests_seconds_count{{{API}, status=~"5.."}}{rng}))', "E"),
+        ],
+        "transformations": [
+            {"id": "merge", "options": {}},
+            {"id": "organize", "options": {
+                "excludeByName": {"Time": True},
+                "indexByName": {"method": 0, "uri": 1, "Value #A": 2, "Value #B": 3, "Value #C": 4, "Value #D": 5, "Value #E": 6},
+                "renameByName": {"method": "메서드", "uri": "API", "Value #A": "요청 수", "Value #B": "평균",
+                                 "Value #C": "p95", "Value #D": "p99", "Value #E": "5xx 수"}}},
+            {"id": "sortBy", "options": {"sort": [{"field": "p95", "desc": True}]}},
+        ],
+        "fieldConfig": {
+            "defaults": {"custom": {"align": "auto", "cellOptions": {"type": "auto"}}},
+            "overrides": [
+                {"matcher": {"id": "byName", "options": "요청 수"}, "properties": [{"id": "unit", "value": "none"}, {"id": "decimals", "value": 0}]},
+                *[{"matcher": {"id": "byName", "options": n}, "properties": [
+                    {"id": "unit", "value": "s"}, {"id": "decimals", "value": 1},
+                    {"id": "custom.cellOptions", "value": {"type": "color-background", "mode": "gradient"}},
+                    {"id": "thresholds", "value": {"mode": "absolute", "steps": [
+                        {"color": "green", "value": None}, {"color": "yellow", "value": 0.2}, {"color": "red", "value": 1}]}}]}
+                  for n in ["평균", "p95", "p99"]],
+                {"matcher": {"id": "byName", "options": "5xx 수"}, "properties": [{"id": "unit", "value": "short"}, {"id": "decimals", "value": 0}, {"id": "noValue", "value": "0"}]},
+            ],
+        },
+        "options": {"showHeader": True, "cellHeight": "sm", "footer": {"show": False}},
+    })
+    y += 17
+
+
+row("API 요약")
+api_table()
+
 row("API (백엔드)")
 ts("초당 요청 수 (API별)",
    [(f'sum by (method, uri) (rate(http_server_requests_seconds_count{{{API}}}[1m]))', "{{method}} {{uri}}")],

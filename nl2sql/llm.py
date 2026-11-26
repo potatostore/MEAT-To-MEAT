@@ -70,13 +70,21 @@ def make_llm(provider=None, model=None):
     return call, model
 
 
+SQL_START = re.compile(r"^\s*(SELECT\b|WITH\s+(RECURSIVE\s+)?`?\w+`?\s*(\([^)]*\))?\s*AS\s*\()", re.I | re.M)
+
+
 def extract_sql(text):
-    """LLM 응답에서 SQL만 꺼낸다. 코드블록이 있으면 그 안쪽만, 앞에 설명이 붙어 있으면 SELECT/WITH부터."""
+    """LLM 응답에서 SQL만 꺼낸다. 코드블록이 있으면 그 안쪽만, 앞에 설명이 붙어 있으면 SELECT/WITH부터.
+
+    SQL은 줄 맨 앞의 SELECT 또는 'WITH 이름 AS (' 로만 인정한다.
+    ("I can't help with that." 같은 거절 문장의 with를 SQL로 착각하지 않게)
+    SQL이 없으면 빈 문자열을 돌려준다.
+    """
     text = text or ""
     m = re.search(r"```(?:sql|mysql)?\s*(.*?)```", text, re.S | re.I)
     if m:
         text = m.group(1)
-    m = re.search(r"\b(SELECT|WITH)\b", text, re.I)
-    if m:
-        text = text[m.start():]
-    return text.strip().rstrip(";").strip()
+    m = SQL_START.search(text)
+    if not m:
+        return ""
+    return text[m.start():].strip().rstrip(";").strip()

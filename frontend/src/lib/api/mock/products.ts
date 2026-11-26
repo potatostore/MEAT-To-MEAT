@@ -22,7 +22,7 @@ export async function getProducts(query: ProductQuery): Promise<Page<Product>> {
   list = [...list].sort((a, b) => {
     switch (sort) {
       case "price_asc":
-        return a.price - b.price || b.id - a.id;
+        return a.price - b.price || a.id - b.id;
       case "price_desc":
         return b.price - a.price || b.id - a.id;
       case "name":
