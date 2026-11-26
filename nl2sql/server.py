@@ -1,7 +1,8 @@
 """NL2SQL API 서버 (FastAPI)
 
 POST /ask   {"question": "VIP 회원 보여줘", "mode": "rich"}
-         →  {"question", "mode", "sql", "columns", "rows", "error", "elapsed_ms"}
+         →  {"question", "mode", "sql", "columns", "rows", "truncated", "error", "elapsed_ms"}
+            rows는 최대 500행, 더 있으면 truncated=true
 GET  /me     지금 로그인한 회원이 관리자인지 → {"admin", "loginId", "authRequired"}
 GET  /samples 평가용 질문 15개 (화면의 예시 질문 버튼)
 GET  /health
@@ -25,7 +26,7 @@ from typing import Literal, Optional
 from fastapi import Depends, FastAPI, Header, HTTPException
 from pydantic import BaseModel, Field
 
-from db import connect, run_sql
+from db import MAX_ROWS, TIMEOUT_MS, connect, run_sql
 from llm import DEFAULT_MODELS, extract_sql, make_llm
 from prompts import build_prompt, today
 from questions import QUESTIONS
@@ -98,7 +99,7 @@ def health():
 @app.get("/samples")
 def samples():
     provider, model = model_name()
-    return {"today": today().isoformat(), "provider": provider, "model": model,
+    return {"today": today().isoformat(), "provider": provider, "model": model, "maxRows": MAX_ROWS,
             "questions": [{"id": q["id"], "level": q["level"], "question": q["q"]} for q in QUESTIONS]}
 
 
@@ -111,8 +112,8 @@ def me(member=Depends(current_member)):
 
 @app.post("/ask")
 def ask(req: AskRequest, _=Depends(require_admin)):
-    res = {"question": req.question, "mode": req.mode, "sql": None, "columns": [], "rows": [], "error": None,
-           "elapsed_ms": None}
+    res = {"question": req.question, "mode": req.mode, "sql": None, "columns": [], "rows": [], "truncated": False,
+           "error": None, "elapsed_ms": None}
     t0 = time.perf_counter()
     try:
         res["sql"] = extract_sql(llm()(build_prompt(req.mode), req.question))
@@ -124,12 +125,16 @@ def ask(req: AskRequest, _=Depends(require_admin)):
         con = connect()
     except Exception as e:
         res["error"] = f"DB 접속 실패: {type(e).__name__}: {e}"
+        res["elapsed_ms"] = round((time.perf_counter() - t0) * 1000)
         return res
     try:
-        res["columns"], rows = run_sql(con, res["sql"])
+        res["columns"], rows, res["truncated"] = run_sql(con, res["sql"])
         res["rows"] = [[_json(v) for v in r] for r in rows]
     except Exception as e:
-        res["error"] = f"실행 오류: {e}"
+        msg = str(e)
+        if "3024" in msg or "1969" in msg or "execution time" in msg.lower():   # MySQL / MariaDB 시간 초과
+            msg = f"실행 시간이 {TIMEOUT_MS / 1000:g}초를 넘어 중단했습니다. 조건을 좁혀 다시 물어보세요."
+        res["error"] = f"실행 오류: {msg}"
     finally:
         con.close()
     res["elapsed_ms"] = round((time.perf_counter() - t0) * 1000)
